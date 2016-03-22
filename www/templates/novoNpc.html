@@ -1,0 +1,61 @@
+<ion-view view-title="{{combate.titulo}}">
+  <ion-content>
+  	<h2>Novo Npc</h2>
+		<form class="list" name="npcForm">
+		
+		<label class="item item-input item-floating-label">
+			<span class="input-label">Ordem</span>
+			<input type="text" ng-model="npc.ordem" name="ordem" placeholder="ordem"/>
+		</label>
+		<label class="item item-input item-floating-label">
+			<span class="input-label"> Ninvel</span>
+			<input type="text" ng-model="npc.nivel" name="nivel" placeholder="nivel"/>
+		</label>		
+		<label class="item item-input item-floating-label">
+			<span class="input-label"> Experiencia</span>
+			<input type="text" ng-model="npc.experiencia" name="experiencia" placeholder="experiencia"/>
+		</label>
+		<label class="item item-input item-floating-label">
+			<span class="input-label">Experiencia Atual</span>
+			<input type="text" ng-model="npc.experienciaatual" name="experienciaatual" placeholder="experienciaatual"/>
+		</label>
+		<label class="item item-input item-floating-label">
+			<span class="input-label">Titulo</span>		
+			<input type="text" ng-model="npc.titulo" name="titulo" placeholder="titulo"/>
+		</label>
+		<label class="item item-input item-floating-label">
+			<span class="input-label">Decrição</span>		
+			<input type="text" ng-model="npc.descricao" name="descricao" placeholder="descricao"/>
+		</label>
+		<label class="item item-input item-floating-label">
+			<span class="input-label">Vida</span>		
+			<input type="text" ng-model="npc.health" name="health" placeholder="health"/>
+		</label>
+		<label class="item item-input item-floating-label">
+			<span class="input-label">Vida Atual</span>		
+			<input type="text" ng-model="npc.healthatual" name="healthatual" placeholder="healthatual"/>
+		</label>
+		<label class="item item-input item-floating-label">
+			<span class="input-label">Dano de ataque</span>		
+			<input type="text" ng-model="npc.attack" name="attack" placeholder="attack"/>
+		</label>
+		<label class="item item-input item-floating-label">
+			<span class="input-label">Mana</span>		
+			<input type="text" ng-model="npc.cost" name="cost" placeholder="cost"/>
+		</label>
+		<label class="item item-input item-floating-label">
+			<span class="input-label">Mana Atual</span>		
+			<input type="text" ng-model="npc.costatual" name="costatual" placeholder="costatual"/>
+		</label>
+		<label class="item item-input item-floating-label">
+			<span class="input-label">Armadura</span>		
+			<input type="text" ng-model="npc.defense" name="defense" placeholder="defense"/>
+		</label>
+		<label class="item item-input item-floating-label">
+			<span class="input-label">Iniciativa</span>		
+			<input type="text" ng-model="npc.iniciativa" name="iniciativa" placeholder="iniciativa"/>
+		</label>
+		</form>
+		<button class="button button-balanced" ng-click="novoNpc(npc)">salvar</button>
+  </ion-content>
+</ion-view>
