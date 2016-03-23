@@ -87,7 +87,16 @@
         <div class="row">
           <!-- Inicio descarte do jogador -->
           <div class="col col-25"> 
-            <button class="button button-dark">{{descarteJogador.length}}</button>
+            <div class="row">
+              <button class="button button-dark">{{descarteJogador.length}}</button>
+            </div>
+            <div class="row">
+              <div class="col">
+                <p ng-repeat="descarte in descarteJogador | limitTo : 3 track by $index ">
+                      {{descarte.name}} type:{{descarte.type}}
+                </p>
+              </div>
+            </div>
           </div>
           <!-- Fim descarte do jogador -->
           <!-- Inicio personagem jogador -->
