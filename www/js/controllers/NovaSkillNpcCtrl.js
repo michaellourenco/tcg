@@ -20,7 +20,7 @@ console.log($stateParams.id);
           console.log(data);
           $scope.combate = data; 
                     $scope.npc = data.npcs[$stateParams.id];    
-                console.log($scope.npc.titulo);
+                console.log($scope.npc.name);
         }).error(function (data, status) {
           $scope.message = "Aconteceu um problema: " + data;
         });

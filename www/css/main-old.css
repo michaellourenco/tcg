@@ -1,6 +1,6 @@
 /* Empty. Add your own CSS if you like */
 body{
-  
+
 }
 .life{
 	background-color: #f00;
@@ -57,22 +57,22 @@ body{
   -webkit-transition: 1s;
   transition: 1s;
   
-  margin-top: 100%;
+  margin-left: 100%;
 }
 
 .ng-enter-active {
-  margin-top: 0;
+  margin-left: 0;
 }
 
 .ng-leave {
   -webkit-transition: 1s;
   transition: 1s;
   
-  margin-top: 0;
+  margin-left: 0;
 }
 
 .ng-leave-active {
-  margin-top: 100%;
+  margin-left: 100%;
 }
 
 .ng-move {

@@ -1,5 +1,5 @@
 
-<ion-view view-title="{{combate.titulo}}">
+<ion-view view-title="{{combate.name}}">
 
   <ion-content>
   	<p>
@@ -54,7 +54,7 @@
 
 		<ion-list>
 			<ion-item ng-class="{'selecionado negrito': combate.selecionado}" ng-repeat="(indiceCat, cat) in combate.categorias" class="item-button-right">
-				{{indiceCategoria = combate.categorias.indexOf(cat)}} - {{cat.titulo}}
+				{{indiceCategoria = combate.categorias.indexOf(cat)}} - {{cat.name}}
 				<div class="buttons">
 					<a class="button button-light" href="#/app/editarcategoria/{{combate.namespace}}/{{indiceCategoria}}"><i class="icon ion-edit"></i></a>	
 					<button class="button button-light" ng-click="apagarCategoria(indiceCategoria)"><i class="icon ion-trash-b"></i></button>	
@@ -75,7 +75,7 @@
 							    </div>
 							
 
-							<strong>{{item.ordem}}</strong> - {{item.titulo}}
+							<strong>{{item.ordem}}</strong> - {{item.name}}
 							<br/>
 							{{ item.valor | currency}}
 							

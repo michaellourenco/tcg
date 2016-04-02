@@ -20,7 +20,7 @@ angular
           console.log(data);
           $scope.combate = data; 
                     $scope.quest = data.quests[$stateParams.id];    
-                console.log($scope.quest.titulo);
+                console.log($scope.quest.name);
         }).error(function (data, status) {
           $scope.message = "Aconteceu um problema: " + data;
         });

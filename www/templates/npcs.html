@@ -1,5 +1,5 @@
 
-<ion-view view-title="{{personagem.titulo}}/{{combate.titulo}}">
+<ion-view view-title="{{personagem.name}}/{{combate.name}}">
 
   <ion-content>
 
@@ -62,7 +62,7 @@
 				<div ng-if="catnpc.imagem">
 					<img ng-src="uploads/{{catnpc.imagem}}" class="avatar" alt="imagem"/>
 				</div>
-				{{indiceNpc = combate.npcs.indexOf(catnpc)}} -{{catnpc.titulo}} 
+				{{indiceNpc = combate.npcs.indexOf(catnpc)}} -{{catnpc.name}} 
 				<div class="buttons">
 					<a class="button button-light" href="#/app/editarnpc/{{combate.namespace}}/{{indiceNpc}}"><i class="icon ion-edit"></i></a>	
 					<button class="button button-light" ng-click="apagarNpc(indiceNpc)"><i class="icon ion-trash-b"></i></button>	
@@ -79,7 +79,7 @@
 							    <div ng-if="!item.imagem">
 							        <a href="#/app/editarskillnpc/{{combate.namespace}}/{{indiceCatNpc}}/{{$index}}" class="avatar"><i class="icon ion-image"></i></a>      
 							    </div>	
-								<strong>{{item.ordem}}</strong> - {{item.titulo}}
+								<strong>{{item.ordem}}</strong> - {{item.name}}
 								<br/>
 								{{ item.valor}}
 							

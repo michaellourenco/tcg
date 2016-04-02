@@ -1,5 +1,5 @@
 
-<ion-view view-title="Regiao: {{jogador.titulo}}">
+<ion-view view-title="Regiao: {{jogador.name}}">
 
   <ion-content>
 
@@ -76,10 +76,10 @@
 					<ion-item ng-class="{'selecionado negrito': jogador.selecionado}" ng-repeat="(indiceCat, cat) in jogador.chars" class="item-button-right">
 						<div ng-if="cat.imagem">
 							<img ng-src="uploads/{{cat.imagem}}" class="avatar" alt="imagem"/>
-							{{indiceCat = jogador.chars.indexOf(cat)}} -{{cat.titulo}} 
+							{{indiceCat = jogador.chars.indexOf(cat)}} -{{cat.name}} 
 						</div>
 						<div ng-if="!cat.imagem">
-							{{indiceCat = jogador.chars.indexOf(cat)}} -{{cat.titulo}} 
+							{{indiceCat = jogador.chars.indexOf(cat)}} -{{cat.name}} 
 						</div>
 
 						<div class="buttons">
@@ -100,13 +100,13 @@
 									<div class="item item-avatar item-text-wrap">	
 									    <div ng-if="item.imagem">
 		        							<img ng-src="uploads/{{item.imagem}}" class="avatar" alt="imagem"/>
-		        							<strong>{{item.ordem}}</strong> - {{item.titulo}} - {{ item.valor}}
+		        							<strong>{{item.ordem}}</strong> - {{item.name}} - {{ item.valor}}
 									    </div>
 									    <div ng-if="!item.imagem">
 									        <a href="#/app/editarskill/{{jogador.namespace}}/{{indiceCat}}/{{$index}}" class="avatar">
 									        	<i class="icon ion-image"></i>
 									        </a>   
-									        <strong>{{item.ordem}}</strong> - {{item.titulo}} - {{ item.valor}}   
+									        <strong>{{item.ordem}}</strong> - {{item.name}} - {{ item.valor}}   
 									    </div>								
 				                    	<div class="card-footer text-right">
 				                        	<a class="button button-light" href="#/app/editarskill/{{jogador.namespace}}/{{indiceCat}}/{{$index}}"><i class="icon ion-edit"></i></a>
@@ -129,10 +129,10 @@
 					<ion-item ng-class="{'selecionado negrito': jogador.selecionado}" ng-repeat="(indiceNpc, npc) in jogador.npcs" class="item-button-right">
 						<div ng-if="npc.imagem">
 							<img ng-src="uploads/{{npc.imagem}}" class="avatar" alt="imagem"/>
-							{{indiceNpc = jogador.npcs.indexOf(npc)}} -{{npc.titulo}} 
+							{{indiceNpc = jogador.npcs.indexOf(npc)}} -{{npc.name}} 
 						</div>
 						<div ng-if="!npc.imagem">
-							{{indiceNpc = jogador.npcs.indexOf(npc)}} -{{npc.titulo}} 
+							{{indiceNpc = jogador.npcs.indexOf(npc)}} -{{npc.name}} 
 						</div>
 
 						<div class="buttons">
@@ -153,13 +153,13 @@
 									<div class="item item-avatar item-text-wrap">	
 									    <div ng-if="item.imagem">
 		        							<img ng-src="uploads/{{item.imagem}}" class="avatar" alt="imagem"/>
-		        							<strong>{{item.ordem}}</strong> - {{item.titulo}} - {{ item.valor}}
+		        							<strong>{{item.ordem}}</strong> - {{item.name}} - {{ item.valor}}
 									    </div>
 									    <div ng-if="!item.imagem">
 									        <a href="#/app/editarskillinimigo/{{jogador.namespace}}/{{indiceNpc}}/{{$index}}" class="avatar">
 									        	<i class="icon ion-image"></i>
 									        </a>   
-									        <strong>{{item.ordem}}</strong> - {{item.titulo}} - {{ item.valor}}   
+									        <strong>{{item.ordem}}</strong> - {{item.name}} - {{ item.valor}}   
 									    </div>								
 				                    	<div class="card-footer text-right">
 				                        	<a class="button button-light" href="#/app/editarskillinimigo/{{jogador.namespace}}/{{indiceNpc}}/{{$index}}"><i class="icon ion-edit"></i></a>
@@ -184,10 +184,10 @@
 						
 						<div ng-if="card.imagem">
 							<img ng-src="uploads/{{card.imagem}}" class="avatar" alt="imagem"/>
-							{{indiceCard = jogador.cards.indexOf(card)}} -{{card.titulo}} 
+							{{indiceCard = jogador.cards.indexOf(card)}} -{{card.name}} 
 						</div>
 						<div ng-if="!card.imagem">
-							{{indiceCard = jogador.cards.indexOf(card)}} -{{card.titulo}} 
+							{{indiceCard = jogador.cards.indexOf(card)}} -{{card.name}} 
 						</div>
 
 						<div class="buttons">
@@ -208,13 +208,13 @@
 									<div class="item item-avatar item-text-wrap">	
 									    <div ng-if="item.imagem">
 		        							<img ng-src="uploads/{{item.imagem}}" class="avatar" alt="imagem"/>
-		        							<strong>{{item.ordem}}</strong> - {{item.titulo}} - {{ item.valor}}
+		        							<strong>{{item.ordem}}</strong> - {{item.name}} - {{ item.valor}}
 									    </div>
 									    <div ng-if="!item.imagem">
 									        <a href="#/app/editarskill/{{jogador.namespace}}/{{indiceCard}}/{{$index}}" class="avatar">
 									        	<i class="icon ion-image"></i>
 									        </a>   
-									        <strong>{{item.ordem}}</strong> - {{item.titulo}} - {{ item.valor}}   
+									        <strong>{{item.ordem}}</strong> - {{item.name}} - {{ item.valor}}   
 									    </div>								
 				                    	<div class="card-footer text-right">
 				                        	<a class="button button-light" href="#/app/editarskill/{{jogador.namespace}}/{{indiceCard}}/{{$index}}"><i class="icon ion-edit"></i></a>

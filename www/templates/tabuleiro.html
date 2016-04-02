@@ -1,12 +1,12 @@
 
-<ion-view view-title="{{combate.titulo}}">
+<ion-view view-title="{{combate.name}}">
 
   <ion-content>
    <div class="row">
       <div class="col">
         <!-- Inicio mao do inimigo -->
-        <div class="row">
-            <div class="col" ng-repeat="card in maoInimigo | limitTo : 10 track by $index">
+       <!-- <div class="row">
+            <div class="col" ng-repeat="card in maoInimigo track by $index">
               <div class="card"> 
                 {{card.name}}<br/>
                 atk:{{card.attack}}<br/>
@@ -14,34 +14,34 @@
                 cost:{{card.cost}}
               </div>
             </div>
-        </div>
+        </div>->
         <!-- Fim mao do inimigo -->
         <!-- Inicio descarte+personagem+deck do inimigo -->
         <div class="row">
           <!-- Inicio descarte do inimigo -->
-          <div class="col col-25"> 
+         <!--<div class="col col-25"> 
             <button class="button button-dark">descarte</button>
-          </div>
+          </div>-->
           <!-- Fim descarte do inimigo -->
           <!-- Inicio personagem inimigo -->
-          <div class="col col-50">      
+          <!--<div class="col col-50">      
             <div id="personagem">
         
               <div><img ng-src="uploads/{{per2.imagem}}" class="foto" alt="imagem"/></div>
-              <div class="titulo">{{per2.titulo}}</div>
+              <div class="name">{{per2.name}}</div>
               <div class="life" style="background-color:#00ff00; width:30px">{{per2.healthatual}}</div>
               <div class="resource" style="background-color:#aaaaff; width:30px">{{per2.costatual}}</div>              
             </div>
-          </div>
+          </div>-->
           <!-- Inicio deck do inimigo -->
-          <div class="col col-25"> 
+          <!--<div class="col col-25"> 
             <button class="button button-balanced">{{deckInimigo.length}}</button>
-          </div>
+          </div>-->
           <!-- Fim deck do inimigo -->
         </div>
         <!-- Fim descarte+personagem+deck do inimigo -->
        <!-- Inicio mesa do inimigo -->
-        <div class="row">
+       <!-- <div class="row">
             <div class="col"><div class="card">slot 1</div></div>
             <div class="col"><div class="card">slot 2</div></div>
             <div class="col"><div class="card">slot 3</div></div>
@@ -49,7 +49,7 @@
             <div class="col"><div class="card">slot 5</div></div>
             <div class="col"><div class="card">slot 6</div></div>
             <div class="col"><div class="card">slot 7</div></div>
-        </div>
+        </div>-->
         <!-- Fim mesa do inimigo -->
       </div>
     </div> 
@@ -58,7 +58,7 @@
                     <div class="life" style="background-color:#ff0000; width:100%"><p ng-bind-html="message"></p></div>
       </div>
       <div class="col col-20">
-                    <button class="button button-dark">{{controlador.turnoN}}</button>
+                    <button class="button button-dark" ng-click="fimTurno()">{{controlador.turnoN}}</button>
       </div>
   </div>      
 
@@ -69,7 +69,14 @@
             <div class="col" ng-repeat="cardmesaJogador in mesaJogador | limitTo : 7 track by $index">
               <div class="card"> 
                 <div class="item item-divider">
-                   cost:{{cardmesaJogador.cost}}
+                    <div ng-if="cardmesaJogador.active">
+                    <button class="button button-balanced" ng-click="ataque(1,{{cardmesaJogador}},{{per2}})">
+                      id: {{$index}} - cost:{{cardmesaJogador.cost}} 
+                    </button> 
+                  </div>
+                  <div ng-if="!cardmesaJogador.active">              
+                      cost:{{cardmesaJogador.cost}}
+                  </div> 
                 </div>
                 <div class="item item-divider">
                   imagem
@@ -103,7 +110,7 @@
           <div class="col col-50">      
             <div id="personagem">
               <div><img ng-src="uploads/{{per1.imagem}}" class="foto" alt="imagem"/></div>
-              <div class="titulo">{{per1.titulo}}</div>
+              <div class="name">{{per1.name}}</div>
               <div class="life" style="background-color:#00ff00; width:30px">{{per1.healthatual}}</div>
               <div class="resource" style="background-color:#aaaaff; width:30px">{{per1.costatual}}</div>   
             </div>
@@ -118,15 +125,24 @@
         <!-- Inicio mao do jogador -->
         <div class="row">
 
-            <div class="col" ng-repeat="cardJogador in maoJogador | limitTo : 10 track by $index">
+            <div class="col" ng-repeat="cardJogador in maoJogador track by $index">
               <div class="card"> 
                 <div class="item item-divider">
-                   cost:{{cardJogador.cost}}
+                  <div ng-if="cardJogador.active">
+
+                    <button class="button button-balanced" ng-click="jogarCard({{$index}},{{cardJogador}}, {{maoJogador}},{{mesaJogador}},1)">
+                      id: {{$index}} - cost:{{cardJogador.cost}} 
+                    </button> 
+                  </div>
+                  <div ng-if="!cardJogador.active">              
+                      cost:{{cardJogador.cost}}
+                  </div>                
                 </div>
                 <div class="item item-divider">
                   imagem
                 </div>
                 <div class="item item-text-wrap">
+
                   <h4>{{cardJogador.name}}</h4>
                   <i class="subdued"> atk:{{cardJogador.attack}}</i>
                   <i class="subdued">def:{{cardJogador.health}}</i>
@@ -141,18 +157,23 @@
   </ion-content>
 
   <div class="tabs tabs-icon-only">
-  <a class="tab-item">
-      Inicio do Turno : {{controlador.counter}}
-  </a>
-  <a class="tab-item"> 
-      Ações do Jogador: {{controlador.counter2}}
-  </a>
-  <a class="tab-item">       
-       Fim do Turno: {{controlador.counter3}}   
-  </a>
     <a class="tab-item">
-      <button class="button button-balanced" ng-click="turno(1,per1,per2)">atacar</button>  
-    </a>      
+        Inicio do Turno : {{controlador.counter}}
+    </a>
+    <a class="tab-item"> 
+        Ações do Jogador: {{controlador.counter2}}
+    </a>
+    <a class="tab-item">       
+         Fim do Turno: {{controlador.counter3}}   
+    </a>
+    <a class="tab-item" ng-if="per1.active">
+      <button class="button button-balanced" ng-click="turno(1,per1,per2)">
+        atacar
+      </button> 
+    </a>
+    <a class="tab-item" ng-if="!per1.active">              
+        aguarde
+    </a>     
     <a class="tab-item">
       <i class="icon ion-star"></i>
     </a>

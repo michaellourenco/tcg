@@ -21,12 +21,12 @@
 
 
 		$texto.='{"namespace":"'.$json_output->namespace.
-			'","titulo":"'.$json_output->titulo.
+			'","name":"'.$json_output->name.
 		'"},';
-    echo "<a href='#/app/combate/".$json_output->namespace."'>".$json_output->titulo."</a>";
+    echo "<a href='#/app/combate/".$json_output->namespace."'>".$json_output->name."</a>";
     echo $json_output->namespace;
 } 
-		$texto.='{"namespace":"final","titulo":"final"}]';
+		$texto.='{"namespace":"final","name":"final"}]';
 		fwrite($ponteiro, $texto);
 $diretorio -> close();
 echo $texto;

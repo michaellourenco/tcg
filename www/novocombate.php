@@ -9,7 +9,7 @@
 		fwrite($ponteiro,"");
 		$texto="";
 		$texto.='{"ordem":"'.$item->ordem.
-		'","titulo":"'.$item->titulo.
+		'","name":"'.$item->name.
 		'","descricao":"'.$item->descricao.
 		'","chamada":"'.$item->chamada.
 		'","namespace":"'.$item->namespace.
@@ -23,10 +23,10 @@
 		'","pagamento":"'.$item->pagamento.'",';
 		$texto.='"chars":[';
 		foreach ( $item->chars as $cid){
-			$texto.='{"titulo":"'.$cid->titulo.'",';
+			$texto.='{"name":"'.$cid->name.'",';
 			$texto.='"skills":[';
 			foreach ( $cid->skillsCategoria as $cid2){
-				$texto.='{"id":"'.$cid2->idItemCategoria.'","titulo":"'.$cid2->titulo.'","valor":"'.$cid2->valor.'"';
+				$texto.='{"id":"'.$cid2->idItemCategoria.'","name":"'.$cid2->name.'","valor":"'.$cid2->valor.'"';
 					if($cid2->descricao!="") {
 						$texto.=',"descricao":"'.$cid2->descricao.'"';
 					}
