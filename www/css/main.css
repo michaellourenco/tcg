@@ -2,15 +2,19 @@
 body{
   
 }
+.scroll-content{
+  background-image: url('../img/gameboard.jpg');
+}
 .life{
 	background-color: #f00;
-	display: block;
-	font: left;
-
+  display:inline;
+  float: left;
 }
 .foto{
 	width: 50px;
 	height: 50px;
+  display:inline;
+  float: left;
 }
 #inimigo{
 	width: 50%;
@@ -24,7 +28,7 @@ body{
 	width: 50%;
 	float: 0 auto;
 	display: block;
-	height: 150px;
+	height: 80px;
 	border: 5px solid #000;
 
 }

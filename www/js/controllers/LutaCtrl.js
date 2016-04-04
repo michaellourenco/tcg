@@ -28,6 +28,8 @@ angular
         $scope.minion =[];
         // definindo controlador das informações do jogo
         $scope.controlador={
+          manamax:0,
+          manaatual:0,
           turnoN:0,
           counter:0,
           counter2:0,
@@ -58,7 +60,7 @@ angular
           $scope.deckJogador != $scope.deckJogador.splice( idCardDeck,1);             
         }
         // populando mao inicial do inimigo
-        for(i=0; i<7; i++){
+        for(i=0; i<5; i++){
           var idCardDeckInimigo = $scope.deckInimigo[Math.floor(Math.random()*30)];
           $scope.maoInimigo.push(idCardDeckInimigo);
           $scope.deckInimigo != $scope.deckInimigo.splice( idCardDeckInimigo,1);   
@@ -128,7 +130,7 @@ angular
       }
     };
 
-    $scope.turno =function(i,p1,p2){
+   /* $scope.turno =function(i,p1,p2){
       pv=p2.healthatual;
       pa=p2.healthatual; 
       var p1attack = p1.attack
@@ -145,7 +147,7 @@ angular
           "ATK "+dano+
           " =  "+danoTotal+" de dano<br/><strong>"+p1.name+"</strong> atacou e inflingiu <strong>"+
           danoI+"</strong> de dano em <strong>"+ p2.name +"</strong> que tinha <strong>"+ pa +"</strong><br/><strong>"+ p2.name+"</strong> perdeu pois ficou com <strong>"+ 
-          p2.healthatual +"</strong> pontos de vida <br/>PARABENS <strong>"+ p1.name +"</strong> VOCE VENCEU!</p>";
+          p2.healthatual +"</strong> pontos de vida <br/>PARABENS <strong>"+ $scope.p2.name +"</strong> VOCE VENCEU!</p>";
         }
         else{
           p2.healthatual = pv;
@@ -154,34 +156,24 @@ angular
           "</strong> de dano em <strong>"+ p2.name +"</strong> que tinha <strong>"+ pa +"</strong><br/>Agora <strong>"+p2.name+"</strong> tem <strong>"+p2.healthatual+"</strong> pontos de vida restantes</p><br/>";
         }
       }
-    } 
+    } */
 
     $scope.ataque =function(i,p1,p2){
-      pv=p2.healthatual;
-      pa=p2.healthatual; 
-      var p1attack = p1.attack
-      if(p1attack>0){  
-        dano=p1attack;
-        danoTotal=dano;
-        if(danoTotal > 0){
-          danoI = danoTotal;
-          pv -=danoI;
+      var pa = p2.healthatual;
+      if(p1.attack>0){  
+          p2.healthatual -=p1.attack;
         }
-        if(pv <= 0){
-          p2.healthatual = pv;
-          $scope.message = "<p>TURNO "+ i++ +" | "+ 
-          "ATK "+dano+
-          " =  "+danoTotal+" de dano<br/><strong>"+p1.name+"</strong> atacou e inflingiu <strong>"+
-          danoI+"</strong> de dano em <strong>"+ p2.name +"</strong> que tinha <strong>"+ pa +"</strong><br/><strong>"+ p2.name+"</strong> perdeu pois ficou com <strong>"+ 
-          p2.healthatual +"</strong> pontos de vida <br/>PARABENS <strong>"+ p1.name +"</strong> VOCE VENCEU!</p>";
+        if(p2.healthatual <= 0){
+          
+          $scope.message = "<p>TURNO "+ i++ +" <br/>"+ 
+          p1.attack+" de dano<br/><strong>"+p1.name+"</strong>em <strong>"+ p2.name +"</strong> que tinha <strong>"+ pa +"</strong><br/><strong>"+ p2.name+"</strong> perdeu pois ficou com <strong>"+ 
+          p2.healthatual +"</strong> pontos de vida <br/>PARABENS <strong>"+ $scope.per1.name +"</strong> VOCE VENCEU!</p>";
         }
         else{
-          p2.healthatual = pv;
-          $scope.message = "<p>TURNO "+ i++ +" | ATK "+ dano +
-          " =  "+ danoTotal +" de dano<br/><strong>"+ p1.name +"</strong> atacou e inflingiu <strong>"+ danoI +
-          "</strong> de dano em <strong>"+ p2.name +"</strong> que tinha <strong>"+ pa +"</strong><br/>Agora <strong>"+p2.name+"</strong> tem <strong>"+p2.healthatual+"</strong> pontos de vida restantes</p><br/>";
+          
+          $scope.message = "<p>TURNO "+ i++ +"<br/>"+ p1.attack+" de dano<br/><strong>"+ p1.name +"</strong> em <strong>"+ $scope.per2.name +"</strong> que tinha <strong>"+ pa +"</strong><br/>Agora <strong>"+p2.name+"</strong> tem <strong>"+p2.healthatual+"</strong> pontos de vida restantes</p><br/>";
         }
-      }
+      
     }         
       }).error(function (data, status) {
         $scope.message = "Aconteceu um problema: " + data;
@@ -225,7 +217,29 @@ angular
         }
       }, 1000, vezes);
     }
+    $scope.atualizaStatus = function(mao,mesa){
+      // permitindo que o jogador jogue as cartas na mesa
+      if(mao.length!=0){
+        for(i=0; i<=mao.length; i++){
+          if(mao[i]!=undefined && mao[i].cost <= $scope.controlador.manaatual){
+            mao[i].active = true;
+          }else if(mao[i]!=undefined && mao[i].cost >= $scope.controlador.manaatual){
+            mao[i].active = false;
+          }
+        }
+      } 
+      //permitindo que o jogador ataque com as cartas da mesa
+      if(mesa.length!=0){
+        for(i=0; i<=mesa.length; i++){
+          if(mesa[i]!=undefined){
+            mesa[i].active = true;
+          }  
+        }
+      } 
+      $scope.maoJogador = mao;
+      $scope.mesaJogador = mesa;
 
+    };
     $scope.comprarCard = function(deck,mao, quantidade) {
       for(i=0; i<quantidade; i++){
         var idPego = Math.floor(Math.random(1)*deck.length);
@@ -252,29 +266,37 @@ angular
 
     $scope.jogarCard = function(idCard,card, mao, mesa, quantidade) {
       
-            console.info("ID", idCard);
+     console.info("ID", idCard);
       console.info("carta pega", card);
       if(card.type != "MINION"){
-          $scope.descartarCard(idCard,card,$scope.descarteJogador, 1);      
+          $scope.descartarCard(idCard,card,$scope.descarteJogador, 1);  
+          $scope.controlador.manaatual -= card.cost;   
       }
       else{
-          $scope.mesaJogador.push(card);                
+          $scope.mesaJogador.push(card);
+          $scope.controlador.manaatual -= card.cost;   
       }
-
+      
      $scope.maoJogador !=$scope.maoJogador.splice(idCard,1);
      mao = $scope.maoJogador;
-     console.info("mao", mao);
-      console.info("mao do jogador 2", $scope.maoJogador);
-
+    $scope.atualizaStatus(mao,$scope.mesaJogador);
+    console.info("pos jogar:", mao);
     }
 
-
-
+    $scope.fase = function(funcao,tempo){
+        setTimeout(funcao, tempo);
+    }
     $scope.inicioTurno = function() {
-
-
       // aidiciona um ao contador de turno
+
       $scope.controlador.turnoN +=1;
+      if($scope.controlador.manamax >= 10){
+        $scope.controlador.manamax = 10;
+        $scope.controlador.manaatual = $scope.controlador.manamax;
+      }else{
+        $scope.controlador.manamax +=1;
+        $scope.controlador.manaatual = $scope.controlador.manamax;
+      }
       $scope.message="Início do turno";
 
       // se o deck do jogador estiver vazio, ele deve receber dano
@@ -286,7 +308,7 @@ angular
       }
       $scope.contador($scope.controlador.counter,5,1);
       //console.info("interval: ",$scope.controlador.counter);
-      return $timeout($scope.acoesTurno, 5000);        
+      return $scope.fase($scope.acoesTurno, 5000);        
     }
 
     $scope.acoesTurno = function() {
@@ -294,24 +316,11 @@ angular
 
         // permitindo que o jogador ataque com o personagem
         $scope.per1.active = true;
-        // permitindo que o jogador jogue as cartas na mesa
-        if($scope.maoJogador.length!=0){
-          for(i=0; i<=$scope.maoJogador.length; i++){
-            if($scope.maoJogador[i]!=undefined){
-              $scope.maoJogador[i].active = true;
-            }
-          }
-        } 
-        //permitindo que o jogador ataque com as cartas da mesa
-        if($scope.mesaJogador.length!=0){
-          for(i=0; i<=$scope.mesaJogador.length; i++){
-            if($scope.mesaJogador[i]!=undefined){
-              $scope.mesaJogador[i].active = true;
-            }  
-          }
-        }      
+        // atualiza os status da mao e mesa
+        $scope.atualizaStatus($scope.maoJogador,$scope.mesaJogador);
+     
       $scope.contador2($scope.controlador.counter2,10,1);
-      return $timeout($scope.fimTurno, 10000)    
+      return $scope.fase($scope.fimTurno, 10000)    
     }
 
     $scope.fimTurno = function() {
@@ -332,9 +341,10 @@ angular
       } 
       $scope.message="Fim do turno";
       $scope.contador3($scope.controlador.counter3,5,1);
-      return $timeout($scope.inicioTurno, 5000)   
+         
+      return $scope.fase($scope.inicioTurno, 5000)   
     }
 
-    $timeout($scope.inicioTurno, 1000);
+    $scope.fase($scope.inicioTurno, 1000);
 
 }]);
