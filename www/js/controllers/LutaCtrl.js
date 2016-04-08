@@ -30,6 +30,8 @@ angular
         $scope.controlador={
           manamax:0,
           manaatual:0,
+          manamaxI:0,
+          manaatualI:0,
           turnoN:0,
           counter:0,
           counter2:0,
@@ -38,7 +40,7 @@ angular
         // populando minions
         for(i=0; i<500; i++){
           if(data[i].type=="MINION"){
-            data[i].idCard = i;
+            data[i].id = data[i].id+i;
             data[i].active = false;
             $scope.minion.push(data[i]);
           }
@@ -220,7 +222,7 @@ angular
     $scope.atualizaStatus = function(mao,mesa){
       // permitindo que o jogador jogue as cartas na mesa
       if(mao.length!=0){
-        for(i=0; i<=mao.length; i++){
+        for(i=0; i<=mao.length-1; i++){
           if(mao[i]!=undefined && mao[i].cost <= $scope.controlador.manaatual){
             mao[i].active = true;
           }else if(mao[i]!=undefined && mao[i].cost >= $scope.controlador.manaatual){
@@ -230,7 +232,7 @@ angular
       } 
       //permitindo que o jogador ataque com as cartas da mesa
       if(mesa.length!=0){
-        for(i=0; i<=mesa.length; i++){
+        for(i=0; i<=mesa.length-1; i++){
           if(mesa[i]!=undefined){
             mesa[i].active = true;
           }  
@@ -242,7 +244,7 @@ angular
     };
     $scope.comprarCard = function(deck,mao, quantidade) {
       for(i=0; i<quantidade; i++){
-        var idPego = Math.floor(Math.random(1)*deck.length);
+        var idPego = Math.floor(Math.random(1)*(deck.length-1));
         var idCardDeckAtual = $scope.deckJogador[idPego];
         if($scope.maoJogador.length >=10){
             $scope.descartarCard(idPego,idCardDeckAtual,$scope.descarteJogador, 1);
@@ -278,8 +280,8 @@ angular
       }
       
      $scope.maoJogador !=$scope.maoJogador.splice(idCard,1);
-     mao = $scope.maoJogador;
-    $scope.atualizaStatus(mao,$scope.mesaJogador);
+    
+    $scope.atualizaStatus($scope.maoJogador,$scope.mesaJogador);
     console.info("pos jogar:", mao);
     }
 
@@ -326,14 +328,14 @@ angular
     $scope.fimTurno = function() {
       $scope.per1.active = false;
       if($scope.maoJogador.length!=0){
-        for(i=0; i<=$scope.maoJogador.length; i++){
+        for(i=0; i<=$scope.maoJogador.length -1; i++){
           if($scope.maoJogador[i]!=undefined){
             $scope.maoJogador[i].active = false;
           }  
         }
       } 
       if($scope.mesaJogador.length!=0){
-        for(i=0; i<=$scope.mesaJogador.length; i++){
+        for(i=0; i<=$scope.mesaJogador.length -1; i++){
           if($scope.mesaJogador[i]!=undefined){
             $scope.mesaJogador[i].active = false;
           }  

@@ -9,9 +9,9 @@
        <!-- Inicio mao do inimigo -->
         <div class="row">
 
-            <div class="col-10" ng-repeat="cardInimigo in maoInimigo track by $index">
+            <div class="col-10" ng-repeat="cardInimigo in maoInimigo ">
               <div class="card" style="width:100px; height:150px"> 
-                   <img ng-src="img/versogalaxygifts.png" alt="logo" height="150" width="100"/>
+                   <img ng-src="img/versocard.jpg" alt="versocard" height="150" width="100"/>
  
               </div>
             </div>
@@ -27,7 +27,7 @@
             </div>
             <div class="row">
               <div class="col">
-                <p ng-repeat="descarte in descarteInimigo | limitTo : 3 track by $index ">
+                <p ng-repeat="descarte in descarteInimigo | limitTo : 3">
                       {{descarte.name}} type:{{descarte.type}}
                 </p>
               </div>
@@ -41,7 +41,7 @@
               <div class="name">{{per2.name}}</div>
               <div class="resource" style="display:inline; float?left; background-color:#ffaaaa; width:30px">{{per2.attack}}</div>  
               <div class="life" style="display:inline; float?left; background-color:#00ff00; width:30px">{{per2.healthatual}}</div>
-              <div class="resource" style="display:inline; float?left; background-color:#aaaaff; width:30px">{{controlador.manaatual}}/{{controlador.manamax}}</div>
+              <div class="resource" style="display:inline; float?left; background-color:#aaaaff; width:30px">{{controlador.manaatualI}}/{{controlador.manamaxI}}</div>
               <button class="button button-balanced" ng-if="per2.active" ng-click="ataque(1,per2,per1)">
                 atacar
               </button> 
@@ -59,7 +59,7 @@
         <!-- Fim descarte+personagem+deck do inimigo -->
         <!-- Inicio mesa do inimigo -->
         <div class="row">
-            <div class="col-10" ng-repeat="cardmesaInimigo in mesaInimigo | limitTo : 7 track by $index">
+            <div class="col-10" ng-repeat="cardmesaInimigo in mesaInimigo | limitTo : 7 ">
               <div class="card" style="width:100px; height:150px"> 
                 <div class="item item-divider">
                     <div ng-if="cardmesaInimigo.active">
@@ -103,11 +103,11 @@
       <div class="col">
         <!-- Inicio mesa do jogador -->
         <div class="row">
-            <div class="col-10" ng-repeat="cardmesaJogador in mesaJogador | limitTo : 7 track by $index">
+            <div class="col-10" ng-repeat="cardmesaJogador in mesaJogador | limitTo : 7">
               <div class="card"> 
                 <div class="item item-divider">
                     <div ng-if="cardmesaJogador.active">
-                    <button class="button button-balanced" ng-click="ataque(1,{{cardmesaJogador}},{{per2}})">
+                    <button class="button button-balanced" ng-click="ataque(1,cardmesaJogador,per2)">
                       id: {{$index}} - cost:{{cardmesaJogador.cost}} 
                     </button> 
                   </div>
@@ -136,7 +136,7 @@
             </div>
             <div class="row">
               <div class="col">
-                <p ng-repeat="descarte in descarteJogador | limitTo : 3 track by $index ">
+                <p ng-repeat="descarte in descarteJogador | limitTo : 3  ">
                       {{descarte.name}} type:{{descarte.type}}
                 </p>
               </div>
@@ -169,12 +169,12 @@
         <!-- Inicio mao do jogador -->
         <div class="row">
 
-            <div class="col-10" ng-repeat="cardJogador in maoJogador track by $index">
+            <div class="col-10" ng-repeat="cardJogador in maoJogador">
               <div class="card" style="width:100px; height:150px"> 
                 <div class="item item-divider">
                   <div ng-if="cardJogador.active">
 
-                    <button class="button" ng-click="jogarCard({{$index}},{{cardJogador}}, {{maoJogador}},{{mesaJogador}},1)">
+                    <button class="button button-balanced" ng-click="jogarCard({{$index}},{{cardJogador}}, {{maoJogador}},{{mesaJogador}},1)">
                       id: {{$index}} - cost:{{cardJogador.cost}} 
                     </button> 
                   </div>
