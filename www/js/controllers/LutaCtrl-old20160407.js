@@ -20,7 +20,6 @@ angular
         $scope.cardsh = data;
         $scope.deckInimigo=[];
         $scope.maoInimigo=[];
-        $scope.mesaInimigo=[];
         $scope.deckJogador=[];
         $scope.maoJogador=[]; 
         $scope.mesaJogador=[];
@@ -49,7 +48,7 @@ angular
         console.info("minions: ", $scope.minion);
         // populando deck inicial do inimigo
         for(i=0; i<30; i++){
-          $scope.deckInimigo.push( $scope.minion[Math.floor(Math.random()*200)]);
+          $scope.deckInimigo.push( data[Math.floor(Math.random()*500)]);
         }
         // populando deck inicial do jogador
         for(i=0; i<30; i++){
@@ -347,163 +346,6 @@ angular
       $scope.contador3($scope.controlador.counter3,5,1);
          
       return $scope.fase($scope.inicioTurnoI, 5000)   
-    }
-    $scope.contadorI = function(nomeAtual,vezes,valor) {
-      $interval(function() {
-        if (nomeAtual < vezes -1 ) {
-          $scope.controlador.counter += valor;
-          nomeAtual +=valor;  
-        }else{
-            $scope.controlador.counter =0;
-            nomeAtual =0;
-          }
-      }, 1000, vezes);
-    }
-
-    $scope.contador2I = function(nomeAtual,vezes,valor) {
-      $interval(function() {
-        if (nomeAtual < vezes -1 ) {
-          $scope.controlador.counter2 += valor;
-          nomeAtual +=valor;  
-        }else{
-            $scope.controlador.counter2 =0;
-            nomeAtual =0;
-        }
-      }, 1000, vezes);
-    }
-
-    $scope.contador3I = function(nomeAtual,vezes,valor) {
-      $interval(function() {
-        if (nomeAtual < vezes -1 ) {
-          $scope.controlador.counter3 += valor;
-          nomeAtual +=valor;  
-        } else{
-            $scope.controlador.counter3 =0;
-            nomeAtual =0;
-        }
-      }, 1000, vezes);
-    }
-    $scope.atualizaStatusI = function(maoI,mesaI){
-      // permitindo que o inimigo jogue as cartas na mesa
-      if(maoI.length!=0){
-        for(i=0; i<=maoI.length-1; i++){
-          if(maoI[i]!=undefined && maoI[i].cost <= $scope.controlador.manaatualI){
-            maoI[i].active = true;
-          }else if(maoI[i]!=undefined && maoI[i].cost >= $scope.controlador.manaatualI){
-            maoI[i].active = false;
-          }
-        }
-      } 
-      //permitindo que o inimigo ataque com as cartas da mesa
-
-      if(mesaI.length!=0){
-        for(i=0; i<=mesaI.length-1; i++){
-          if(mesaI[i]!=undefined){
-            mesaI[i].active = true;
-          }  
-        }
-      } 
-  
-      $scope.maoInimigo = maoI;
-      $scope.mesaInimigo = mesaI;
-
-    };
-    $scope.comprarCardI = function(deck,mao, quantidade) {
-      for(i=0; i<quantidade; i++){
-        var idPego = Math.floor(Math.random(1)*(deck.length-1));
-        var idCardDeckAtual = $scope.deckInimigo[idPego];
-        if($scope.maoInimigo.length >=10){
-            $scope.descartarCardI(idPego,idCardDeckAtual,$scope.descarteInimigo, 1);
-        }
-          else{
-            $scope.maoInimigo.push(idCardDeckAtual);
-          }
-        $scope.deckInimigo != $scope.deckInimigo.splice(idPego,1);          
-      }
-    }
-
-    $scope.descartarCardI = function(idCard,card,descarte, quantidade) {  
-      if(card.type != "MINION"){
-        $scope.descarteInimigo.push(card);      
-        $scope.maoInimigo != $scope.maoInimigo.splice(idCard,1); 
-      }else{
-        $scope.descarteInimigo.push(card);
-        $scope.mesaInimigo != $scope.mesaInimigo.splice(idCard,1);          
-      }
-    }
-
-    $scope.jogarCardI = function(maoI,mesaI,quantidade) {
-      var idPegoI = Math.floor(Math.random()*maoI.length);
-      var idCardMaoAtualI = $scope.maoInimigo[idPegoI];
-      if(idCardMaoAtualI.type!="MINION"){
-          $scope.descartarCardI(idPegoI,idCardMaoAtualI,$scope.descarteInimigo,1)
-      }
-        else{$scope.mesaInimigo.push(idCardMaoAtualI)};
-      $scope.maoInimigo != $scope.maoInimigo.splice(idPegoI,1);
-    }
-
-
-    $scope.inicioTurnoI = function() {
-      // aidiciona um ao contador de turno
-    console.info("maoi e mesaI",$scope.maoInimigo + $scope.mesaInimigo );
-      $scope.controlador.turnoN +=1;
-      if($scope.controlador.manamaxI >= 10){
-        $scope.controlador.manamaxI = 10;
-        $scope.controlador.manaatualI = $scope.controlador.manamaxI;
-      }else{
-        $scope.controlador.manamaxI +=1;
-        $scope.controlador.manaatualI = $scope.controlador.manamaxI;
-      }
-      $scope.message="Início do turno";
-
-      // se o deck do inimigo estiver vazio, ele deve receber dano
-      if($scope.deckInimigo <= 0){
-          $scope.per2.healthatual -=1;
-      }else{
-        // comprar uma carta no inicio do turno
-        $scope.comprarCardI($scope.deckInimigo,$scope.maoInimigo, 1);
-      }
-      $scope.contador($scope.controlador.counterI,5,1);
-      //console.info("interval: ",$scope.controlador.counter);
-      return $scope.fase($scope.acoesTurnoI, 5000);        
-    }
-
-    $scope.acoesTurnoI = function() {
-      $scope.message="Suas ações";            
-
-        // permitindo que o inimigo ataque com o personagem
-        $scope.per2.active = true;
-        $scope.jogarCardI($scope.maoInimigo,$scope.mesaInimigo,1);
- -      $scope.ataque(1,$scope.per2,$scope.per1);
-
-
-        // atualiza os status da mao e mesa
-        $scope.atualizaStatusI($scope.maoInimigo,$scope.mesaInimigo);
-     
-      $scope.contador2I($scope.controlador.counter2I,10,1);
-      return $scope.fase($scope.fimTurnoI, 10000)    
-    }
-
-    $scope.fimTurnoI = function() {
-      $scope.per1.active = false;
-      if($scope.maoInimigo.length!=0){
-        for(i=0; i<=$scope.maoInimigo.length -1; i++){
-          if($scope.maoInimigo[i]!=undefined){
-            $scope.maoInimigo[i].active = false;
-          }  
-        }
-      } 
-      if($scope.mesaInimigo.length!=0){
-        for(i=0; i<=$scope.mesaInimigo.length -1; i++){
-          if($scope.mesaInimigo[i]!=undefined){
-            $scope.mesaInimigo[i].active = false;
-          }  
-        }
-      } 
-      $scope.message="Fim do turno";
-      $scope.contador3($scope.controlador.counter3I,5,1);
-         
-      return $scope.fase($scope.inicioTurno, 5000)   
     }
 
     $scope.fase($scope.inicioTurno, 1000);
