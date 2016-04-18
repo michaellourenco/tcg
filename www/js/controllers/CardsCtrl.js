@@ -7,10 +7,67 @@ angular
     .module('app.cards', ['angularFileUpload'])
 
 
-    .controller('CardsCtrl', ['$scope', 'FileUploader','$http','$ionicModal', '$timeout', '$stateParams','$location','$log','$templateCache','combatesAPI','dadoAPI','cardAPI', function($scope, FileUploader,$http, $ionicModal, $timeout, $stateParams,$location,$log,$templateCache,combatesAPI,dadoAPI,cardAPI) {
+    .controller('CardsCtrl', ['$scope','$ionicPopup', 'FileUploader','$http','$ionicModal', '$timeout', '$stateParams','$location','$log','$templateCache','combatesAPI','dadoAPI','cardAPI', function($scope,$ionicPopup, FileUploader,$http, $ionicModal, $timeout, $stateParams,$location,$log,$templateCache,combatesAPI,dadoAPI,cardAPI) {
      $templateCache.removeAll();
      
+ $scope.showPopup = function() {
+   $scope.data = {}
 
+   // An elaborate, custom popup
+   var myPopup = $ionicPopup.show({
+     template: '<input type="password" ng-model="data.wifi">',
+     title: 'Enter Wi-Fi Password',
+     subTitle: 'Please use normal things',
+     scope: $scope,
+     buttons: [
+       { text: 'Cancel' },
+       {
+         text: '<b>Save</b>',
+         type: 'button-positive',
+         onTap: function(e) {
+           if (!$scope.data.wifi) {
+             //don't allow the user to close unless he enters wifi password
+             e.preventDefault();
+           } else {
+             return $scope.data.wifi;
+           }
+         }
+       },
+     ]
+   });
+   myPopup.then(function(res) {
+     console.log('Tapped!', res);
+   });
+   $timeout(function() {
+      myPopup.close(); //close the popup after 3 seconds for some reason
+   }, 3000);
+  };
+   // A confirm dialog
+   $scope.showConfirm = function(id,card,mao,mesa,quantidade) {
+     var confirmPopup = $ionicPopup.confirm({
+       title: 'Consume Ice Cream',
+       template: card,
+       okText: 'jogarCard'
+     });
+     confirmPopup.then(function(res) {
+       if(res) {
+         console.log(card);
+       } else {
+         console.log('You are not sure');
+       }
+     });
+   };
+
+   // An alert dialog
+   $scope.showAlert = function() {
+     var alertPopup = $ionicPopup.alert({
+       title: 'Don\'t eat that!',
+       template: 'It might taste good'
+     });
+     alertPopup.then(function(res) {
+       console.log('Thank you for not eating my delicious ice cream cone');
+     });
+   };
         carregarCards = function () {
             $http.get("cards/cards.json", { headers: { 'Cache-Control' : 'no-cache' } }).success(function (data) {
             $scope.cardsh = data;
@@ -20,9 +77,14 @@ angular
             });
         };
         carregarCards();
-     
-
-
+    $scope.deck=[];
+    $scope.addCard = function(idCard,card, colecao, deck, quantidade) {
+      console.info("carta: ", card);
+          $scope.deck.push(card);
+    }
+    $scope.removeCard = function(idCard,card, colecao, deck, quantidade) {
+          $scope.deck != $scope.deck.splice(idCard,1); 
+    }
       $scope.editarCombate = function (combate,skill){
         if(skill!= null){
 
@@ -33,12 +95,19 @@ angular
         }
       };
 
-      $scope.adicionarSkill = function (combate){
-        combatesAPI.saveCombate($scope.combate).success(function (data) {
-          delete $scope.combates;
-          $scope.combateEdit.$setPristine();
-          $location.path("#/app/combate/"+namespace);
+      $scope.novoDeck = function (card){
+        console.info('deck enviado: ', card);
+        if($scope.deck != null){
+         $scope.deck.push(card);
+        }else{
+          $scope.deck = [];
+          $scope.deck.push(card);
+        }; 
+        
+        $http.post("editardeck.php", $scope.deck).success(function (data) {
+          $location.path("/app/cards/");
         });
+                console.info('deck enviado: ', $scope.deck);
       };
 
       $scope.apagarSkill = function (indiceSkill,indiceCard){

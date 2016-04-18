@@ -2,8 +2,55 @@
 
 angular
   .module('app.luta', ['angularFileUpload','ngAnimate'])
-.controller('LutaCtrl', ['$scope','$interval', 'FileUploader','$http','$ionicModal', '$timeout', '$stateParams','$location','$log','$templateCache','combatesAPI','dadoAPI','charAPI', function($scope,$interval, FileUploader,$http, $ionicModal, $timeout, $stateParams,$location,$log,$templateCache,combatesAPI,dadoAPI,charAPI) {
+.controller('LutaCtrl', ['$scope','$ionicPopup','$interval', 'FileUploader','$http','$ionicModal', '$timeout', '$stateParams','$location','$log','$templateCache','combatesAPI','dadoAPI','charAPI', function($scope,$ionicPopup,$interval, FileUploader,$http, $ionicModal, $timeout, $stateParams,$location,$log,$templateCache,combatesAPI,dadoAPI,charAPI) {
       $templateCache.removeAll();
+ $scope.showPopup = function() {
+   $scope.data = {}
+
+   // An elaborate, custom popup
+   var myPopup = $ionicPopup.show({
+     template: '<input type="password" ng-model="data.wifi">',
+     title: 'Enter Wi-Fi Password',
+     subTitle: 'Please use normal things',
+     scope: $scope,
+     buttons: [
+       { text: 'Cancel' },
+       {
+         text: '<b>Save</b>',
+         type: 'button-positive',
+         onTap: function(e) {
+           if (!$scope.data.wifi) {
+             //don't allow the user to close unless he enters wifi password
+             e.preventDefault();
+           } else {
+             return $scope.data.wifi;
+           }
+         }
+       },
+     ]
+   });
+   myPopup.then(function(res) {
+     console.log('Tapped!', res);
+   });
+   $timeout(function() {
+      myPopup.close(); //close the popup after 3 seconds for some reason
+   }, 3000);
+  };
+   // A confirm dialog
+   $scope.showConfirm = function(id,card,mao,mesa,quantidade) {
+     var confirmPopup = $ionicPopup.confirm({
+       title: 'Consume Ice Cream',
+       template: '<div class="card" style="width:100px; height:150px">'+card.name+'</div>',
+       okText: 'jogarCard'
+     });
+     confirmPopup.then(function(res) {
+       if(res) {
+         $scope.jogarCard(id,card,mao,mesa,quantidade);
+       } else {
+         console.log('You are not sure');
+       }
+     });
+   };
      
     namespace = $stateParams.namespace;
     id = $stateParams.id;
@@ -22,6 +69,7 @@ angular
         $scope.maoInimigo=[];
         $scope.mesaInimigo=[];
         $scope.deckJogador=[];
+        $scope.descarteInimigo=[];
         $scope.maoJogador=[]; 
         $scope.mesaJogador=[];
         $scope.descarteJogador=[];
@@ -36,7 +84,10 @@ angular
           turnoN:0,
           counter:0,
           counter2:0,
-          counter3:0
+          counter3:0,
+          counterI:0,
+          counter2I:0,
+          counter3I:0
         } 
         // populando minions
         for(i=0; i<500; i++){
@@ -94,90 +145,22 @@ angular
       }           
     } 
 
-    turnoInimigo = function(i,p1,p2){
-      pv=p2.healthatual;
-      pa=p2.healthatual; 
-      var p1attack = Math.floor(Math.random(p1.attack)*20);
-      var p2defense = Math.floor(Math.random(p2.defense)*20);
-      if(p1attack>p2defense){  
-        dano=p1attack;
-        def=p2defense;
-        danoTotal=dano-def;
-        if(danoTotal > 0){
-          danoI = danoTotal;
-          pv -=danoI;
-        }
-        else{
-          danoI=1;
-          pv -=danoI;
-        }
-        if(pv <= 0){
-          p2.healthatual = pv;
-          $scope.mesgenemi = "<p>TURNO "+ i++ +" | "+ 
-          "ATK "+dano+
-          " | DEF "+def +
-          " =  "+danoTotal+" de dano<br/><strong>"+p1.name+"</strong> atacou e inflingiu <strong>"+
-          danoI+"</strong> de dano em <strong>"+ p2.name +"</strong> que tinha <strong>"+ pa +"</strong><br/><strong>"+ p2.name+"</strong> perdeu pois ficou com <strong>"+ 
-          p2.healthatual +"</strong> pontos de vida <br/>PARABENS <strong>"+ p1.name +"</strong> VOCE VENCEU!</p>";
-        }
-        else if(pv > 0){
-          p2.healthatual = pv; 
-          $scope.mesgenemi = "<p>TURNO "+ i++ +" | ATK "+ dano +
-          " | DEF "+ def +
-          " =  "+ danoTotal +" de dano<br/><strong>"+ p1.name +"</strong> atacou e inflingiu <strong>"+ danoI +
-          "</strong> de dano em <strong>"+ p2.name +"</strong> que tinha <strong>"+ pa +"</strong><br/>Agora <strong>"+p2.name+"</strong> tem <strong>"+p2.healthatual+"</strong> pontos de vida restantes</p><br/>";
-        }
-      }
-      else{
-         $scope.mesgenemi = "<p>TURNO "+ i++ +" | <strong>"+ p1.name +"</strong> errou o ataque</p>";            
-      }
-    };
-
-   /* $scope.turno =function(i,p1,p2){
-      pv=p2.healthatual;
-      pa=p2.healthatual; 
-      var p1attack = p1.attack
-      if(p1attack>0){  
-        dano=p1attack;
-        danoTotal=dano;
-        if(danoTotal > 0){
-          danoI = danoTotal;
-          pv -=danoI;
-        }
-        if(pv <= 0){
-          p2.healthatual = pv;
-          $scope.message = "<p>TURNO "+ i++ +" | "+ 
-          "ATK "+dano+
-          " =  "+danoTotal+" de dano<br/><strong>"+p1.name+"</strong> atacou e inflingiu <strong>"+
-          danoI+"</strong> de dano em <strong>"+ p2.name +"</strong> que tinha <strong>"+ pa +"</strong><br/><strong>"+ p2.name+"</strong> perdeu pois ficou com <strong>"+ 
-          p2.healthatual +"</strong> pontos de vida <br/>PARABENS <strong>"+ $scope.p2.name +"</strong> VOCE VENCEU!</p>";
-        }
-        else{
-          p2.healthatual = pv;
-          $scope.message = "<p>TURNO "+ i++ +" | ATK "+ dano +
-          " =  "+ danoTotal +" de dano<br/><strong>"+ p1.name +"</strong> atacou e inflingiu <strong>"+ danoI +
-          "</strong> de dano em <strong>"+ p2.name +"</strong> que tinha <strong>"+ pa +"</strong><br/>Agora <strong>"+p2.name+"</strong> tem <strong>"+p2.healthatual+"</strong> pontos de vida restantes</p><br/>";
-        }
-      }
-    } */
-
     $scope.ataque =function(i,p1,p2){
       var pa = p2.healthatual;
       if(p1.attack>0){  
           p2.healthatual -=p1.attack;
-        }
-        if(p2.healthatual <= 0){
-          
-          $scope.message = "<p>TURNO "+ i++ +" <br/>"+ 
-          p1.attack+" de dano<br/><strong>"+p1.name+"</strong>em <strong>"+ p2.name +"</strong> que tinha <strong>"+ pa +"</strong><br/><strong>"+ p2.name+"</strong> perdeu pois ficou com <strong>"+ 
-          p2.healthatual +"</strong> pontos de vida <br/>PARABENS <strong>"+ $scope.per1.name +"</strong> VOCE VENCEU!</p>";
-        }
-        else{
-          
-          $scope.message = "<p>TURNO "+ i++ +"<br/>"+ p1.attack+" de dano<br/><strong>"+ p1.name +"</strong> em <strong>"+ $scope.per2.name +"</strong> que tinha <strong>"+ pa +"</strong><br/>Agora <strong>"+p2.name+"</strong> tem <strong>"+p2.healthatual+"</strong> pontos de vida restantes</p><br/>";
-        }
+      }
+      if(p2.healthatual <= 0){
+        $scope.message = "<p>TURNO "+ i++ +" <br/>"+ 
+        p1.attack+" de dano<br/><strong>"+p1.name+"</strong>em <strong>"+ p2.name +"</strong> que tinha <strong>"+ pa +"</strong><br/><strong>"+ p2.name+"</strong> perdeu pois ficou com <strong>"+ 
+        p2.healthatual +"</strong> pontos de vida <br/>PARABENS <strong>"+ p1.name +"</strong> VOCE VENCEU!</p>";
+      }
+      else{
+        
+        $scope.message = "<p>TURNO "+ i++ +"<br/>"+ p1.attack+" de dano<br/><strong>"+ p1.name +"</strong> em <strong>"+ $scope.per2.name +"</strong> que tinha <strong>"+ pa +"</strong><br/>Agora <strong>"+p2.name+"</strong> tem <strong>"+p2.healthatual+"</strong> pontos de vida restantes</p><br/>";
+      }
       
-    }         
+      }         
       }).error(function (data, status) {
         $scope.message = "Aconteceu um problema: " + data;
       });
@@ -463,7 +446,7 @@ angular
         // comprar uma carta no inicio do turno
         $scope.comprarCardI($scope.deckInimigo,$scope.maoInimigo, 1);
       }
-      $scope.contador($scope.controlador.counterI,5,1);
+      $scope.contadorI($scope.controlador.counterI,5,1);
       //console.info("interval: ",$scope.controlador.counter);
       return $scope.fase($scope.acoesTurnoI, 5000);        
     }
@@ -501,7 +484,7 @@ angular
         }
       } 
       $scope.message="Fim do turno";
-      $scope.contador3($scope.controlador.counter3I,5,1);
+      $scope.contador3I($scope.controlador.counter3I,5,1);
          
       return $scope.fase($scope.inicioTurno, 5000)   
     }

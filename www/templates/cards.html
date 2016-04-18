@@ -1,19 +1,40 @@
-<ion-view view-title="Combates">
+<ion-view view-title="Cards">
   <ion-content>
 
-  <a class="button button-positive" href="#/app/novocard"><i class="icon ion-plus"></i> + card</a>
-
+  <a class="button button-positive" href="#/app/novocard"><i class="icon ion-plus"></i>card</a>
+    <button class="button button-primary" ng-click="showConfirm(cardsh)">
+      Confirm
+    </button>
 	<button class="button button-light" ng-click="atualizarCombates()">atualizar cards</button>	
-    <ion-list>
-      <ion-item ng-repeat="card in cardsh | limitTo : 50 as results" class="item card-item" href="#/app/card/{{card.namespace}}">
-	      <div class="card stable-bg ink ink-dark">
-	      		<div class="item item-avatar item-text-wrap">
-	        	nome:{{card.name}}
-	        	<br/>
-	        	atk:{{card.attack}} - def:{{card.health}} - mana:{{card.}}
-	        	</div>
-	       </div>
-      </ion-item>
-    </ion-list>
+    <div class="row">
+      <div class="col-60">
+        <ion-list>
+          <ion-item ng-repeat="card in cardsh | limitTo : 30 as results track by $index" class="item card-item" style="width:100px; height:150px; background-color: #00ff00;border:1px solid #000; display: inline; float: left; margin: 3px;">
+             <button class="button button-balanced" ng-click="addCard({{$index}},card, cardsh,deck,1)">
+                add
+              </button> 
+    	        	{{card.name}}
+    	        	<br/>
+    	        	{{card.attack}} - def:{{card.health}} - mana:{{card.cost}}
+    	        	
+          </ion-item>
+        </ion-list>
+      </div>
+      <div class="col-30">
+      <h2>Deck</h2>
+      <label class="item item-input item-floating-label">
+        <span class="input-label">Nome</span>
+        <input type="text" ng-model="cardDeck.nomeDeck" name="nome" placeholder="nome"/>
+      </label>
+        <ion-list>
+          <ion-item ng-repeat="cardDeck in deck | limitTo : 30 as results track by $index" class="item" style="width:200px; height:20px; background-color: #00ff00;border:1px solid #000; display: block; float: right; margin: 3px;">
+              <button class="button button-balanced" ng-click="removeCard({{$index}},cardDeck, cardsh,deck,1)">
+               {{cardDeck.cost}} - {{cardDeck.name}}
+              </button>    
+          </ion-item>
+        </ion-list>
+      <button class="button button-balanced" ng-click="novoDeck(cardDeck)">salvar</button>  
+      </div>
+    </div>
   </ion-content>
 </ion-view>

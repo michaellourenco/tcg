@@ -9,9 +9,9 @@
        <!-- Inicio mao do inimigo -->
         <div class="row">
 
-            <div class="col-10" ng-repeat="cardInimigo in maoInimigo ">
-              <div class="card" style="width:100px; height:150px"> 
-                   <img ng-src="img/versocard.jpg" alt="versocard" height="150" width="100"/>
+            <div class="col-10" ng-repeat="cardInimigo in maoInimigo track by $index ">
+              <div class="card" style="width:50px; height:75px"> 
+                   <img ng-src="img/versocard.jpg" alt="versocard" height="75" width="50"/>
  
               </div>
             </div>
@@ -59,7 +59,7 @@
         <!-- Fim descarte+personagem+deck do inimigo -->
         <!-- Inicio mesa do inimigo -->
         <div class="row" style="border:1px solid #000; width:100%; height:160px;">
-            <div class="col-10" ng-repeat="cardmesaInimigo in mesaInimigo | limitTo : 7 ">
+            <div class="col-10" ng-repeat="cardmesaInimigo in mesaInimigo | limitTo : 7 track by $index">
               <div class="card" style="width:100px; height:150px"> 
                 <div class="item item-divider">
                     <div ng-if="cardmesaInimigo.active">
@@ -103,7 +103,7 @@
       <div class="col">
         <!-- Inicio mesa do jogador -->
         <div class="row" style="border:1px solid #000; padding:0; width:100%; height:160px;">
-            <div class="col-10" ng-repeat="cardmesaJogador in mesaJogador | limitTo : 7">
+            <div class="col-10" ng-repeat="cardmesaJogador in mesaJogador | limitTo : 7 track by $index">
               <div class="card"> 
                 <div class="item item-divider">
                     <div ng-if="cardmesaJogador.active">
@@ -169,14 +169,16 @@
         <!-- Inicio mao do jogador -->
         <div class="row">
 
-            <div class="col-10" ng-repeat="cardJogador in maoJogador">
+            <div class="col-10" ng-repeat="cardJogador in maoJogador track by $index">
               <div class="card" style="width:100px; height:150px"> 
                 <div class="item item-divider">
                   <div ng-if="cardJogador.active">
-
-                    <button class="button button-balanced" ng-click="jogarCard({{$index}},{{cardJogador}}, {{maoJogador}},{{mesaJogador}},1)">
+                    <button class="button button-primary" ng-click="showConfirm({{$index}},cardJogador, maoJogador,mesaJogador,1)">
                       id: {{$index}} - cost:{{cardJogador.cost}} 
-                    </button> 
+                    </button>
+                   <!-- <button class="button button-balanced" ng-click="jogarCard({{$index}},cardJogador, maoJogador,mesaJogador,1)">
+                      id: {{$index}} - cost:{{cardJogador.cost}} 
+                    </button> -->
                   </div>
                   <div ng-if="!cardJogador.active">              
                       cost:{{cardJogador.cost}}
