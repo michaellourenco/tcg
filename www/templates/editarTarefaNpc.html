@@ -1,7 +1,7 @@
-<ion-view view-title="{{skillnpc.name}}">
+<ion-view view-title="{{tarefanpc.name}}">
   <ion-content>
-  {{skillnpc}}
-<h2>Editar SkillNpc</h2>  
+  {{tarefanpc}}
+<h2>Editar TarefaNpc</h2>  
 	    <input type="file" nv-file-select="" uploader="uploader" multiple />
 
         <h2>The queue. Length: {{ uploader.queue.length }}</h2>
@@ -32,26 +32,26 @@
                 </div>
             </li>
         </ul>
-        <form name="skillnpcForm">
+        <form name="tarefanpcForm">
                 <label class="item item-input" >
-                    <input type="text" type="text" ng-model="skillnpc.ordem" name="ordem" placeholder="ordem"/> 
+                    <input type="text" type="text" ng-model="tarefanpc.ordem" name="ordem" placeholder="ordem"/> 
                 </label>            
                 <label class="item item-input" >
-                    <input type="text" type="text" ng-model="skillnpc.name" name="name" placeholder="name"/> </label>
+                    <input type="text" type="text" ng-model="tarefanpc.name" name="name" placeholder="name"/> </label>
                 <label class="item item-input" >
-                    <input type="text" type="text" ng-model="skillnpc.descricao" name="descricao" placeholder="descricao"/> 
+                    <input type="text" type="text" ng-model="tarefanpc.descricao" name="descricao" placeholder="descricao"/> 
                 </label>
                 <label class="item item-input" >
-                    <input type="text" type="text" ng-model="skillnpc.valor" name="valor" placeholder="valor"/> 
+                    <input type="text" type="text" ng-model="tarefanpc.valor" name="valor" placeholder="valor"/> 
                 </label>                    
                 <label class="item item-input" >
-                    <input type="text" type="text" ng-model="skillnpc.dano" name="dano" placeholder="dano"/> 
+                    <input type="text" type="text" ng-model="tarefanpc.dano" name="dano" placeholder="dano"/> 
                 </label>    
                 <label class="item item-input" >
-                    <input type="text" type="text" ng-model="skillnpc.recarga" name="recarga" placeholder="recarga"/> 
+                    <input type="text" type="text" ng-model="tarefanpc.recarga" name="recarga" placeholder="recarga"/> 
                 </label>    
         </form>
-		<button class="button button-balanced" ng-click="editarSkillNpc(skillnpc)">salvar</button>
+		<button class="button button-balanced" ng-click="editarTarefaNpc(tarefanpc)">salvar</button>
   </ion-content>
 </ion-view>
 

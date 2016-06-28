@@ -4,9 +4,9 @@
 angular
 
 
-  .module('app.novaskillnpc', ['angularFileUpload'])
+  .module('app.novatarefanpc', ['angularFileUpload'])
 
-  .controller('NovaSkillNpcCtrl',  ['$scope', 'FileUploader','$http','$ionicModal', '$timeout', '$stateParams','$location', function($scope, FileUploader,$http, $ionicModal, $timeout, $stateParams,$location) {
+  .controller('NovaTarefaNpcCtrl',  ['$scope', 'FileUploader','$http','$ionicModal', '$timeout', '$stateParams','$location', function($scope, FileUploader,$http, $ionicModal, $timeout, $stateParams,$location) {
    
 
   console.log($stateParams.namespace);
@@ -30,14 +30,14 @@ console.log($stateParams.id);
       carregarCombate(namespace);
 
 
-      $scope.adicionarSkillNpc = function (skillnpc){
-        console.log($scope.combate.npcs[$stateParams.id].skillnpcs != null);
+      $scope.adicionarTarefaNpc = function (tarefanpc){
+        console.log($scope.combate.npcs[$stateParams.id].tarefanpcs != null);
         console.log($stateParams.id);
-        if($scope.combate.npcs[$stateParams.id].skillnpcs != null){
-          $scope.combate.npcs[$stateParams.id].skillnpcs.push(skillnpc);
+        if($scope.combate.npcs[$stateParams.id].tarefanpcs != null){
+          $scope.combate.npcs[$stateParams.id].tarefanpcs.push(tarefanpc);
         }else{
-          $scope.combate.npcs[$stateParams.id].skillnpcs = [];
-          $scope.combate.npcs[$stateParams.id].skillnpcs.push(skillnpc);
+          $scope.combate.npcs[$stateParams.id].tarefanpcs = [];
+          $scope.combate.npcs[$stateParams.id].tarefanpcs.push(tarefanpc);
         };
         $http.post("editarcombate.php", $scope.combate).success(function (data) {
           /*delete $scope.combate;*/
@@ -79,43 +79,43 @@ console.log($stateParams.id);
 
         uploader.filters.push({
             name: 'customFilter',
-            fn: function(skillnpc /*{File|FileLikeObject}*/, options) {
+            fn: function(tarefanpc /*{File|FileLikeObject}*/, options) {
                 return this.queue.length < 10;
             }
         });
 
         // CALLBACKS
 
-        uploader.onWhenAddingFileFailed = function(skillnpc /*{File|FileLikeObject}*/, filter, options) {
-            console.info('onWhenAddingFileFailed', skillnpc, filter, options);
+        uploader.onWhenAddingFileFailed = function(tarefanpc /*{File|FileLikeObject}*/, filter, options) {
+            console.info('onWhenAddingFileFailed', tarefanpc, filter, options);
         };
-        uploader.onAfterAddingFile = function(fileSkillNpc) {
-            console.info('onAfterAddingFile', fileSkillNpc);
+        uploader.onAfterAddingFile = function(fileTarefaNpc) {
+            console.info('onAfterAddingFile', fileTarefaNpc);
         };
-        uploader.onAfterAddingAll = function(addedFileSkillNpcs) {
-            console.info('onAfterAddingAll', addedFileSkillNpcs);
+        uploader.onAfterAddingAll = function(addedFileTarefaNpcs) {
+            console.info('onAfterAddingAll', addedFileTarefaNpcs);
         };
-        uploader.onBeforeUploadSkillNpc = function(skillnpc) {
-            console.info('onBeforeUploadSkillNpc', skillnpc);
+        uploader.onBeforeUploadTarefaNpc = function(tarefanpc) {
+            console.info('onBeforeUploadTarefaNpc', tarefanpc);
         };
-        uploader.onProgressSkillNpc = function(fileSkillNpc, progress) {
-            console.info('onProgressSkillNpc', fileSkillNpc, progress);
+        uploader.onProgressTarefaNpc = function(fileTarefaNpc, progress) {
+            console.info('onProgressTarefaNpc', fileTarefaNpc, progress);
         };
         uploader.onProgressAll = function(progress) {
             console.info('onProgressAll', progress);
         };
-        uploader.onSuccessSkillNpc = function(fileSkillNpc, response, status, headers) {
-            console.info('onSuccessSkillNpc', fileSkillNpc, response, status, headers);
+        uploader.onSuccessTarefaNpc = function(fileTarefaNpc, response, status, headers) {
+            console.info('onSuccessTarefaNpc', fileTarefaNpc, response, status, headers);
         };
-        uploader.onErrorSkillNpc = function(fileSkillNpc, response, status, headers) {
-            console.info('onErrorSkillNpc', fileSkillNpc, response, status, headers);
+        uploader.onErrorTarefaNpc = function(fileTarefaNpc, response, status, headers) {
+            console.info('onErrorTarefaNpc', fileTarefaNpc, response, status, headers);
         };
-        uploader.onCancelSkillNpc = function(fileSkillNpc, response, status, headers) {
-            console.info('onCancelSkillNpc', fileSkillNpc, response, status, headers);
+        uploader.onCancelTarefaNpc = function(fileTarefaNpc, response, status, headers) {
+            console.info('onCancelTarefaNpc', fileTarefaNpc, response, status, headers);
         };
-        uploader.onCompleteSkillNpc = function(fileSkillNpc, response, status, headers) {
-            console.info('onCompleteSkillNpc', fileSkillNpc, response, status, headers);
-            console.info('onCompleteITem',fileSkillNpc.file.name);
+        uploader.onCompleteTarefaNpc = function(fileTarefaNpc, response, status, headers) {
+            console.info('onCompleteTarefaNpc', fileTarefaNpc, response, status, headers);
+            console.info('onCompleteITem',fileTarefaNpc.file.name);
         };
         uploader.onCompleteAll = function() {
             console.info('onCompleteAll');
@@ -128,8 +128,8 @@ console.log($stateParams.id);
 
 
         var controller = $scope.controller = {
-            isImage: function(skillnpc) {
-                var type = '|' + skillnpc.type.slice(skillnpc.type.lastIndexOf('/') + 1) + '|';
+            isImage: function(tarefanpc) {
+                var type = '|' + tarefanpc.type.slice(tarefanpc.type.lastIndexOf('/') + 1) + '|';
                 return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
             }
         };

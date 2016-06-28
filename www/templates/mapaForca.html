@@ -1,6 +1,4 @@
-
 <ion-view view-title="{{combate.name}}">
-
   <ion-content>
   	<p>
 		<a class="button button-positive" href="#/app/novacategoria/{{combate.namespace}}"><i class="icon ion-plus"></i>Categoria</a>
@@ -46,12 +44,8 @@
                     <div class="total-progress" ng-style="{ 'width': uploader.progress + '%' }"></div>
                 </div>
             </div>
- 
-        </div>	
-        
+        </div>	 
         <img ng-src="http://www.guiadodia.com.br/uploads/{{combate.logo}}" alt="logo" height="150"/>
-
-
 		<ion-list>
 			<ion-item ng-class="{'selecionado negrito': combate.selecionado}" ng-repeat="(indiceCat, cat) in combate.categorias" class="item-button-right">
 				{{indiceCategoria = combate.categorias.indexOf(cat)}} - {{cat.name}}
@@ -92,8 +86,5 @@
 				</ion-list>
 			</ion-item>
 		</ion-list>
-
-
   </ion-content>
 </ion-view>
-

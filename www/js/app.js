@@ -6,25 +6,29 @@
 // 'starter.controllers' is found in controllers.js
 angular.module('app', ['ionic', 
   'app.controllers',
-  'app.novochar',
-  'app.novocard',
-  'app.skill',
-  'app.novaskillnpc',
-  'app.novonpc',
-  'app.editarchar',
-  'app.editarskillnpc',
-  'app.editarnpc',
-  'app.luta',
-  'app.combate',
-  'app.combates',
-  'app.char',
+  'app.mapaForca',
   'app.card',
   'app.cards',
+  'app.novomapaForca',
+  'app.novocard',
+  'app.tarefa',
+  'app.novatarefanpc',
+  'app.novonpc',
+  'app.editarmapaForca',
+  'app.editartarefanpc',
+  'app.editarnpc',
+  'app.luta',
+  'app.lutacnv',
+  'app.lutacnv2',
+  'app.combate',
+  'app.combates',
   'app.game',  
   'app.jogador',
   'app.npc', 
   'app.npcs', 
-  'app.quest'])
+  'app.quest',
+  'app.user',
+  'app.users'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -93,6 +97,26 @@ angular.module('app', ['ionic',
       }
     }
   }) 
+   .state('app.lutacnv', {
+    cache: false,
+    url: "/lutacnv/:namespace/:id/:idinimigo",
+    views: {
+      'menuContent': {
+        templateUrl: "templates/lutacnv.html",
+        controller: 'LutaCnvCtrl'
+      }
+    }
+  }) 
+   .state('app.lutacnv2', {
+    cache: false,
+    url: "/lutacnv2/:namespace/:id/:idinimigo",
+    views: {
+      'menuContent': {
+        templateUrl: "templates/lutacnv2.html",
+        controller: 'LutaCnv2Ctrl'
+      }
+    }
+  }) 
    .state('app.tabuleiro', {
     cache: false,
     url: "/tabuleiro/:namespace/:id/:idinimigo",
@@ -108,7 +132,7 @@ angular.module('app', ['ionic',
       url: "/jogadores",
       views: {
         'menuContent': {
-          templateUrl: "templates/jogadors.html",
+          templateUrl: "templates/jogadores.html",
           controller: 'JogadoresCtrl'
         }
       }
@@ -142,6 +166,48 @@ angular.module('app', ['ionic',
       'menuContent': {
         templateUrl: "templates/editarJogador.html",
         controller: 'JogadorCtrl'
+      }
+    }
+  })
+   .state('app.users', {
+      cache: false,
+      url: "/users",
+      views: {
+        'menuContent': {
+          templateUrl: "templates/users.html",
+          controller: 'UsersCtrl'
+        }
+      }
+    })
+
+    .state('app.novouser', {
+      cache: false,
+      url: "/novouser",
+      views: {
+        'menuContent': {
+          templateUrl: "templates/novoUser.html",
+          controller: 'NovoUserCtrl'
+        }
+      }
+    })
+
+  .state('app.user', {
+    cache: false,
+    url: "/user/:namespace",
+    views: {
+      'menuContent': {
+        templateUrl: "templates/user.html",
+        controller: 'UserCtrl'
+      }
+    }
+  })
+  .state('app.editaruser', {
+    cache: false,
+    url: "/editaruser/:namespace",
+    views: {
+      'menuContent': {
+        templateUrl: "templates/editarUser.html",
+        controller: 'UserCtrl'
       }
     }
   })
@@ -229,66 +295,75 @@ angular.module('app', ['ionic',
       }
     }
   })
-  .state('app.chars', {
+  .state('app.mapaForcas', {
       cache: false,
-      url: "/chars",
+      url: "/mapaForcas/:namespace",
       views: {
         'menuContent': {
-          templateUrl: "templates/chars.html",
-          controller: 'CharsCtrl'
+          templateUrl: "templates/mapaForcas.html",
+          controller: 'MapaForcaCtrl'
         }
       }
     })
 
-    .state('app.novochar', {
+    .state('app.novomapaForca', {
       cache: false,
-      url: "/novochar/:namespace",
+      url: "/novomapaForca/:namespace",
       views: {
         'menuContent': {
-          templateUrl: "templates/novoChar.html",
-          controller: 'NovoCharCtrl'
+          templateUrl: "templates/novoMapaForca.html",
+          controller: 'NovoMapaForcaCtrl'
         }
       }
     })
-
-  .state('app.char', {
+  .state('app.novatarefamapaforca', {
     cache: false,
-    url: "/char/:namespace",
+      url: "/novatarefamapaforca/:namespace/:id",
+      views: {
+        'menuContent': {
+          templateUrl: "templates/novaTarefaMapaForca.html",
+          controller: 'MapaForcaCtrl'
+        }
+      }
+    })
+  .state('app.mapaForca', {
+    cache: false,
+    url: "/mapaForca/:namespace",
     views: {
       'menuContent': {
-        templateUrl: "templates/char.html",
-        controller: 'CharCtrl'
+        templateUrl: "templates/mapaForca.html",
+        controller: 'MapaForcaCtrl'
       }
     }
   })
-  .state('app.editarchar', {
+  .state('app.editarmapaForca', {
     cache: false,
-    url: "/editarchar/:namespace/:id",
+    url: "/editarmapaForca/:namespace/:id",
     views: {
       'menuContent': {
-        templateUrl: "templates/editarChar.html",
-        controller: 'EditarCharCtrl'
+        templateUrl: "templates/editarMapaForca.html",
+        controller: 'EditarMapaForcaCtrl'
       }
     }
   })
 
-  .state('app.novaskill', {
+  .state('app.novatarefa', {
     cache: false,
-      url: "/novaskill/:namespace/:id",
+      url: "/novatarefa/:namespace/:id",
       views: {
         'menuContent': {
-          templateUrl: "templates/novaSkill.html",
-          controller: 'SkillCtrl'
+          templateUrl: "templates/novaTarefa.html",
+          controller: 'TarefaCtrl'
         }
       }
     })
-  .state('app.editarskill', {
+  .state('app.editartarefa', {
     cache: false,
-      url: "/editarskill/:namespace/:id/:idskill",
+      url: "/editartarefa/:namespace/:id/:idtarefa",
       views: {
         'menuContent': {
-          templateUrl: "templates/editarSkill.html",
-          controller: 'SkillCtrl'
+          templateUrl: "templates/editarTarefa.html",
+          controller: 'TarefaCtrl'
         }
       }
     })
@@ -335,23 +410,23 @@ angular.module('app', ['ionic',
     }
   })
 
-  .state('app.novaskillnpc', {
+  .state('app.novatarefanpc', {
     cache: false,
-      url: "/novaskillnpc/:namespace/:id",
+      url: "/novatarefanpc/:namespace/:id",
       views: {
         'menuContent': {
-          templateUrl: "templates/novaSkillNpc.html",
-          controller: 'NovaSkillNpcCtrl'
+          templateUrl: "templates/novaTarefaNpc.html",
+          controller: 'NovaTarefaNpcCtrl'
         }
       }
     })
-  .state('app.editarskillnpc', {
+  .state('app.editartarefanpc', {
     cache: false,
-      url: "/editarskillnpc/:namespace/:id/:idskillnpc",
+      url: "/editartarefanpc/:namespace/:id/:idtarefanpc",
       views: {
         'menuContent': {
-          templateUrl: "templates/editarSkillNpc.html",
-          controller: 'EditarSkillNpcCtrl'
+          templateUrl: "templates/editarTarefaNpc.html",
+          controller: 'EditarTarefaNpcCtrl'
         }
       }
     })
@@ -394,6 +469,26 @@ angular.module('app', ['ionic',
       'menuContent': {
         templateUrl: "templates/editarQuest.html",
         controller: 'QuestCtrl'
+      }
+    }
+  })
+  .state('app.creditos', {
+    cache: false,
+    url: "/creditos",
+    views: {
+      'menuContent': {
+        templateUrl: "templates/creditos.html",
+        controller: 'CombateCtrl'
+      }
+    }
+  })
+  .state('app.sobre', {
+    cache: false,
+    url: "/sobre",
+    views: {
+      'menuContent': {
+        templateUrl: "templates/sobre.html",
+        controller: 'CombateCtrl'
       }
     }
   });

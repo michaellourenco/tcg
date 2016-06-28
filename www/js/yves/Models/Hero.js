@@ -16,41 +16,41 @@ module.exports = function() {
     var MaxHealth
     var CurrentHealth
     //Setters
-    function HeroObj(id, name, type, description, baseattack, basedefence, maxattack, maxdefense, currentattack, currentdefense, frontimage, hability, basehealth, maxhealth, currenthealth) {
+    function HeroObj(id, name, type, description, basenaturezaOperacao, basedefence, maxnaturezaOperacao, maxareaAtuacao, currentnaturezaOperacao, currentareaAtuacao, frontimage, hability, baseprefixoViatura, maxprefixoViatura, currentprefixoViatura) {
         return {
             Id: id,
             Name: name,
             Type: type,
             Description: description,
-            BaseAttack: baseattack,
+            BaseAttack: basenaturezaOperacao,
             BaseDefense: basedefence,
-            MaxAttack: maxattack,
-            MaxDefense: maxdefense,
-            CurrentAttack: currentattack,
-            CurrentDefense: currentdefense,
+            MaxAttack: maxnaturezaOperacao,
+            MaxDefense: maxareaAtuacao,
+            CurrentAttack: currentnaturezaOperacao,
+            CurrentDefense: currentareaAtuacao,
             FrontImage: frontimage,
             Hability: hability,
-            BaseHealth: basehealth,
-            MaxHealth: maxhealth,
-            CurrentHealth: currenthealth
+            BaseHealth: baseprefixoViatura,
+            MaxHealth: maxprefixoViatura,
+            CurrentHealth: currentprefixoViatura
         }
     }
-    this.Hero = function(id, name, type, description, baseattack, basedefence, maxattack, maxdefense, currentattack, currentdefense, frontimage, hability, basehealth, maxhealth, currenthealth) {
+    this.Hero = function(id, name, type, description, basenaturezaOperacao, basedefence, maxnaturezaOperacao, maxareaAtuacao, currentnaturezaOperacao, currentareaAtuacao, frontimage, hability, baseprefixoViatura, maxprefixoViatura, currentprefixoViatura) {
         Id = id
         Name = name
         Type = type
         Description = description
-        BaseAttack = baseattack
+        BaseAttack = basenaturezaOperacao
         BaseDefense = basedefence
-        MaxAttack = maxattack
-        MaxDefense = maxdefense
-        CurrentAttack = currentattack
-        CurrentDefense = currentdefense
+        MaxAttack = maxnaturezaOperacao
+        MaxDefense = maxareaAtuacao
+        CurrentAttack = currentnaturezaOperacao
+        CurrentDefense = currentareaAtuacao
         FrontImage = frontimage
         Hability = hability
-        BaseHealth = basehealth
-        MaxHealth = maxhealth
-        CurrentHealth = currenthealth
+        BaseHealth = baseprefixoViatura
+        MaxHealth = maxprefixoViatura
+        CurrentHealth = currentprefixoViatura
     }
     //
     //Getters and Setters
@@ -63,29 +63,29 @@ module.exports = function() {
     this.getType = function() { return Type }
     this.setDescription = function(description) { Description = description }
     this.getDescription = function() { return Description }
-    this.setCost = function(cost) { Cost = cost }
+    this.setCost = function(unidadesSolicitantes) { Cost = unidadesSolicitantes }
     this.getCost = function() { return Cost }
-    this.setBaseAttack = function(baseattack) { BaseAttack = baseattack }
+    this.setBaseAttack = function(basenaturezaOperacao) { BaseAttack = basenaturezaOperacao }
     this.getBaseAttack = function() { return BaseAttack }
     this.setBaseDefense = function(basedefence) { basedefence = basedefence }
     this.getBaseDefense = function() { return basedefence }
-    this.setMaxAttack = function(maxattack) { MaxAttack = maxattack }
+    this.setMaxAttack = function(maxnaturezaOperacao) { MaxAttack = maxnaturezaOperacao }
     this.getMaxAttack = function() { return MaxAttack }
-    this.setMaxDefense = function(maxdefense) { maxdefense = maxdefense }
-    this.getMaxDefense = function() { return maxdefense }
-    this.setCurrentAttack = function(currentattack) { CurrentAttack = currentattack }
+    this.setMaxDefense = function(maxareaAtuacao) { maxareaAtuacao = maxareaAtuacao }
+    this.getMaxDefense = function() { return maxareaAtuacao }
+    this.setCurrentAttack = function(currentnaturezaOperacao) { CurrentAttack = currentnaturezaOperacao }
     this.getCurrentAttack = function() { return CurrentAttack }
-    this.setCurrentDefense = function(currentdefense) { CurrentDefense = currentdefense }
+    this.setCurrentDefense = function(currentareaAtuacao) { CurrentDefense = currentareaAtuacao }
     this.getCurrentDefense = function() { return CurrentDefense }
     this.setFrontImage = function(frontimage) { FrontImage = frontimage }
     this.getFrontImage = function() { return FrontImage }
     this.setHability = function(hability) { Hability = hability }
     this.getHability = function() { return Hability }
-    this.setBaseHealth = function(basehealth) { BaseHealth = basehealth }
+    this.setBaseHealth = function(baseprefixoViatura) { BaseHealth = baseprefixoViatura }
     this.getBaseHealth = function() { return BaseHealth }
-    this.setMaxHealth = function(maxhealth) { MaxHealth = maxhealth }
+    this.setMaxHealth = function(maxprefixoViatura) { MaxHealth = maxprefixoViatura }
     this.getMaxHealth = function() { return MaxHealth }
-    this.setCurrentHealth = function(currenthealth) { CurrentHealth = currenthealth }
+    this.setCurrentHealth = function(currentprefixoViatura) { CurrentHealth = currentprefixoViatura }
     this.getCurrentHealth = function() { return CurrentHealth }
     
     //
@@ -93,7 +93,7 @@ module.exports = function() {
     //
     this.load = function(obj, hero) {
         var h = JSON.parse(hero)
-        obj.Hero(h.Id, h.Name, h.Type, h.Description, h.Baseattack, h.Basedefence, h.Maxattack, h.Maxdefense, h.Currentattack, h.Currentdefense, h.Frontimage, h.Hability, h.Basehealth, h.Maxhealth, h.Currenthealth)
+        obj.Hero(h.Id, h.Name, h.Type, h.Description, h.BasenaturezaOperacao, h.Basedefence, h.MaxnaturezaOperacao, h.MaxareaAtuacao, h.CurrentnaturezaOperacao, h.CurrentareaAtuacao, h.Frontimage, h.Hability, h.BaseprefixoViatura, h.MaxprefixoViatura, h.CurrentprefixoViatura)
     }
     this.save = function() {
         var user = JSON.stringify(HeroObj(Id, Name, Type, Description, BaseAttack, BaseDefense, MaxAttack, MaxDefense, CurrentAttack, CurrentDefense, FrontImage, Hability, BaseHealth, MaxHealth, CurrentHealth))

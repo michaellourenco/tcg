@@ -7,7 +7,7 @@ angular
     .module('app.luta', ['angularFileUpload'])
 
 
-    .controller('LutaCtrl', ['$scope', 'FileUploader','$http','$ionicModal', '$timeout', '$stateParams','$location','$log','$templateCache','combatesAPI','dadoAPI','charAPI', function($scope, FileUploader,$http, $ionicModal, $timeout, $stateParams,$location,$log,$templateCache,combatesAPI,dadoAPI,charAPI) {
+    .controller('LutaCtrl', ['$scope', 'FileUploader','$http','$ionicModal', '$timeout', '$stateParams','$location','$log','$templateCache','combatesAPI','dadoAPI','mapaForcaAPI', function($scope, FileUploader,$http, $ionicModal, $timeout, $stateParams,$location,$log,$templateCache,combatesAPI,dadoAPI,mapaForcaAPI) {
      $templateCache.removeAll();
      
       namespace = $stateParams.namespace;
@@ -16,19 +16,19 @@ angular
      carregarCombate = function (namespace){
         combatesAPI.getCombates().success(function (data) {
           $scope.combate = data; 
-          var chars = $scope.combate.chars; 
-          $scope.per1 = chars[$stateParams.id];    
-          $scope.per2 = chars[$stateParams.idinimigo];   
+          var mapaForcas = $scope.combate.mapaForcas; 
+          $scope.per1 = mapaForcas[$stateParams.id];    
+          $scope.per2 = mapaForcas[$stateParams.idinimigo];   
           console.log($scope.per2);
-  iniciativa =function(p1,p2){
-      var p1ini = Math.floor(Math.random(p1.iniciativa)*20);
-      var p2ini = Math.floor(Math.random(p2.iniciativa)*20);
+  tarefas =function(p1,p2){
+      var p1ini = Math.floor(Math.random(p1.tarefas)*20);
+      var p2ini = Math.floor(Math.random(p2.tarefas)*20);
     if(p1ini  > p2ini){
-      $scope.message ="Iniciativa vencida por <strong>" + p1.name +"</strong> que tem "+p1ini+" enquanto "+p2.name+" tem "+p2ini;
+      $scope.message ="Tarefas vencida por <strong>" + p1.name +"</strong> que tem "+p1ini+" enquanto "+p2.name+" tem "+p2ini;
       console.info('msg1', $scope.message);
       return turno(0,p1,p2);
     }else{
-      $scope.message="Iniciativa vencida por <strong>"+ p2.name +"</strong> que tem "+p2ini+" enquanto "+p1.name+" tem "+p1ini;
+      $scope.message="Tarefas vencida por <strong>"+ p2.name +"</strong> que tem "+p2ini+" enquanto "+p1.name+" tem "+p1ini;
             console.info('msg2', $scope.message);
       return turno(0,p2,p1);       
     }           
@@ -143,7 +143,7 @@ angular
     }
     
   } 
-  /*iniciativa(per2,per1);*/
+  /*tarefas(per2,per1);*/
         }).error(function (data, status) {
           $scope.message = "Aconteceu um problema: " + data;
         });
@@ -157,8 +157,8 @@ angular
 
 
 
-      $scope.editarCombate = function (combate,skill){
-        if(skill!= null){
+      $scope.editarCombate = function (combate,tarefa){
+        if(tarefa!= null){
 
             }else{
             combatesAPI.saveCombate(combate).success(function (data) {
@@ -167,7 +167,7 @@ angular
         }
       };
 
-      $scope.adicionarSkill = function (combate){
+      $scope.adicionarTarefa = function (combate){
         combatesAPI.saveCombate($scope.combate).success(function (data) {
           delete $scope.combates;
           $scope.combateEdit.$setPristine();
@@ -175,16 +175,16 @@ angular
         });
       };
 
-      $scope.apagarSkill = function (indiceSkill,indiceChar){
-        $scope.combate != $scope.combate.chars[indiceChar].itens.splice(indiceSkill,1);      
+      $scope.apagarTarefa = function (indiceTarefa,indiceMapaForca){
+        $scope.combate != $scope.combate.mapaForcas[indiceMapaForca].itens.splice(indiceTarefa,1);      
         combatesAPI.saveCombate($scope.combate).success(function (data) {
           /*delete $scope.combate;*/
           $location.path("/app/combate/"+namespace);
         });
       };
 
-      $scope.apagarChar = function (indiceChar){
-        $scope.combate != $scope.combate.chars.splice(indiceChar,1);      
+      $scope.apagarMapaForca = function (indiceMapaForca){
+        $scope.combate != $scope.combate.mapaForcas.splice(indiceMapaForca,1);      
         combatesAPI.saveCombate($scope.combate).success(function (data) {
           /*delete $scope.combate;*/
           $location.path("/app/combate/"+namespace);
@@ -208,7 +208,7 @@ angular
         
         var combate = new Combate();
  
-        combate->iniciativa(p,px);
+        combate->tarefas(p,px);
       };*/  
       var uploader = $scope.uploader = new FileUploader({
           url: 'upload.php'

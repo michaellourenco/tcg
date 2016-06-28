@@ -4,7 +4,7 @@
   <ion-content>
 
 	<p>
-		<a class="button button-positive" href="#/app/novochar/{{combate.namespace}}"><i class="icon ion-plus"></i>Char</a>
+		<a class="button button-positive" href="#/app/novomapaForca/{{combate.namespace}}"><i class="icon ion-plus"></i>MapaForca</a>
 		<a class="button button-positive" href="#/app/novonpc/{{combate.namespace}}"><i class="icon ion-plus"></i>Npc</a>
 	</p>
 	<p>
@@ -66,25 +66,25 @@
 				<div class="buttons">
 					<a class="button button-light" href="#/app/editarnpc/{{combate.namespace}}/{{indiceNpc}}"><i class="icon ion-edit"></i></a>	
 					<button class="button button-light" ng-click="apagarNpc(indiceNpc)"><i class="icon ion-trash-b"></i></button>	
-					<a class="button button-light" href="#/app/novaskillnpc/{{combate.namespace}}/{{indiceNpc}}"><i class="icon ion-plus"></i> produto</a>			
+					<a class="button button-light" href="#/app/novatarefanpc/{{combate.namespace}}/{{indiceNpc}}"><i class="icon ion-plus"></i> produto</a>			
 				</div>
 				<br/><br/>
 				<ion-list>
-					<ion-item  ng-repeat="item in catnpc.skillnpcs | filter:criterioDeBusca | orderBy:criterioDeOrdenacao:direcaoDaOrdenacao" class="item card-item">
+					<ion-item  ng-repeat="item in catnpc.tarefanpcs | filter:criterioDeBusca | orderBy:criterioDeOrdenacao:direcaoDaOrdenacao" class="item card-item">
 						<div class="card stable-bg ink ink-dark">
 							<div class="item item-avatar item-text-wrap">	
 							    <div ng-if="item.imagem">
         							<img ng-src="uploads/{{item.imagem}}" class="avatar" alt="imagem"/>
 							    </div>
 							    <div ng-if="!item.imagem">
-							        <a href="#/app/editarskillnpc/{{combate.namespace}}/{{indiceCatNpc}}/{{$index}}" class="avatar"><i class="icon ion-image"></i></a>      
+							        <a href="#/app/editartarefanpc/{{combate.namespace}}/{{indiceCatNpc}}/{{$index}}" class="avatar"><i class="icon ion-image"></i></a>      
 							    </div>	
 								<strong>{{item.ordem}}</strong> - {{item.name}}
 								<br/>
 								{{ item.valor}}
 							
 		                    	<div class="card-footer text-right">
-		                        	<a class="button button-light" href="#/app/editarskillnpc/{{combate.namespace}}/{{indiceCatNpc}}/{{$index}}"><i class="icon ion-edit"></i></a>
+		                        	<a class="button button-light" href="#/app/editartarefanpc/{{combate.namespace}}/{{indiceCatNpc}}/{{$index}}"><i class="icon ion-edit"></i></a>
 		                        	<button class="button button-light" ng-click="apagarItem($index,indiceCatNpc)"><i class="icon ion-trash-b"></i></button>
 		                        	<div class="pull-left">
 		                        	{{item.descricao}}

@@ -1,0 +1,16 @@
+<ion-view view-title="{{mapaForca.name}}">
+  <ion-content>
+		<h2>Nova Tarefa</h2>
+		<form name="tarefaForm">
+				<label class="item item-input" >
+					<input type="text" type="text" ng-model="tarefa.id" name="id" placeholder="id"/> 
+				</label>			
+				<label class="item item-input" >
+					<input type="text" type="text" ng-model="tarefa.nome" name="nome" placeholder="nome"/> </label>
+	
+		</form>
+		<button class="button button-balanced" ng-click="adicionarTarefa(tarefa)">salvar</button>
+  </ion-content>
+</ion-view>
+
+

@@ -2,7 +2,7 @@
 
 angular
   .module('app.luta', ['angularFileUpload','ngAnimate'])
-.controller('LutaCtrl', ['$scope','$interval', 'FileUploader','$http','$ionicModal', '$timeout', '$stateParams','$location','$log','$templateCache','combatesAPI','dadoAPI','charAPI', function($scope,$interval, FileUploader,$http, $ionicModal, $timeout, $stateParams,$location,$log,$templateCache,combatesAPI,dadoAPI,charAPI) {
+.controller('LutaCtrl', ['$scope','$interval', 'FileUploader','$http','$ionicModal', '$timeout', '$stateParams','$location','$log','$templateCache','combatesAPI','dadoAPI','mapaForcaAPI', function($scope,$interval, FileUploader,$http, $ionicModal, $timeout, $stateParams,$location,$log,$templateCache,combatesAPI,dadoAPI,mapaForcaAPI) {
       $templateCache.removeAll();
      
     namespace = $stateParams.namespace;
@@ -76,31 +76,31 @@ angular
     carregarCombate = function (namespace){
       combatesAPI.getCombates().success(function (data) {
         $scope.combate = data; 
-        var chars = $scope.combate.chars; 
+        var mapaForcas = $scope.combate.mapaForcas; 
         var npcs = $scope.combate.npcs;          
-        $scope.per1 = chars[$stateParams.id]; 
+        $scope.per1 = mapaForcas[$stateParams.id]; 
           $scope.per1.active = false;   
         $scope.per2 = npcs[$stateParams.idinimigo];   
-        iniciativa =function(p1,p2){
-          var p1ini = Math.floor(Math.random(p1.iniciativa)*20);
-          var p2ini = Math.floor(Math.random(p2.iniciativa)*20);
+        tarefas =function(p1,p2){
+          var p1ini = Math.floor(Math.random(p1.tarefas)*20);
+          var p2ini = Math.floor(Math.random(p2.tarefas)*20);
           if(p1ini  > p2ini){
-          $scope.message ="Iniciativa vencida por <strong>" + p1.name +"</strong> que tem "+p1ini+" enquanto "+p2.name+" tem "+p2ini;
+          $scope.message ="Tarefas vencida por <strong>" + p1.name +"</strong> que tem "+p1ini+" enquanto "+p2.name+" tem "+p2ini;
           return turno(0,p1,p2);
           }else{
-          $scope.message="Iniciativa vencida por <strong>"+ p2.name +"</strong> que tem "+p2ini+" enquanto "+p1.name+" tem "+p1ini;        
+          $scope.message="Tarefas vencida por <strong>"+ p2.name +"</strong> que tem "+p2ini+" enquanto "+p1.name+" tem "+p1ini;        
           return turno(0,p2,p1);       
       }           
     } 
 
     turnoInimigo = function(i,p1,p2){
-      pv=p2.healthatual;
-      pa=p2.healthatual; 
-      var p1attack = Math.floor(Math.random(p1.attack)*20);
-      var p2defense = Math.floor(Math.random(p2.defense)*20);
-      if(p1attack>p2defense){  
-        dano=p1attack;
-        def=p2defense;
+      pv=p2.telefoneContato;
+      pa=p2.telefoneContato; 
+      var p1naturezaOperacao = Math.floor(Math.random(p1.naturezaOperacao)*20);
+      var p2areaAtuacao = Math.floor(Math.random(p2.areaAtuacao)*20);
+      if(p1naturezaOperacao>p2areaAtuacao){  
+        dano=p1naturezaOperacao;
+        def=p2areaAtuacao;
         danoTotal=dano-def;
         if(danoTotal > 0){
           danoI = danoTotal;
@@ -111,20 +111,20 @@ angular
           pv -=danoI;
         }
         if(pv <= 0){
-          p2.healthatual = pv;
+          p2.telefoneContato = pv;
           $scope.mesgenemi = "<p>TURNO "+ i++ +" | "+ 
           "ATK "+dano+
           " | DEF "+def +
           " =  "+danoTotal+" de dano<br/><strong>"+p1.name+"</strong> atacou e inflingiu <strong>"+
           danoI+"</strong> de dano em <strong>"+ p2.name +"</strong> que tinha <strong>"+ pa +"</strong><br/><strong>"+ p2.name+"</strong> perdeu pois ficou com <strong>"+ 
-          p2.healthatual +"</strong> pontos de vida <br/>PARABENS <strong>"+ p1.name +"</strong> VOCE VENCEU!</p>";
+          p2.telefoneContato +"</strong> pontos de vida <br/>PARABENS <strong>"+ p1.name +"</strong> VOCE VENCEU!</p>";
         }
         else if(pv > 0){
-          p2.healthatual = pv; 
+          p2.telefoneContato = pv; 
           $scope.mesgenemi = "<p>TURNO "+ i++ +" | ATK "+ dano +
           " | DEF "+ def +
           " =  "+ danoTotal +" de dano<br/><strong>"+ p1.name +"</strong> atacou e inflingiu <strong>"+ danoI +
-          "</strong> de dano em <strong>"+ p2.name +"</strong> que tinha <strong>"+ pa +"</strong><br/>Agora <strong>"+p2.name+"</strong> tem <strong>"+p2.healthatual+"</strong> pontos de vida restantes</p><br/>";
+          "</strong> de dano em <strong>"+ p2.name +"</strong> que tinha <strong>"+ pa +"</strong><br/>Agora <strong>"+p2.name+"</strong> tem <strong>"+p2.telefoneContato+"</strong> pontos de vida restantes</p><br/>";
         }
       }
       else{
@@ -133,47 +133,47 @@ angular
     };
 
    /* $scope.turno =function(i,p1,p2){
-      pv=p2.healthatual;
-      pa=p2.healthatual; 
-      var p1attack = p1.attack
-      if(p1attack>0){  
-        dano=p1attack;
+      pv=p2.telefoneContato;
+      pa=p2.telefoneContato; 
+      var p1naturezaOperacao = p1.naturezaOperacao
+      if(p1naturezaOperacao>0){  
+        dano=p1naturezaOperacao;
         danoTotal=dano;
         if(danoTotal > 0){
           danoI = danoTotal;
           pv -=danoI;
         }
         if(pv <= 0){
-          p2.healthatual = pv;
+          p2.telefoneContato = pv;
           $scope.message = "<p>TURNO "+ i++ +" | "+ 
           "ATK "+dano+
           " =  "+danoTotal+" de dano<br/><strong>"+p1.name+"</strong> atacou e inflingiu <strong>"+
           danoI+"</strong> de dano em <strong>"+ p2.name +"</strong> que tinha <strong>"+ pa +"</strong><br/><strong>"+ p2.name+"</strong> perdeu pois ficou com <strong>"+ 
-          p2.healthatual +"</strong> pontos de vida <br/>PARABENS <strong>"+ $scope.p2.name +"</strong> VOCE VENCEU!</p>";
+          p2.telefoneContato +"</strong> pontos de vida <br/>PARABENS <strong>"+ $scope.p2.name +"</strong> VOCE VENCEU!</p>";
         }
         else{
-          p2.healthatual = pv;
+          p2.telefoneContato = pv;
           $scope.message = "<p>TURNO "+ i++ +" | ATK "+ dano +
           " =  "+ danoTotal +" de dano<br/><strong>"+ p1.name +"</strong> atacou e inflingiu <strong>"+ danoI +
-          "</strong> de dano em <strong>"+ p2.name +"</strong> que tinha <strong>"+ pa +"</strong><br/>Agora <strong>"+p2.name+"</strong> tem <strong>"+p2.healthatual+"</strong> pontos de vida restantes</p><br/>";
+          "</strong> de dano em <strong>"+ p2.name +"</strong> que tinha <strong>"+ pa +"</strong><br/>Agora <strong>"+p2.name+"</strong> tem <strong>"+p2.telefoneContato+"</strong> pontos de vida restantes</p><br/>";
         }
       }
     } */
 
     $scope.ataque =function(i,p1,p2){
-      var pa = p2.healthatual;
-      if(p1.attack>0){  
-          p2.healthatual -=p1.attack;
+      var pa = p2.telefoneContato;
+      if(p1.naturezaOperacao>0){  
+          p2.telefoneContato -=p1.naturezaOperacao;
         }
-        if(p2.healthatual <= 0){
+        if(p2.telefoneContato <= 0){
           
           $scope.message = "<p>TURNO "+ i++ +" <br/>"+ 
-          p1.attack+" de dano<br/><strong>"+p1.name+"</strong>em <strong>"+ p2.name +"</strong> que tinha <strong>"+ pa +"</strong><br/><strong>"+ p2.name+"</strong> perdeu pois ficou com <strong>"+ 
-          p2.healthatual +"</strong> pontos de vida <br/>PARABENS <strong>"+ $scope.per1.name +"</strong> VOCE VENCEU!</p>";
+          p1.naturezaOperacao+" de dano<br/><strong>"+p1.name+"</strong>em <strong>"+ p2.name +"</strong> que tinha <strong>"+ pa +"</strong><br/><strong>"+ p2.name+"</strong> perdeu pois ficou com <strong>"+ 
+          p2.telefoneContato +"</strong> pontos de vida <br/>PARABENS <strong>"+ $scope.per1.name +"</strong> VOCE VENCEU!</p>";
         }
         else{
           
-          $scope.message = "<p>TURNO "+ i++ +"<br/>"+ p1.attack+" de dano<br/><strong>"+ p1.name +"</strong> em <strong>"+ $scope.per2.name +"</strong> que tinha <strong>"+ pa +"</strong><br/>Agora <strong>"+p2.name+"</strong> tem <strong>"+p2.healthatual+"</strong> pontos de vida restantes</p><br/>";
+          $scope.message = "<p>TURNO "+ i++ +"<br/>"+ p1.naturezaOperacao+" de dano<br/><strong>"+ p1.name +"</strong> em <strong>"+ $scope.per2.name +"</strong> que tinha <strong>"+ pa +"</strong><br/>Agora <strong>"+p2.name+"</strong> tem <strong>"+p2.telefoneContato+"</strong> pontos de vida restantes</p><br/>";
         }
       
     }         
@@ -223,9 +223,9 @@ angular
       // permitindo que o jogador jogue as cartas na mesa
       if(mao.length!=0){
         for(i=0; i<=mao.length-1; i++){
-          if(mao[i]!=undefined && mao[i].cost <= $scope.controlador.manaatual){
+          if(mao[i]!=undefined && mao[i].unidadesSolicitantes <= $scope.controlador.manaatual){
             mao[i].active = true;
-          }else if(mao[i]!=undefined && mao[i].cost >= $scope.controlador.manaatual){
+          }else if(mao[i]!=undefined && mao[i].unidadesSolicitantes >= $scope.controlador.manaatual){
             mao[i].active = false;
           }
         }
@@ -272,11 +272,11 @@ angular
       console.info("carta pega", card);
       if(card.type != "MINION"){
           $scope.descartarCard(idCard,card,$scope.descarteJogador, 1);  
-          $scope.controlador.manaatual -= card.cost;   
+          $scope.controlador.manaatual -= card.unidadesSolicitantes;   
       }
       else{
           $scope.mesaJogador.push(card);
-          $scope.controlador.manaatual -= card.cost;   
+          $scope.controlador.manaatual -= card.unidadesSolicitantes;   
       }
       
       $scope.maoJogador !=$scope.maoJogador.splice(idCard,1);
@@ -304,7 +304,7 @@ angular
 
       // se o deck do jogador estiver vazio, ele deve receber dano
       if($scope.deckJogador <= 0){
-          $scope.per1.healthatual -=1;
+          $scope.per1.telefoneContato -=1;
       }else{
         // comprar uma carta no inicio do turno
         $scope.comprarCard($scope.deckJogador,$scope.maoJogador, 1);

@@ -18,13 +18,13 @@ module.exports = function() {
     var Status = []
 
     //Setters
-    function CardObj(id, name, type, description, cost, baseAttack, baseDefense, baseEffect, maxAttack, maxDefense, currentAttack, currentDefense, currentEffect, frontImage, backImage, status) {
+    function CardObj(id, name, type, description, unidadesSolicitantes, baseAttack, baseDefense, baseEffect, maxAttack, maxDefense, currentAttack, currentDefense, currentEffect, frontImage, backImage, status) {
         return {
             Id: id,
             Name: name,
             Type: type,
             Description: description,
-            Cost: cost,
+            Cost: unidadesSolicitantes,
             BaseAttack: baseAttack,
             BaseDefense: baseDefense,
             BaseEffect: baseEffect,
@@ -38,12 +38,12 @@ module.exports = function() {
             Status: status
         }
     }
-    this.Card = function(id, name, type, description, cost, baseAttack, baseDefense, baseEffect, maxAttack, maxDefense, currentAttack, currentDefense, currentEffect, frontImage, backImage, status) {
+    this.Card = function(id, name, type, description, unidadesSolicitantes, baseAttack, baseDefense, baseEffect, maxAttack, maxDefense, currentAttack, currentDefense, currentEffect, frontImage, backImage, status) {
         Id = id
         Name = name
         Type = type
         Description = description
-        Cost = cost
+        Cost = unidadesSolicitantes
         BaseAttack = baseAttack
         BaseDefense = baseDefense
         BaseEffect = baseEffect
@@ -80,14 +80,14 @@ module.exports = function() {
     this.getDescription = function() {
         return Description
     }
-    this.setCost = function(cost) {
-        Cost = cost
+    this.setCost = function(unidadesSolicitantes) {
+        Cost = unidadesSolicitantes
     }
     this.getCost = function() {
         return Cost
     }
-    this.setBaseAttack = function(baseattack) {
-        BaseAttack = baseattack
+    this.setBaseAttack = function(basenaturezaOperacao) {
+        BaseAttack = basenaturezaOperacao
     }
     this.getBaseAttack = function() {
         return BaseAttack
@@ -104,26 +104,26 @@ module.exports = function() {
     this.getBaseEffect = function() {
         return BaseEffect
     }
-    this.setMaxAttack = function(maxattack) {
-        MaxAttack = maxattack
+    this.setMaxAttack = function(maxnaturezaOperacao) {
+        MaxAttack = maxnaturezaOperacao
     }
     this.getMaxAttack = function() {
         return MaxAttack
     }
-    this.setMaxDefense = function(maxdefense) {
-        Maxdefense = maxdefense
+    this.setMaxDefense = function(maxareaAtuacao) {
+        MaxareaAtuacao = maxareaAtuacao
     }
     this.getMaxDefense = function() {
-        return Maxdefense
+        return MaxareaAtuacao
     }
-    this.setCurrentAttack = function(currentattack) {
-        CurrentAttack = currentattack
+    this.setCurrentAttack = function(currentnaturezaOperacao) {
+        CurrentAttack = currentnaturezaOperacao
     }
     this.getCurrentAttack = function() {
         return CurrentAttack
     }
-    this.setCurrentDefense = function(currentdefense) {
-        CurrentDefense = currentdefense
+    this.setCurrentDefense = function(currentareaAtuacao) {
+        CurrentDefense = currentareaAtuacao
     }
     this.getCurrentDefense = function() {
         return CurrentDefense

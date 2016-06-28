@@ -1,0 +1,70 @@
+<ion-view view-title="{{combate.name}}">
+  <ion-content>
+  	<h2>Novo MapaForca</h2>
+		<form class="list" name="mapaForcaForm">
+		
+		<label class="item item-input item-floating-label">
+			<span class="input-label">Ordem</span>
+			<input type="text" ng-model="mapaForca.ordem" name="ordem" placeholder="ordem"/>
+		</label>
+		<label class="item item-input item-floating-label">
+			<span class="input-label"> Status</span>
+			<input type="text" ng-model="mapaForca.status" name="status" placeholder="status"/>
+		</label>		
+		<label class="item item-input item-floating-label">
+			<span class="input-label"> NumeroEquipe</span>
+			<input type="text" ng-model="mapaForca.numeroEquipe" name="numeroEquipe" placeholder="numeroEquipe"/>
+		</label>
+		<label class="item item-input item-floating-label">
+			<span class="input-label">Itegrantes</span>
+			<input type="text" ng-model="mapaForca.itegrantes" name="itegrantes" placeholder="itegrantes"/>
+		</label>
+		<label class="item item-input item-floating-label">
+			<span class="input-label">Name</span>		
+			<input type="text" ng-model="mapaForca.name" name="name" placeholder="name"/>
+		</label>
+		<label class="item item-input item-floating-label">
+			<span class="input-label">Decrição</span>		
+			<input type="text" ng-model="mapaForca.descricao" name="descricao" placeholder="descricao"/>
+		</label>
+		<label class="item item-input item-floating-label">
+			<span class="input-label">PrefixoViatura</span>		
+			<input type="text" ng-model="mapaForca.prefixoViatura" name="prefixoViatura" placeholder="prefixoViatura"/>
+		</label>
+		<label class="item item-input item-floating-label">
+			<span class="input-label">TelefoneContato</span>		
+			<input type="text" ng-model="mapaForca.telefoneContato" name="telefoneContato" placeholder="telefoneContato"/>
+		</label>
+		<label class="item item-input item-floating-label">
+			<span class="input-label">NaturezaOperacao</span>		
+			<input type="text" ng-model="mapaForca.naturezaOperacao" name="naturezaOperacao" placeholder="naturezaOperacao"/>
+		</label>
+		<label class="item item-input item-floating-label">
+			<span class="input-label">UnidadesSolicitantes</span>		
+			<input type="text" ng-model="mapaForca.unidadesSolicitantes" name="unidadesSolicitantes" placeholder="unidadesSolicitantes"/>
+		</label>
+		<label class="item item-input item-floating-label">
+			<span class="input-label">NumeralPelotao</span>		
+			<input type="text" ng-model="mapaForca.numeralPelotao" name="numeralPelotao" placeholder="numeralPelotao"/>
+		</label>
+		<label class="item item-input item-floating-label">
+			<span class="input-label">AreaAtuacao</span>		
+			<input type="text" ng-model="mapaForca.areaAtuacao" name="areaAtuacao" placeholder="areaAtuacao"/>
+		</label>
+		<label class="item item-input item-floating-label">
+			<span class="input-label">Tarefas</span>		
+		</label>
+
+	
+		<label class="item item-input item-floating-label">
+			<span class="input-label">Data de Criacao</span>		
+			<input type="text" ng-model="mapaForca.dataCriacao" name="dataCriacao" placeholder="dataCriacao"/>
+		</label>
+		<label class="item item-input item-floating-label">
+			<span class="input-label">Data Dia</span>		
+			<input type="text" ng-model="mapaForca.dataDia" name="dataDia" placeholder="dataDia"/>
+		</label>
+		</form>
+		<button class="button button-balanced" ng-click="novoMapaForca(mapaForca)">salvar</button>
+  </ion-content>
+</ion-view>

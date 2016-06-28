@@ -1,0 +1,106 @@
+//'use strict';
+
+
+angular
+
+
+    .module('app.editartalaonpc', ['angularFileUpload'])
+
+
+    .controller('EditarTalaoNpcCtrl', ['$scope', 'FileUploader','$http','$ionicModal', '$timeout', '$stateParams','$location', function($scope, FileUploader,$http, $ionicModal, $timeout, $stateParams,$location) {
+ 
+      namespace = $stateParams.namespace;
+      id = $stateParams.id;
+      idtalaonpc = $stateParams.idtalaonpc;
+
+    carregarCombate = function (namespace){
+      $http.get("combates/"+namespace+".phtml", { headers: { 'Cache-Control' : 'no-cache' } }).success(function (data) {
+        $scope.combate = data;     
+        $scope.talaonpc = data.npcs[$stateParams.id].talaonpcs[$stateParams.idtalaonpc];  
+      }).error(function (data, status) {
+        $scope.message = "Aconteceu um problema: " + data;
+      });
+
+    };
+
+    carregarCombate(namespace); 
+
+     $scope.editarTalaoNpc = function (talaonpc){
+        $scope.combate != $scope.combate.npcs[$stateParams.id].talaonpcs.splice($stateParams.idtalaonpc,1,talaonpc);      
+        $http.post("editarcombate.php", $scope.combate).success(function (data) {
+          /*delete $scope.combate;*/
+          $location.path("/app/npcs/"+namespace);
+        });
+      };
+
+      $scope.editarNpc = function (combate){
+        $http.post("editarcombate.php", combate).success(function (data) {
+          delete $scope.combates;
+          $scope.combateEdit.$setPristine();
+          $location.path("#/app/combates");
+        });
+      };
+
+      $scope.adicionarCombate = function (combate) {
+
+        $http.post("novocombate.php", combate).success(function (data) {
+          console.log("depois:"+combate);
+         /* delete $scope.combates;
+          $scope.combateForm.$setPristine();*/
+          $location.path("#/app/combates");
+        });
+      };
+
+          var uploader = $scope.uploader = new FileUploader({
+          url: 'upload.php'
+      });
+      
+      // FILTERS
+      uploader.filters.push({
+          name: 'customFilter',
+          fn: function(item /*{File|FileLikeObject}*/, options) {
+              return this.queue.length < 10;
+          }
+      });
+
+      // CALLBACKS
+      uploader.onBeforeUploadItem = function(item) {
+        $http.get("combates/"+namespace+".phtml").success(function (data) {
+          mudado = {logo:"2.jpg"};      
+          item.formData.push(mudado);
+          item.formData.push(data);
+        }).error(function (data, status) {
+          $scope.message = "Aconteceu um problema: " + data;
+        });
+      };
+
+      uploader.onCompleteItem = function(fileItem, response, status, headers) {
+        $http.get("cardapios/"+namespace+".phtml").success(function (data) {  
+
+        }).error(function (data, status) {
+          $scope.message = "Aconteceu um problema: " + data;
+        });      
+        fileItem.formData[1].npcs[$stateParams.id].talaonpcs[$stateParams.idtalaonpc].imagem = fileItem.file.name;
+        informacao = fileItem.formData[1];
+        $http.post("editarcombate.php", informacao).success(function (data) {
+          /*delete $scope.cardapio;
+          $scope.categoriaForm.$setPristine();*/
+           $location.path("/app/npcs/"+namespace);
+        });
+      };
+
+      uploader.onCompleteAll = function() {
+          console.info('onCompleteAll');
+      };
+
+      console.info('uploader', uploader);
+
+        // -------------------------------
+
+        var controller = $scope.controller = {
+            isImage: function(item) {
+                var type = '|' + item.type.slice(item.type.lastIndexOf('/') + 1) + '|';
+                return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
+            }
+        };
+    }]);

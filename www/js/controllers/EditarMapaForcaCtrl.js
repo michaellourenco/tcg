@@ -4,10 +4,10 @@
 angular
 
 
-    .module('app.editarchar', ['angularFileUpload'])
+    .module('app.editarmapaForca', ['angularFileUpload'])
 
 
-    .controller('EditarCharCtrl', ['$scope', 'FileUploader','$http','$ionicModal', '$timeout', '$stateParams','$location', function($scope, FileUploader,$http, $ionicModal, $timeout, $stateParams,$location) {
+    .controller('EditarMapaForcaCtrl', ['$scope', 'FileUploader','$http','$ionicModal', '$timeout', '$stateParams','$location', function($scope, FileUploader,$http, $ionicModal, $timeout, $stateParams,$location) {
 
     console.log($stateParams.namespace);
     console.log($stateParams.id);
@@ -19,8 +19,8 @@ angular
         $http.get("combates/"+namespace+".phtml", { headers: { 'Cache-Control' : 'no-cache' } }).success(function (data) {
           console.log(data);
           $scope.combate = data; 
-                    $scope.char = data.chars[$stateParams.id];    
-                console.log($scope.char.name);
+                    $scope.mapaForca = data.mapaForcas[$stateParams.id];    
+                console.log($scope.mapaForca.name);
         }).error(function (data, status) {
           $scope.message = "Aconteceu um problema: " + data;
         });
@@ -29,10 +29,10 @@ angular
 
       carregarCombate(namespace); 
 
-      $scope.editarChar = function (char){
-        console.log($scope.combate.chars[$stateParams.id] != null);
+      $scope.editarMapaForca = function (mapaForca){
+        console.log($scope.combate.mapaForcas[$stateParams.id] != null);
         console.log($stateParams.id);
-        $scope.combate != $scope.combate.chars.splice($stateParams.id,1,char);      
+        $scope.combate != $scope.combate.mapaForcas.splice($stateParams.id,1,mapaForca);      
         $http.post("editarcombate.php", $scope.combate).success(function (data) {
           /*delete $scope.combate;*/
           console.log("/app/combate/"+namespace);
@@ -79,7 +79,7 @@ angular
           $scope.message = "Aconteceu um problema: " + data;
         });      
         console.info('response'+response);
-        fileItem.formData[1].chars[$stateParams.id].imagem = fileItem.file.name;
+        fileItem.formData[1].mapaForcas[$stateParams.id].imagem = fileItem.file.name;
         informacao = fileItem.formData[1];
         $http.post("editarcombate.php", informacao).success(function (data) {
           /*delete $scope.cardapio;

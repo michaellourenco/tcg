@@ -4,19 +4,19 @@
 angular
 
 
-    .module('app.editarskill', ['angularFileUpload'])
+    .module('app.editartarefanpc', ['angularFileUpload'])
 
 
-    .controller('EditarSkillCtrl', ['$scope', 'FileUploader','$http','$ionicModal', '$timeout', '$stateParams','$location', function($scope, FileUploader,$http, $ionicModal, $timeout, $stateParams,$location) {
+    .controller('EditarTarefaNpcCtrl', ['$scope', 'FileUploader','$http','$ionicModal', '$timeout', '$stateParams','$location', function($scope, FileUploader,$http, $ionicModal, $timeout, $stateParams,$location) {
  
       namespace = $stateParams.namespace;
       id = $stateParams.id;
-      idskill = $stateParams.idskill;
+      idtarefanpc = $stateParams.idtarefanpc;
 
     carregarCombate = function (namespace){
       $http.get("combates/"+namespace+".phtml", { headers: { 'Cache-Control' : 'no-cache' } }).success(function (data) {
         $scope.combate = data;     
-        $scope.skill = data.chars[$stateParams.id].skills[$stateParams.idskill];  
+        $scope.tarefanpc = data.npcs[$stateParams.id].tarefanpcs[$stateParams.idtarefanpc];  
       }).error(function (data, status) {
         $scope.message = "Aconteceu um problema: " + data;
       });
@@ -25,15 +25,15 @@ angular
 
     carregarCombate(namespace); 
 
-     $scope.editarSkill = function (skill){
-        $scope.combate != $scope.combate.chars[$stateParams.id].skills.splice($stateParams.idskill,1,skill);      
+     $scope.editarTarefaNpc = function (tarefanpc){
+        $scope.combate != $scope.combate.npcs[$stateParams.id].tarefanpcs.splice($stateParams.idtarefanpc,1,tarefanpc);      
         $http.post("editarcombate.php", $scope.combate).success(function (data) {
           /*delete $scope.combate;*/
-          $location.path("/app/combate/"+namespace);
+          $location.path("/app/npcs/"+namespace);
         });
       };
 
-      $scope.editarChar = function (combate){
+      $scope.editarNpc = function (combate){
         $http.post("editarcombate.php", combate).success(function (data) {
           delete $scope.combates;
           $scope.combateEdit.$setPristine();
@@ -64,11 +64,6 @@ angular
       });
 
       // CALLBACKS
-      uploader.onAfterAddingFile = function(item) {
-          var fileExtension = '.' + item.file.name.split('.').pop();
-
-          item.file.name = Math.random().toString(36).substring(7) + new Date().getTime() + fileExtension;
-        };
       uploader.onBeforeUploadItem = function(item) {
         $http.get("combates/"+namespace+".phtml").success(function (data) {
           mudado = {logo:"2.jpg"};      
@@ -80,17 +75,17 @@ angular
       };
 
       uploader.onCompleteItem = function(fileItem, response, status, headers) {
-        $http.get("combates/"+namespace+".phtml").success(function (data) {  
+        $http.get("cardapios/"+namespace+".phtml").success(function (data) {  
 
         }).error(function (data, status) {
           $scope.message = "Aconteceu um problema: " + data;
         });      
-        fileItem.formData[1].chars[$stateParams.id].skills[$stateParams.idskill].imagem = fileItem.file.name;
+        fileItem.formData[1].npcs[$stateParams.id].tarefanpcs[$stateParams.idtarefanpc].imagem = fileItem.file.name;
         informacao = fileItem.formData[1];
         $http.post("editarcombate.php", informacao).success(function (data) {
           /*delete $scope.cardapio;
           $scope.categoriaForm.$setPristine();*/
-           $location.path("/app/combate/"+namespace);
+           $location.path("/app/npcs/"+namespace);
         });
       };
 

@@ -2,7 +2,7 @@
 
 angular
   .module('app.events', ['angularFileUpload','ngAnimate'])
-.controller('EventsCtrl', ['$scope','$interval', 'FileUploader','$http','$ionicModal', '$timeout', '$stateParams','$location','$log','$templateCache','combatesAPI','dadoAPI','charAPI', function($scope,$interval, FileUploader,$http, $ionicModal, $timeout, $stateParams,$location,$log,$templateCache,combatesAPI,dadoAPI,charAPI) {
+.controller('EventsCtrl', ['$scope','$interval', 'FileUploader','$http','$ionicModal', '$timeout', '$stateParams','$location','$log','$templateCache','combatesAPI','dadoAPI','mapaForcaAPI', function($scope,$interval, FileUploader,$http, $ionicModal, $timeout, $stateParams,$location,$log,$templateCache,combatesAPI,dadoAPI,mapaForcaAPI) {
       $templateCache.removeAll();
      
 	OWN_CARD_PLAY (Play(CONTROLLER));

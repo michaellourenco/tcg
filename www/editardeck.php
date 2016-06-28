@@ -1,12 +1,11 @@
 <?php
 		$data = file_get_contents("php://input");
 		$item = json_decode($data);
-		$namespace = $item->nomeDeck;
+		$namespace = $item->nome;
 
-		$arquivo = "decks/".$namespace.".phtml";
+		$arquivo = "decks/meudeck.phtml";
 
 
-$dataarquivo = file_get_contents("decks/".$namespace.".phtml");
 
 
 $ponteiro = fopen($arquivo, "w");	

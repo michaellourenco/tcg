@@ -30,62 +30,70 @@
                 </div>
             </li>
         </ul>
-  	<h2>Editar Char</h2>
-		<form class="list" name="charForm">
+  	<h2>Editar MapaForca</h2>
+		<form class="list" name="mapaForcaForm">
 		
 		<label class="item item-input item-floating-label">
 			<span class="input-label">Ordem</span>
-			<input type="text" ng-model="char.ordem" name="ordem" placeholder="ordem"/>
+			<input type="text" ng-model="mapaForca.ordem" name="ordem" placeholder="ordem"/>
 		</label>
 		<label class="item item-input item-floating-label">
-			<span class="input-label"> Ninvel</span>
-			<input type="text" ng-model="char.nivel" name="nivel" placeholder="nivel"/>
+			<span class="input-label"> Status</span>
+			<input type="text" ng-model="mapaForca.status" name="status" placeholder="status"/>
 		</label>		
 		<label class="item item-input item-floating-label">
-			<span class="input-label"> Experiencia</span>
-			<input type="text" ng-model="char.experiencia" name="experiencia" placeholder="experiencia"/>
+			<span class="input-label"> NumeroEquipe</span>
+			<input type="text" ng-model="mapaForca.numeroEquipe" name="numeroEquipe" placeholder="numeroEquipe"/>
 		</label>
 		<label class="item item-input item-floating-label">
-			<span class="input-label">Experiencia Atual</span>
-			<input type="text" ng-model="char.experienciaatual" name="experienciaatual" placeholder="experienciaatual"/>
+			<span class="input-label">Itegrantes</span>
+			<input type="text" ng-model="mapaForca.itegrantes" name="itegrantes" placeholder="itegrantes"/>
 		</label>
 		<label class="item item-input item-floating-label">
 			<span class="input-label">Name</span>		
-			<input type="text" ng-model="char.name" name="name" placeholder="name"/>
+			<input type="text" ng-model="mapaForca.name" name="name" placeholder="name"/>
 		</label>
 		<label class="item item-input item-floating-label">
 			<span class="input-label">Decrição</span>		
-			<input type="text" ng-model="char.descricao" name="descricao" placeholder="descricao"/>
+			<input type="text" ng-model="mapaForca.descricao" name="descricao" placeholder="descricao"/>
 		</label>
 		<label class="item item-input item-floating-label">
-			<span class="input-label">Vida</span>		
-			<input type="text" ng-model="char.health" name="health" placeholder="health"/>
-	</label>
-	<label class="item item-input item-floating-label">
-			<span class="input-label">Vida Atual</span>		
-			<input type="text" ng-model="char.healthatual" name="healthatual" placeholder="healthatual"/>
+			<span class="input-label">PrefixoViatura</span>		
+			<input type="text" ng-model="mapaForca.prefixoViatura" name="prefixoViatura" placeholder="prefixoViatura"/>
 		</label>
 		<label class="item item-input item-floating-label">
-			<span class="input-label">Dano de ataque</span>		
-			<input type="text" ng-model="char.attack" name="attack" placeholder="attack"/>
+			<span class="input-label">TelefoneContato</span>		
+			<input type="text" ng-model="mapaForca.telefoneContato" name="telefoneContato" placeholder="telefoneContato"/>
 		</label>
 		<label class="item item-input item-floating-label">
-			<span class="input-label">Mana</span>		
-			<input type="text" ng-model="char.cost" name="cost" placeholder="cost"/>
+			<span class="input-label">NaturezaOperacao</span>		
+			<input type="text" ng-model="mapaForca.naturezaOperacao" name="naturezaOperacao" placeholder="naturezaOperacao"/>
 		</label>
 		<label class="item item-input item-floating-label">
-			<span class="input-label">Mana Atual</span>		
-			<input type="text" ng-model="char.costatual" name="costatual" placeholder="costatual"/>
+			<span class="input-label">UnidadesSolicitantes</span>		
+			<input type="text" ng-model="mapaForca.unidadesSolicitantes" name="unidadesSolicitantes" placeholder="unidadesSolicitantes"/>
 		</label>
 		<label class="item item-input item-floating-label">
-			<span class="input-label">Armadura</span>		
-			<input type="text" ng-model="char.defense" name="defense" placeholder="defense"/>
+			<span class="input-label">NumeralPelotao</span>		
+			<input type="text" ng-model="mapaForca.numeralPelotao" name="numeralPelotao" placeholder="numeralPelotao"/>
 		</label>
 		<label class="item item-input item-floating-label">
-			<span class="input-label">Iniciativa</span>		
-			<input type="text" ng-model="char.iniciativa" name="iniciativa" placeholder="iniciativa"/>
+			<span class="input-label">AreaAtuacao</span>		
+			<input type="text" ng-model="mapaForca.areaAtuacao" name="areaAtuacao" placeholder="areaAtuacao"/>
+		</label>
+		<label class="item item-input item-floating-label">
+			<span class="input-label">Tarefas</span>		
+			<input type="text" ng-model="mapaForca.tarefas" name="tarefas" placeholder="tarefas"/>
+		</label>
+		<label class="item item-input item-floating-label">
+			<span class="input-label">Data de Criacao</span>		
+			<input type="text" ng-model="mapaForca.dataCriacao" name="dataCriacao" placeholder="dataCriacao"/>
+		</label>
+		<label class="item item-input item-floating-label">
+			<span class="input-label">Data Dia</span>		
+			<input type="text" ng-model="mapaForca.dataDia" name="dataDia" placeholder="dataDia"/>
 		</label>
 		</form>
-		<button class="button button-balanced" ng-click="editarChar(char)">salvar</button>
+		<button class="button button-balanced" ng-click="editarMapaForca(mapaForca)">salvar</button>
   </ion-content>
 </ion-view>

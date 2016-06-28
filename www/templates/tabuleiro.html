@@ -39,8 +39,8 @@
             <div id="personagem">
               <div><img ng-src="uploads/{{per2.imagem}}" class="foto" alt="imagem"/></div>
               <div class="name">{{per2.name}}</div>
-              <div class="resource" style="display:inline; float?left; background-color:#ffaaaa; width:30px">{{per2.attack}}</div>  
-              <div class="life" style="display:inline; float?left; background-color:#00ff00; width:30px">{{per2.healthatual}}</div>
+              <div class="resource" style="display:inline; float?left; background-color:#ffaaaa; width:30px">{{per2.naturezaOperacao}}</div>  
+              <div class="life" style="display:inline; float?left; background-color:#00ff00; width:30px">{{per2.telefoneContato}}</div>
               <div class="resource" style="display:inline; float?left; background-color:#aaaaff; width:30px">{{controlador.manaatualI}}/{{controlador.manamaxI}}</div>
               <button class="button button-balanced" ng-if="per2.active" ng-click="ataque(1,per2,per1)">
                 atacar
@@ -64,11 +64,11 @@
                 <div class="item item-divider">
                     <div ng-if="cardmesaInimigo.active">
                     <button class="button button-balanced" ng-click="ataque(1,{{cardmesaInimigo}},{{per1}})">
-                      id: {{$index}} - cost:{{cardmesaInimigo.cost}} 
+                      id: {{$index}} - unidadesSolicitantes:{{cardmesaInimigo.unidadesSolicitantes}} 
                     </button> 
                   </div>
                   <div ng-if="!cardmesaInimigo.active">              
-                      cost:{{cardmesaInimigo.cost}}
+                      unidadesSolicitantes:{{cardmesaInimigo.unidadesSolicitantes}}
                   </div> 
                 </div>
                 <div class="item item-divider">
@@ -76,8 +76,8 @@
                 </div>
                 <div class="item item-text-wrap">
                   <h4>{{cardmesaInimigo.name}}</h4>
-                  <i class="subdued"> atk:{{cardmesaInimigo.attack}}</i>
-                  <i class="subdued">def:{{cardmesaInimigo.health}}</i>
+                  <i class="subdued"> atk:{{cardmesaInimigo.naturezaOperacao}}</i>
+                  <i class="subdued">def:{{cardmesaInimigo.prefixoViatura}}</i>
                 </div>
               </div>
             </div>
@@ -108,11 +108,11 @@
                 <div class="item item-divider">
                     <div ng-if="cardmesaJogador.active">
                     <button class="button button-balanced" ng-click="ataque(1,cardmesaJogador,per2)">
-                      id: {{$index}} - cost:{{cardmesaJogador.cost}} 
+                      id: {{$index}} - unidadesSolicitantes:{{cardmesaJogador.unidadesSolicitantes}} 
                     </button> 
                   </div>
                   <div ng-if="!cardmesaJogador.active">              
-                      cost:{{cardmesaJogador.cost}}
+                      unidadesSolicitantes:{{cardmesaJogador.unidadesSolicitantes}}
                   </div> 
                 </div>
                 <div class="item item-divider">
@@ -120,8 +120,8 @@
                 </div>
                 <div class="item item-text-wrap">
                   <h4>{{cardmesaJogador.name}}</h4>
-                  <i class="subdued"> atk:{{cardmesaJogador.attack}}</i>
-                  <i class="subdued">def:{{cardmesaJogador.health}}</i>
+                  <i class="subdued"> atk:{{cardmesaJogador.naturezaOperacao}}</i>
+                  <i class="subdued">def:{{cardmesaJogador.prefixoViatura}}</i>
                 </div>
               </div>
             </div>
@@ -148,8 +148,8 @@
             <div id="personagem">
               <div><img ng-src="uploads/{{per1.imagem}}" class="foto" alt="imagem"/></div>
               <div class="name">{{per1.name}}</div>
-              <div class="resource" style="display:inline; float?left; background-color:#ffaaaa; width:30px">{{per1.attack}}</div>  
-              <div class="life" style="display:inline; float?left; background-color:#00ff00; width:30px">{{per1.healthatual}}</div>
+              <div class="resource" style="display:inline; float?left; background-color:#ffaaaa; width:30px">{{per1.naturezaOperacao}}</div>  
+              <div class="life" style="display:inline; float?left; background-color:#00ff00; width:30px">{{per1.telefoneContato}}</div>
               <div class="resource" style="display:inline; float?left; background-color:#aaaaff; width:30px">{{controlador.manaatual}}/{{controlador.manamax}}</div>
               <button class="button button-balanced" ng-if="per1.active" ng-click="ataque(1,per1,per2)">
                 atacar
@@ -174,24 +174,26 @@
                 <div class="item item-divider">
                   <div ng-if="cardJogador.active">
                     <button class="button button-primary" ng-click="showConfirm({{$index}},cardJogador, maoJogador,mesaJogador,1)">
-                      id: {{$index}} - cost:{{cardJogador.cost}} 
+                      id: {{$index}} - unidadesSolicitantes:{{cardJogador.unidadesSolicitantes}} 
                     </button>
                    <!-- <button class="button button-balanced" ng-click="jogarCard({{$index}},cardJogador, maoJogador,mesaJogador,1)">
-                      id: {{$index}} - cost:{{cardJogador.cost}} 
+                      id: {{$index}} - unidadesSolicitantes:{{cardJogador.unidadesSolicitantes}} 
                     </button> -->
                   </div>
                   <div ng-if="!cardJogador.active">              
-                      cost:{{cardJogador.cost}}
+                      unidadesSolicitantes:{{cardJogador.unidadesSolicitantes}}
                   </div>                
                 </div>
                 <div class="item item-divider">
+                {{cardJogador.type}}<br/>
                   imagem
+                  
                 </div>
                 <div class="item item-text-wrap">
 
                   <h4>{{cardJogador.name}}</h4>
-                  <i class="subdued"> atk:{{cardJogador.attack}}</i>
-                  <i class="subdued">def:{{cardJogador.health}}</i>
+                  <i class="subdued"> a:{{cardJogador.naturezaOperacao}}</i>
+                  <i class="subdued">d:{{cardJogador.prefixoViatura}}</i>
                 </div>
               </div>
             </div>

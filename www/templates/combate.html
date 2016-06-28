@@ -4,19 +4,14 @@
   <ion-content>
 	<p>
 		<a class="button button-positive" href="#/app/tabuleiro/combate/0/1">
-			Lutar
+			Painel
 		</a>
 	</p>
 	<p>
-		<a class="button button-positive" href="#/app/novochar/{{combate.namespace}}">
-			<i class="icon ion-plus"></i>Char
+		<a class="button button-positive" href="#/app/novomapaForca/{{combate.namespace}}">
+			<i class="icon ion-plus"></i>Mapa Forca
 		</a>
-		<a class="button button-positive" href="#/app/novonpc/{{combate.namespace}}">
-			<i class="icon ion-plus"></i>Npc
-		</a>
-		<a class="button button-positive" href="#/app/novocard/{{combate.namespace}}">
-			<i class="icon ion-plus"></i>Card
-		</a>
+
 	</p>
 	<p>
 		<a class="button button-positive" href="#/app/editarcombate/{{combate.namespace}}">
@@ -74,32 +69,67 @@
         <img ng-src="uploads/{{combate.logo}}" alt="logo" height="150"/>
 
 		<div class="row">
-		<h2>Chars</h2>
-			<div class="col col-50">
+		<h2>Mapas Força</h2>
+			<div class="col col-80">
 				<ion-list>
-					<ion-item ng-class="{'selecionado negrito': combate.selecionado}" ng-repeat="(indiceCat, cat) in combate.chars" class="item-button-right">
+					<ion-item ng-class="{'selecionado negrito': combate.selecionado}" ng-repeat="(indiceCat, cat) in combate.mapaForcas" class="item-button-right">
 						<div ng-if="cat.imagem">
 							<img ng-src="uploads/{{cat.imagem}}" class="avatar" alt="imagem"/>
-							{{indiceCat = combate.chars.indexOf(cat)}} -{{cat.name}} 
+							{{indiceCat = combate.mapaForcas.indexOf(cat)}} -{{cat.name}} 
+							<br/>
+							{{cat.descricao}}
+
 						</div>
 						<div ng-if="!cat.imagem">
-							{{indiceCat = combate.chars.indexOf(cat)}} -{{cat.name}} 
+							{{indiceCat = combate.mapaForcas.indexOf(cat)}} -{{cat.name}} 
+							<br/>
+							{{cat.status}}
+							<br/>
+							{{cat.numeroEquipe}}
+							<br/>
+							{{cat.integrantes}}
+							<br/>
+							{{cat.descricao}}
+							<br/>
+							{{cat.prefixoViatura}}
+							<br/>
+							{{cat.telefoneContato}}					
+							<br/>
+							{{cat.naturezaOperacao}}									
+							<br/>
+							{{cat.unidadesSolicitantes}}
+							<br/>
+							{{cat.numeralPelotao}}
+							<br/>
+							{{cat.areaAtuacao}}
+							<br/>
+							{{cat.tarefas}}
+							<br/>
+							{{cat.dataCriacao}}
+							<br/>
+							{{cat.dataDia}}
+							<br/>
+							{{cat.descricao}}
+
 						</div>
 
 						<div class="buttons">
-							<a class="button button-light" href="#/app/editarchar/{{combate.namespace}}/{{indiceCat}}">
+							<a class="button button-light" href="#/app/editarmapaForca/{{combate.namespace}}/{{indiceCat}}">
 								<i class="icon ion-edit"></i>
 							</a>	
-							<button class="button button-light" ng-click="apagarChar(indiceCat)">
+							<button class="button button-light" ng-click="apagarMapaForca(indiceCat)">
 								<i class="icon ion-trash-b"></i>
 							</button>	
-							<a class="button button-light" href="#/app/novaskill/{{combate.namespace}}/{{indiceCat}}">
-								<i class="icon ion-plus"></i> produto
-							</a>			
+							<a class="button button-light" href="#/app/novatarefamapaforca/{{combate.namespace}}/{{indiceCat}}">
+								<i class="icon ion-plus"></i> tarefa
+							</a>
+							<a class="button button-positive" href="#/app/tabuleiro/combate/{{indiceCat}}/1">
+								Lutar
+							</a>
 						</div>
 						
 						<ion-list>
-							<ion-item  ng-repeat="item in cat.skills | filter:criterioDeBusca | orderBy:criterioDeOrdenacao:direcaoDaOrdenacao" class="item card-item">
+							<ion-item  ng-repeat="item in cat.tarefas | filter:criterioDeBusca | orderBy:criterioDeOrdenacao:direcaoDaOrdenacao" class="item card-item">
 								<div class="card stable-bg ink ink-dark">
 									<div class="item item-avatar item-text-wrap">	
 									    <div ng-if="item.imagem">
@@ -107,14 +137,15 @@
 		        							<strong>{{item.ordem}}</strong> - {{item.name}} - {{ item.valor}}
 									    </div>
 									    <div ng-if="!item.imagem">
-									        <a href="#/app/editarskill/{{combate.namespace}}/{{indiceCat}}/{{$index}}" class="avatar">
+									        <a href="#/app/editartarefa/{{combate.namespace}}/{{indiceCat}}/{{$index}}" class="avatar">
 									        	<i class="icon ion-image"></i>
 									        </a>   
 									        <strong>{{item.ordem}}</strong> - {{item.name}} - {{ item.valor}}   
 									    </div>								
 				                    	<div class="card-footer text-right">
-				                        	<a class="button button-light" href="#/app/editarskill/{{combate.namespace}}/{{indiceCat}}/{{$index}}"><i class="icon ion-edit"></i></a>
+				                        	<a class="button button-light" href="#/app/editartarefa/{{combate.namespace}}/{{indiceCat}}/{{$index}}"><i class="icon ion-edit"></i></a>
 				                        	<button class="button button-light" ng-click="apagarItem($index,indiceCat)"><i class="icon ion-trash-b"></i></button>
+	
 				                        	<div class="pull-left">
 				                        	{{item.descricao}}
 				                        	</div>
@@ -127,113 +158,7 @@
 				</ion-list>
 			</div>
 
-			<div class="col col-50">
-			<h2>Npcs</h2>
-				<ion-list>
-					<ion-item ng-class="{'selecionado negrito': combate.selecionado}" ng-repeat="(indiceNpc, npc) in combate.npcs" class="item-button-right">
-						<div ng-if="npc.imagem">
-							<img ng-src="uploads/{{npc.imagem}}" class="avatar" alt="imagem"/>
-							{{indiceNpc = combate.npcs.indexOf(npc)}} -{{npc.name}} 
-						</div>
-						<div ng-if="!npc.imagem">
-							{{indiceNpc = combate.npcs.indexOf(npc)}} -{{npc.name}} 
-						</div>
+		
 
-						<div class="buttons">
-							<a class="button button-light" href="#/app/editarnpc/{{combate.namespace}}/{{indiceNpc}}">
-								<i class="icon ion-edit"></i>
-							</a>	
-							<button class="button button-light" ng-click="apagarChar(indiceNpc)">
-								<i class="icon ion-trash-b"></i>
-							</button>	
-							<a class="button button-light" href="#/app/novaskillinimigo/{{combate.namespace}}/{{indiceNpc}}">
-								<i class="icon ion-plus"></i> produto
-							</a>			
-						</div>
-						
-						<ion-list>
-							<ion-item  ng-repeat="item in npc.skillinimigos | filter:criterioDeBusca | orderBy:criterioDeOrdenacao:direcaoDaOrdenacao" class="item card-item">
-								<div class="card stable-bg ink ink-dark">
-									<div class="item item-avatar item-text-wrap">	
-									    <div ng-if="item.imagem">
-		        							<img ng-src="uploads/{{item.imagem}}" class="avatar" alt="imagem"/>
-		        							<strong>{{item.ordem}}</strong> - {{item.name}} - {{ item.valor}}
-									    </div>
-									    <div ng-if="!item.imagem">
-									        <a href="#/app/editarskillinimigo/{{combate.namespace}}/{{indiceNpc}}/{{$index}}" class="avatar">
-									        	<i class="icon ion-image"></i>
-									        </a>   
-									        <strong>{{item.ordem}}</strong> - {{item.name}} - {{ item.valor}}   
-									    </div>								
-				                    	<div class="card-footer text-right">
-				                        	<a class="button button-light" href="#/app/editarskillinimigo/{{combate.namespace}}/{{indiceNpc}}/{{$index}}"><i class="icon ion-edit"></i></a>
-				                        	<button class="button button-light" ng-click="apagarItem($index,indiceNpc)"><i class="icon ion-trash-b"></i></button>
-				                        	<div class="pull-left">
-				                        	{{item.descricao}}
-				                        	</div>
-				                    	</div>	
-				                    </div>						
-								</div>
-							</ion-item>
-						</ion-list>
-					</ion-item>
-				</ion-list>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col col-50">
-			<h2>Cards</h2>
-				<ion-list>
-					<ion-item ng-class="{'selecionado negrito': combate.selecionado}" ng-repeat="(indiceCard, card) in combate.cards" class="item-button-right">
-						
-						<div ng-if="card.imagem">
-							<img ng-src="uploads/{{card.imagem}}" class="avatar" alt="imagem"/>
-							{{indiceCard = combate.cards.indexOf(card)}} -{{card.name}} 
-						</div>
-						<div ng-if="!card.imagem">
-							{{indiceCard = combate.cards.indexOf(card)}} -{{card.name}} 
-						</div>
-
-						<div class="buttons">
-							<a class="button button-light" href="#/app/editarcard/{{combate.namespace}}/{{indiceCard}}">
-								<i class="icon ion-edit"></i>
-							</a>	
-							<button class="button button-light" ng-click="apagarCard(indiceCard)">
-								<i class="icon ion-trash-b"></i>
-							</button>	
-							<a class="button button-light" href="#/app/novaskill/{{combate.namespace}}/{{indiceCard}}">
-								<i class="icon ion-plus"></i> produto
-							</a>			
-						</div>
-						
-						<ion-list>
-							<ion-item  ng-repeat="item in card.skills | filter:criterioDeBusca | orderBy:criterioDeOrdenacao:direcaoDaOrdenacao" class="item card-item">
-								<div class="card stable-bg ink ink-dark">
-									<div class="item item-avatar item-text-wrap">	
-									    <div ng-if="item.imagem">
-		        							<img ng-src="uploads/{{item.imagem}}" class="avatar" alt="imagem"/>
-		        							<strong>{{item.ordem}}</strong> - {{item.name}} - {{ item.valor}}
-									    </div>
-									    <div ng-if="!item.imagem">
-									        <a href="#/app/editarskill/{{combate.namespace}}/{{indiceCard}}/{{$index}}" class="avatar">
-									        	<i class="icon ion-image"></i>
-									        </a>   
-									        <strong>{{item.ordem}}</strong> - {{item.name}} - {{ item.valor}}   
-									    </div>								
-				                    	<div class="card-footer text-right">
-				                        	<a class="button button-light" href="#/app/editarskill/{{combate.namespace}}/{{indiceCard}}/{{$index}}"><i class="icon ion-edit"></i></a>
-				                        	<button class="button button-light" ng-click="apagarItem($index,indiceCard)"><i class="icon ion-trash-b"></i></button>
-				                        	<div class="pull-left">
-				                        	{{item.descricao}}
-				                        	</div>
-				                    	</div>	
-				                    </div>						
-								</div>
-							</ion-item>
-						</ion-list>
-					</ion-item>
-				</ion-list>
-			</div>
-			</div>
   </ion-content>
 </ion-view>

@@ -2,10 +2,10 @@
 
 angular
   .module('app.actions', ['angularFileUpload','ngAnimate'])
-.controller('ActionsCtrl', ['$scope','$interval', 'FileUploader','$http','$ionicModal', '$timeout', '$stateParams','$location','$log','$templateCache','combatesAPI','dadoAPI','charAPI', function($scope,$interval, FileUploader,$http, $ionicModal, $timeout, $stateParams,$location,$log,$templateCache,combatesAPI,dadoAPI,charAPI) {
+.controller('ActionsCtrl', ['$scope','$interval', 'FileUploader','$http','$ionicModal', '$timeout', '$stateParams','$location','$log','$templateCache','combatesAPI','dadoAPI','mapaForcaAPI', function($scope,$interval, FileUploader,$http, $ionicModal, $timeout, $stateParams,$location,$log,$templateCache,combatesAPI,dadoAPI,mapaForcaAPI) {
       $templateCache.removeAll();
 
-//Creates an attack from source to target.
+//Creates an naturezaOperacao from source to target.
 Attack(source, target);
 
 
@@ -24,7 +24,7 @@ Play(card, target, choose);
 
 //Targeted Actions
 
-//Buff characters with Enchantment id.
+//Buff mapaForcaacters with Enchantment id.
 Buff(targets, id);
 
 //Move a minion on the field back into the hand. Note: Safely usable on weapons, but untested.
@@ -36,7 +36,7 @@ Counter(targets);
 
 Damage(targets, amount);
 
-//Damage characters by amount. The event will not broadcast if the final amount (after armor) is 0.
+//Damage mapaForcaacters by amount. The event will not broadcast if the final amount (after armor) is 0.
 
 Deathrattle(targets);
 
@@ -44,9 +44,9 @@ Deathrattle(targets);
 
 Destroy(targets);
 
-//Destroy characters.
+//Destroy mapaForcaacters.
 
-//*Note: Do not use this as an event listener, unless you specifically want to trigger when a character is *destroyed (eg. by an effect). Use the Death() Game Action instead.
+//*Note: Do not use this as an event listener, unless you specifically want to trigger when a mapaForcaacter is *destroyed (eg. by an effect). Use the Death() Game Action instead.
 
 Discard(targets);
 
@@ -64,13 +64,13 @@ ForceDraw(targets, match);
 
 FullHeal(targets);
 
-//Helper action to call Heal() on the character targets, for an amount equal to their max health.
+//Helper action to call Heal() on the mapaForcaacter targets, for an amount equal to their max prefixoViatura.
 
 GainArmor(targets, amount);
 
 //Make hero targets gain amount armor. Do not use on anything else than heroes.
 
-GainMana(targets, amount);
+GainUnidadesSolicitantes(targets, amount);
 
 //Make player targets gain amount mana. Note: amount can be negative to cause them to lose mana.
 
@@ -86,7 +86,7 @@ Heal(targets, amount);
 
 //Heal targets for amount. The event will not broadcast if the final amount is 0.
 
-ManaThisTurn(targets, amount);
+UnidadesSolicitantesThisTurn(targets, amount);
 
 //Give player targets amount temporary mana.
 
@@ -100,9 +100,9 @@ Morph(targets, card);
 
 Freeze(targets);
 
-//Freezes character targets.
+//Freezes mapaForcaacter targets.
 
-FillMana(targets, amount);
+FillUnidadesSolicitantes(targets, amount);
 
 //Refills amount mana crystals for the player targets.
 

@@ -3,7 +3,7 @@ body{
   
 }
 .scroll-content{
-  background-image: url('../img/gameboard.jpg');
+  /*background: url('../img/gameboard.jpg') fixed no-repeat center;*/
 }
 .life{
 	background-color: #f00;

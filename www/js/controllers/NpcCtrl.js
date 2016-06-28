@@ -53,7 +53,7 @@ angular
         
         var combate = new Combate();
  
-        combate->iniciativa(p,px);
+        combate->tarefas(p,px);
       };*/  
       
       var uploader = $scope.uploader = new FileUploader({

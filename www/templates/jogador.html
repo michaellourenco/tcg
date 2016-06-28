@@ -4,8 +4,8 @@
   <ion-content>
 
 	<p>
-		<a class="button button-positive" href="#/app/novochar/{{jogador.namespace}}">
-			<i class="icon ion-plus"></i>Char
+		<a class="button button-positive" href="#/app/novomapaForca/{{jogador.namespace}}">
+			<i class="icon ion-plus"></i>MapaForca
 		</a>
 		<a class="button button-positive" href="#/app/novonpc/{{jogador.namespace}}">
 			<i class="icon ion-plus"></i>Npc
@@ -70,32 +70,32 @@
         <img ng-src="uploads/{{jogador.logo}}" alt="logo" height="150"/>
 
 		<div class="row">
-		<h2>Chars</h2>
+		<h2>MapaForcas</h2>
 			<div class="col col-50">
 				<ion-list>
-					<ion-item ng-class="{'selecionado negrito': jogador.selecionado}" ng-repeat="(indiceCat, cat) in jogador.chars" class="item-button-right">
+					<ion-item ng-class="{'selecionado negrito': jogador.selecionado}" ng-repeat="(indiceCat, cat) in jogador.mapaForcas" class="item-button-right">
 						<div ng-if="cat.imagem">
 							<img ng-src="uploads/{{cat.imagem}}" class="avatar" alt="imagem"/>
-							{{indiceCat = jogador.chars.indexOf(cat)}} -{{cat.name}} 
+							{{indiceCat = jogador.mapaForcas.indexOf(cat)}} -{{cat.name}} 
 						</div>
 						<div ng-if="!cat.imagem">
-							{{indiceCat = jogador.chars.indexOf(cat)}} -{{cat.name}} 
+							{{indiceCat = jogador.mapaForcas.indexOf(cat)}} -{{cat.name}} 
 						</div>
 
 						<div class="buttons">
-							<a class="button button-light" href="#/app/editarchar/{{jogador.namespace}}/{{indiceCat}}">
+							<a class="button button-light" href="#/app/editarmapaForca/{{jogador.namespace}}/{{indiceCat}}">
 								<i class="icon ion-edit"></i>
 							</a>	
-							<button class="button button-light" ng-click="apagarChar(indiceCat)">
+							<button class="button button-light" ng-click="apagarMapaForca(indiceCat)">
 								<i class="icon ion-trash-b"></i>
 							</button>	
-							<a class="button button-light" href="#/app/novaskill/{{jogador.namespace}}/{{indiceCat}}">
+							<a class="button button-light" href="#/app/novatarefa/{{jogador.namespace}}/{{indiceCat}}">
 								<i class="icon ion-plus"></i> produto
 							</a>			
 						</div>
 						
 						<ion-list>
-							<ion-item  ng-repeat="item in cat.skills | filter:criterioDeBusca | orderBy:criterioDeOrdenacao:direcaoDaOrdenacao" class="item card-item">
+							<ion-item  ng-repeat="item in cat.tarefas | filter:criterioDeBusca | orderBy:criterioDeOrdenacao:direcaoDaOrdenacao" class="item card-item">
 								<div class="card stable-bg ink ink-dark">
 									<div class="item item-avatar item-text-wrap">	
 									    <div ng-if="item.imagem">
@@ -103,13 +103,13 @@
 		        							<strong>{{item.ordem}}</strong> - {{item.name}} - {{ item.valor}}
 									    </div>
 									    <div ng-if="!item.imagem">
-									        <a href="#/app/editarskill/{{jogador.namespace}}/{{indiceCat}}/{{$index}}" class="avatar">
+									        <a href="#/app/editartarefa/{{jogador.namespace}}/{{indiceCat}}/{{$index}}" class="avatar">
 									        	<i class="icon ion-image"></i>
 									        </a>   
 									        <strong>{{item.ordem}}</strong> - {{item.name}} - {{ item.valor}}   
 									    </div>								
 				                    	<div class="card-footer text-right">
-				                        	<a class="button button-light" href="#/app/editarskill/{{jogador.namespace}}/{{indiceCat}}/{{$index}}"><i class="icon ion-edit"></i></a>
+				                        	<a class="button button-light" href="#/app/editartarefa/{{jogador.namespace}}/{{indiceCat}}/{{$index}}"><i class="icon ion-edit"></i></a>
 				                        	<button class="button button-light" ng-click="apagarItem($index,indiceCat)"><i class="icon ion-trash-b"></i></button>
 				                        	<div class="pull-left">
 				                        	{{item.descricao}}
@@ -139,16 +139,16 @@
 							<a class="button button-light" href="#/app/editarnpc/{{jogador.namespace}}/{{indiceNpc}}">
 								<i class="icon ion-edit"></i>
 							</a>	
-							<button class="button button-light" ng-click="apagarChar(indiceNpc)">
+							<button class="button button-light" ng-click="apagarMapaForca(indiceNpc)">
 								<i class="icon ion-trash-b"></i>
 							</button>	
-							<a class="button button-light" href="#/app/novaskillinimigo/{{jogador.namespace}}/{{indiceNpc}}">
+							<a class="button button-light" href="#/app/novatarefainimigo/{{jogador.namespace}}/{{indiceNpc}}">
 								<i class="icon ion-plus"></i> produto
 							</a>			
 						</div>
 						
 						<ion-list>
-							<ion-item  ng-repeat="item in npc.skillinimigos | filter:criterioDeBusca | orderBy:criterioDeOrdenacao:direcaoDaOrdenacao" class="item card-item">
+							<ion-item  ng-repeat="item in npc.tarefainimigos | filter:criterioDeBusca | orderBy:criterioDeOrdenacao:direcaoDaOrdenacao" class="item card-item">
 								<div class="card stable-bg ink ink-dark">
 									<div class="item item-avatar item-text-wrap">	
 									    <div ng-if="item.imagem">
@@ -156,13 +156,13 @@
 		        							<strong>{{item.ordem}}</strong> - {{item.name}} - {{ item.valor}}
 									    </div>
 									    <div ng-if="!item.imagem">
-									        <a href="#/app/editarskillinimigo/{{jogador.namespace}}/{{indiceNpc}}/{{$index}}" class="avatar">
+									        <a href="#/app/editartarefainimigo/{{jogador.namespace}}/{{indiceNpc}}/{{$index}}" class="avatar">
 									        	<i class="icon ion-image"></i>
 									        </a>   
 									        <strong>{{item.ordem}}</strong> - {{item.name}} - {{ item.valor}}   
 									    </div>								
 				                    	<div class="card-footer text-right">
-				                        	<a class="button button-light" href="#/app/editarskillinimigo/{{jogador.namespace}}/{{indiceNpc}}/{{$index}}"><i class="icon ion-edit"></i></a>
+				                        	<a class="button button-light" href="#/app/editartarefainimigo/{{jogador.namespace}}/{{indiceNpc}}/{{$index}}"><i class="icon ion-edit"></i></a>
 				                        	<button class="button button-light" ng-click="apagarItem($index,indiceNpc)"><i class="icon ion-trash-b"></i></button>
 				                        	<div class="pull-left">
 				                        	{{item.descricao}}
@@ -197,13 +197,13 @@
 							<button class="button button-light" ng-click="apagarCard(indiceCard)">
 								<i class="icon ion-trash-b"></i>
 							</button>	
-							<a class="button button-light" href="#/app/novaskill/{{jogador.namespace}}/{{indiceCard}}">
+							<a class="button button-light" href="#/app/novatarefa/{{jogador.namespace}}/{{indiceCard}}">
 								<i class="icon ion-plus"></i> produto
 							</a>			
 						</div>
 						
 						<ion-list>
-							<ion-item  ng-repeat="item in card.skills | filter:criterioDeBusca | orderBy:criterioDeOrdenacao:direcaoDaOrdenacao" class="item card-item">
+							<ion-item  ng-repeat="item in card.tarefas | filter:criterioDeBusca | orderBy:criterioDeOrdenacao:direcaoDaOrdenacao" class="item card-item">
 								<div class="card stable-bg ink ink-dark">
 									<div class="item item-avatar item-text-wrap">	
 									    <div ng-if="item.imagem">
@@ -211,13 +211,13 @@
 		        							<strong>{{item.ordem}}</strong> - {{item.name}} - {{ item.valor}}
 									    </div>
 									    <div ng-if="!item.imagem">
-									        <a href="#/app/editarskill/{{jogador.namespace}}/{{indiceCard}}/{{$index}}" class="avatar">
+									        <a href="#/app/editartarefa/{{jogador.namespace}}/{{indiceCard}}/{{$index}}" class="avatar">
 									        	<i class="icon ion-image"></i>
 									        </a>   
 									        <strong>{{item.ordem}}</strong> - {{item.name}} - {{ item.valor}}   
 									    </div>								
 				                    	<div class="card-footer text-right">
-				                        	<a class="button button-light" href="#/app/editarskill/{{jogador.namespace}}/{{indiceCard}}/{{$index}}"><i class="icon ion-edit"></i></a>
+				                        	<a class="button button-light" href="#/app/editartarefa/{{jogador.namespace}}/{{indiceCard}}/{{$index}}"><i class="icon ion-edit"></i></a>
 				                        	<button class="button button-light" ng-click="apagarItem($index,indiceCard)"><i class="icon ion-trash-b"></i></button>
 				                        	<div class="pull-left">
 				                        	{{item.descricao}}

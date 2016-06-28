@@ -1,0 +1,27 @@
+<ion-view view-title="{{mapaForca.name}}">
+  <ion-content>
+		<h2>Nova Talao</h2>
+		<form name="talaoForm">
+				<label class="item item-input" >
+					<input type="text" type="text" ng-model="talao.ordem" name="ordem" placeholder="ordem"/> 
+				</label>			
+				<label class="item item-input" >
+					<input type="text" type="text" ng-model="talao.numeroEquipe" name="numeroEquipe" placeholder="numero da equipe"/> </label>
+				<label class="item item-input" >
+					<input type="text" type="text" ng-model="talao.prefixoViatura" name="prefixoViatura" placeholder="Prefixo da Viatura"/> 
+				</label>
+				<label class="item item-input" >
+					<input type="text" type="text" ng-model="talao.naturezaOperacao" name="naturezaOperacao" placeholder="Natureza da Operacao"/> 
+				</label>					
+				<label class="item item-input" >
+					<input type="text" type="text" ng-model="talao.telefone" name="telefone" placeholder="telefone"/> 
+				</label>	
+				<label class="item item-input" >
+					<input type="text" type="text" ng-model="talao.tipoTalao" name="tipoTalao" placeholder="tipoTalao"/> 
+				</label>	
+		</form>
+		<button class="button button-balanced" ng-click="adicionarTalao(talao)">salvar</button>
+  </ion-content>
+</ion-view>
+
+

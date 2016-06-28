@@ -9,7 +9,8 @@ angular
 
     .controller('CardsCtrl', ['$scope','$ionicPopup', 'FileUploader','$http','$ionicModal', '$timeout', '$stateParams','$location','$log','$templateCache','combatesAPI','dadoAPI','cardAPI', function($scope,$ionicPopup, FileUploader,$http, $ionicModal, $timeout, $stateParams,$location,$log,$templateCache,combatesAPI,dadoAPI,cardAPI) {
      $templateCache.removeAll();
-     
+
+
  $scope.showPopup = function() {
    $scope.data = {}
 
@@ -59,59 +60,97 @@ angular
    };
 
    // An alert dialog
-   $scope.showAlert = function() {
-     var alertPopup = $ionicPopup.alert({
-       title: 'Don\'t eat that!',
-       template: 'It might taste good'
-     });
-     alertPopup.then(function(res) {
-       console.log('Thank you for not eating my delicious ice cream cone');
-     });
-   };
-        carregarCards = function () {
-            $http.get("cards/cards.json", { headers: { 'Cache-Control' : 'no-cache' } }).success(function (data) {
-            $scope.cardsh = data;
-            console.info("cards do hearthstone", $scope.cardsh);
-            }).error(function (data, status) {
-            $scope.message = "Aconteceu um problema: " + data;
-            });
-        };
-        carregarCards();
+     $scope.showAlert = function() {
+       var alertPopup = $ionicPopup.alert({
+         title: 'Don\'t eat that!',
+         template: 'It might taste good'
+       });
+       alertPopup.then(function(res) {
+         console.log('Thank you for not eating my delicious ice cream cone');
+       });
+     };
+
+    carregarCards = function () {
+        $http.get("cards/cards.json", { headers: { 'Cache-Control' : 'no-cache' } }).success(function (data) {
+        // populando minions
+        for(i=0; i<1000; i++){
+          if(data[i].type=="MINION"){
+            data[i].id = data[i].id+i;
+            data[i].active = false;
+           $scope.cardsh = data;
+          }
+        }
+        $scope.minion =[];
+       // populando minions
+        for(i=0; i<500; i++){
+          if(data[i].type=="MINION"){
+            data[i].id = data[i].id+i;
+            data[i].active = false;
+            $scope.minion.push(data[i]);
+          }
+        }
+
+        //$scope.cardsh = data;
+        console.info("cards do hearthstone", $scope.cardsh);
+        }).error(function (data, status) {
+        $scope.message = "Aconteceu um problema: " + data;
+        });
+    };
+    carregarCards();
+
     $scope.deck=[];
     $scope.addCard = function(idCard,card, colecao, deck, quantidade) {
       console.info("carta: ", card);
-          $scope.deck.push(card);
+      $scope.deck.push(card);
     }
     $scope.removeCard = function(idCard,card, colecao, deck, quantidade) {
           $scope.deck != $scope.deck.splice(idCard,1); 
     }
-      $scope.editarCombate = function (combate,skill){
-        if(skill!= null){
 
-            }else{
-            combatesAPI.saveCombate(combate).success(function (data) {
-              $location.path("/app/combate/"+namespace);
-            });
-        }
-      };
+    $scope.editarCombate = function (combate,tarefa){
+      if(tarefa!= null){
 
-      $scope.novoDeck = function (card){
-        console.info('deck enviado: ', card);
-        if($scope.deck != null){
-         $scope.deck.push(card);
-        }else{
-          $scope.deck = [];
-          $scope.deck.push(card);
-        }; 
-        
-        $http.post("editardeck.php", $scope.deck).success(function (data) {
-          $location.path("/app/cards/");
-        });
-                console.info('deck enviado: ', $scope.deck);
-      };
+          }else{
+          combatesAPI.saveCombate(combate).success(function (data) {
+            $location.path("/app/combate/"+namespace);
+          });
+      }
+    };
 
-      $scope.apagarSkill = function (indiceSkill,indiceCard){
-        $scope.combate != $scope.combate.cards[indiceCard].itens.splice(indiceSkill,1);      
+    $scope.novoDeck = function (card,nome){
+      console.info('deck antes enviar: ', card + " / " + nome);
+      if($scope.deck != null){
+        if($scope.deck.cards != null){
+          $scope.deck.nome =[];
+          $scope.deck.nome.push(nome);
+          $scope.deck.cards.push(card);
+         }else{
+          $scope.deck.cards = [];
+          $scope.deck.nome =[];
+          $scope.deck.nome.push(nome);
+          $scope.deck.cards.push(card);         
+         }
+      }else{
+        $scope.deck = [];
+         if($scope.deck.cards != null){
+          $scope.deck.nome =[];
+          $scope.deck.nome.push(nome);
+          $scope.deck.cards.push(card);
+         }else{
+          $scope.deck.cards = [];
+          $scope.deck.nome =[];
+          $scope.deck.nome.push(nome);
+          $scope.deck.cards.push(card);
+         }
+      }; 
+      $http.post("editardeck.php", $scope.deck).success(function (data) {
+        $location.path("/app/cards/");
+      });
+      console.info('deck enviado: ', $scope.deck +" / "+ $scope.deck.nome);
+    };
+
+      $scope.apagarTarefa = function (indiceTarefa,indiceCard){
+        $scope.combate != $scope.combate.cards[indiceCard].itens.splice(indiceTarefa,1);      
         combatesAPI.saveCombate($scope.combate).success(function (data) {
           /*delete $scope.combate;*/
           $location.path("/app/combate/"+namespace);
@@ -143,7 +182,7 @@ angular
         
         var combate = new Combate();
  
-        combate->iniciativa(p,px);
+        combate->tarefas(p,px);
       };*/  
       var uploader = $scope.uploader = new FileUploader({
           url: 'upload.php'

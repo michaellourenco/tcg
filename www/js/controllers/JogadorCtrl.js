@@ -5,7 +5,7 @@ angular
 
     .module('app.jogador', ['angularFileUpload'])
 
-    .controller('JogadorCtrl', ['$scope', 'FileUploader','$http','$ionicModal', '$timeout', '$stateParams','$location','$log','$templateCache','jogadoresAPI','dadoAPI','charAPI', function($scope, FileUploader,$http, $ionicModal, $timeout, $stateParams,$location,$log,$templateCache,jogadoresAPI,dadoAPI,charAPI) {
+    .controller('JogadorCtrl', ['$scope', 'FileUploader','$http','$ionicModal', '$timeout', '$stateParams','$location','$log','$templateCache','jogadoresAPI','dadoAPI','mapaForcaAPI', function($scope, FileUploader,$http, $ionicModal, $timeout, $stateParams,$location,$log,$templateCache,jogadoresAPI,dadoAPI,mapaForcaAPI) {
       $templateCache.removeAll();
      
       namespace = $stateParams.namespace;
@@ -13,19 +13,19 @@ angular
       carregarJogador = function (namespace){
         jogadoresAPI.getJogadors().success(function (data) {
           $scope.jogador = data; 
-          var chars = $scope.jogador.chars; 
-          per1 = chars[0];    
-          per2 = chars[2];   
+          var mapaForcas = $scope.jogador.mapaForcas; 
+          per1 = mapaForcas[0];    
+          per2 = mapaForcas[2];   
           console.log(per2);
-          iniciativa =function(p1,p2){
-              var p1ini = Math.floor(Math.random(p1.iniciativa)*20);
-              var p2ini = Math.floor(Math.random(p2.iniciativa)*20);
+          tarefas =function(p1,p2){
+              var p1ini = Math.floor(Math.random(p1.tarefas)*20);
+              var p2ini = Math.floor(Math.random(p2.tarefas)*20);
             if(p1ini  > p2ini){
-              $scope.message ="Iniciativa vencida por <strong>" + p1.name +"</strong> que tem "+p1ini+" enquanto "+p2.name+" tem "+p2ini;
+              $scope.message ="Tarefas vencida por <strong>" + p1.name +"</strong> que tem "+p1ini+" enquanto "+p2.name+" tem "+p2ini;
               //console.info('msg1', $scope.message);
               return turno(0,p1,p2);
             }else{
-              $scope.message="Iniciativa vencida por <strong>"+ p2.name +"</strong> que tem "+p2ini+" enquanto "+p1.name+" tem "+p1ini;
+              $scope.message="Tarefas vencida por <strong>"+ p2.name +"</strong> que tem "+p2ini+" enquanto "+p1.name+" tem "+p1ini;
               //console.info('msg2', $scope.message);
               return turno(0,p2,p1);       
             }           
@@ -81,15 +81,15 @@ angular
               return turno(i,p2,p1);             
             }            
           } 
-          iniciativa(per2,per1);
+          tarefas(per2,per1);
         }).error(function (data, status) {
           $scope.message = "Aconteceu um problema: " + data;
         });
       };
       carregarJogador(namespace);
 
-      $scope.editarJogador = function (jogador,skill){
-        if(skill!= null){
+      $scope.editarJogador = function (jogador,tarefa){
+        if(tarefa!= null){
         
         }else{
             jogadoresAPI.saveJogador(jogador).success(function (data) {
@@ -98,7 +98,7 @@ angular
         }
       };
 
-      $scope.adicionarSkill = function (jogador){
+      $scope.adicionarTarefa = function (jogador){
         jogadoresAPI.saveJogador($scope.jogador).success(function (data) {
           delete $scope.jogadores;
           $scope.jogadorEdit.$setPristine();
@@ -106,16 +106,16 @@ angular
         });
       };
 
-      $scope.apagarSkill = function (indiceSkill,indiceChar){
-        $scope.jogador != $scope.jogador.chars[indiceChar].itens.splice(indiceSkill,1);      
+      $scope.apagarTarefa = function (indiceTarefa,indiceMapaForca){
+        $scope.jogador != $scope.jogador.mapaForcas[indiceMapaForca].itens.splice(indiceTarefa,1);      
         jogadoresAPI.saveJogador($scope.jogador).success(function (data) {
           /*delete $scope.jogador;*/
           $location.path("/app/jogador/"+namespace);
         });
       };
 
-      $scope.apagarChar = function (indiceChar){
-        $scope.jogador != $scope.jogador.chars.splice(indiceChar,1);      
+      $scope.apagarMapaForca = function (indiceMapaForca){
+        $scope.jogador != $scope.jogador.mapaForcas.splice(indiceMapaForca,1);      
         jogadoresAPI.saveJogador($scope.jogador).success(function (data) {
           /*delete $scope.jogador;*/
           $location.path("/app/jogador/"+namespace);

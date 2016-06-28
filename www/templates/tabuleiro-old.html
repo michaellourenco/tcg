@@ -9,9 +9,9 @@
             <div class="col" ng-repeat="card in maoInimigo track by $index">
               <div class="card"> 
                 {{card.name}}<br/>
-                atk:{{card.attack}}<br/>
-                def:{{card.health}}<br/>
-                cost:{{card.cost}}
+                atk:{{card.naturezaOperacao}}<br/>
+                def:{{card.prefixoViatura}}<br/>
+                unidadesSolicitantes:{{card.unidadesSolicitantes}}
               </div>
             </div>
         </div>->
@@ -29,8 +29,8 @@
         
               <div><img ng-src="uploads/{{per2.imagem}}" class="foto" alt="imagem"/></div>
               <div class="name">{{per2.name}}</div>
-              <div class="life" style="background-color:#00ff00; width:30px">{{per2.healthatual}}</div>
-              <div class="resource" style="background-color:#aaaaff; width:30px">{{per2.costatual}}</div>              
+              <div class="life" style="background-color:#00ff00; width:30px">{{per2.telefoneContato}}</div>
+              <div class="resource" style="background-color:#aaaaff; width:30px">{{per2.numeralPelotao}}</div>              
             </div>
           </div>-->
           <!-- Inicio deck do inimigo -->
@@ -71,11 +71,11 @@
                 <div class="item item-divider">
                     <div ng-if="cardmesaJogador.active">
                     <button class="button button-balanced" ng-click="ataque(1,{{cardmesaJogador}},{{per2}})">
-                      id: {{$index}} - cost:{{cardmesaJogador.cost}} 
+                      id: {{$index}} - unidadesSolicitantes:{{cardmesaJogador.unidadesSolicitantes}} 
                     </button> 
                   </div>
                   <div ng-if="!cardmesaJogador.active">              
-                      cost:{{cardmesaJogador.cost}}
+                      unidadesSolicitantes:{{cardmesaJogador.unidadesSolicitantes}}
                   </div> 
                 </div>
                 <div class="item item-divider">
@@ -83,8 +83,8 @@
                 </div>
                 <div class="item item-text-wrap">
                   <h4>{{cardmesaJogador.name}}</h4>
-                  <i class="subdued"> atk:{{cardmesaJogador.attack}}</i>
-                  <i class="subdued">def:{{cardmesaJogador.health}}</i>
+                  <i class="subdued"> atk:{{cardmesaJogador.naturezaOperacao}}</i>
+                  <i class="subdued">def:{{cardmesaJogador.prefixoViatura}}</i>
                 </div>
               </div>
             </div>
@@ -111,8 +111,8 @@
             <div id="personagem">
               <div><img ng-src="uploads/{{per1.imagem}}" class="foto" alt="imagem"/></div>
               <div class="name">{{per1.name}}</div>
-              <div class="resource" style="display:inline; float?left; background-color:#ffaaaa; width:30px">{{per1.attack}}</div>  
-              <div class="life" style="display:inline; float?left; background-color:#00ff00; width:30px">{{per1.healthatual}}</div>
+              <div class="resource" style="display:inline; float?left; background-color:#ffaaaa; width:30px">{{per1.naturezaOperacao}}</div>  
+              <div class="life" style="display:inline; float?left; background-color:#00ff00; width:30px">{{per1.telefoneContato}}</div>
               <div class="resource" style="display:inline; float?left; background-color:#aaaaff; width:30px">{{controlador.manaatual}}/{{controlador.manamax}}</div>
               <button class="button button-balanced" ng-if="per1.active" ng-click="ataque(1,per1,per2)">
                 atacar
@@ -138,11 +138,11 @@
                   <div ng-if="cardJogador.active">
 
                     <button class="button" ng-click="jogarCard({{$index}},{{cardJogador}}, {{maoJogador}},{{mesaJogador}},1)">
-                      id: {{$index}} - cost:{{cardJogador.cost}} 
+                      id: {{$index}} - unidadesSolicitantes:{{cardJogador.unidadesSolicitantes}} 
                     </button> 
                   </div>
                   <div ng-if="!cardJogador.active">              
-                      cost:{{cardJogador.cost}}
+                      unidadesSolicitantes:{{cardJogador.unidadesSolicitantes}}
                   </div>                
                 </div>
                 <div class="item item-divider">
@@ -151,8 +151,8 @@
                 <div class="item item-text-wrap">
 
                   <h4>{{cardJogador.name}}</h4>
-                  <i class="subdued"> atk:{{cardJogador.attack}}</i>
-                  <i class="subdued">def:{{cardJogador.health}}</i>
+                  <i class="subdued"> atk:{{cardJogador.naturezaOperacao}}</i>
+                  <i class="subdued">def:{{cardJogador.prefixoViatura}}</i>
                 </div>
               </div>
             </div>

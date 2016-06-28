@@ -1,6 +1,4 @@
-
 <ion-view view-title="{{combate.name}}">
-
   <ion-content>
   	<p>
 		<a class="button button-positive" href="#/app/novacategoria/{{combate.namespace}}"><i class="icon ion-plus"></i>Categoria</a>
@@ -51,7 +49,6 @@
         
         <img ng-src="http://www.guiadodia.com.br/uploads/{{combate.logo}}" alt="logo" height="150"/>
 
-
 		<ion-list>
 			<ion-item ng-class="{'selecionado negrito': combate.selecionado}" ng-repeat="(indiceCat, cat) in combate.categorias" class="item-button-right">
 				{{indiceCategoria = combate.categorias.indexOf(cat)}} - {{cat.name}}
@@ -72,13 +69,10 @@
 							    <div ng-if="!item.imagem">
 							          <a href="#/app/editaritem/{{combate.namespace}}/{{indiceCat}}/{{$index}}" class="avatar"><i class="icon ion-image"></i></a>
 							        
-							    </div>
-							
-
+							    </div>						
 							<strong>{{item.ordem}}</strong> - {{item.name}}
 							<br/>
-							{{ item.valor | currency}}
-							
+							{{ item.valor | currency}}							
 	                    <div class="card-footer text-right">
 	                       <a class="button button-light" href="#/app/editaritem/{{combate.namespace}}/{{indiceCat}}/{{$index}}"><i class="icon ion-edit"></i></a>
 	                        <button class="button button-light" ng-click="apagarItem($index,indiceCat)"><i class="icon ion-trash-b"></i></button>
@@ -92,8 +86,5 @@
 				</ion-list>
 			</ion-item>
 		</ion-list>
-
-
   </ion-content>
 </ion-view>
-

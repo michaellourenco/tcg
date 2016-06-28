@@ -1,51 +1,84 @@
 //'use strict';
 
 angular
-  .module('app.luta', ['angularFileUpload','ngAnimate'])
-.controller('LutaCtrl', ['$scope','$ionicPopup','$interval', 'FileUploader','$http','$ionicModal', '$timeout', '$stateParams','$location','$log','$templateCache','combatesAPI','dadoAPI','charAPI', function($scope,$ionicPopup,$interval, FileUploader,$http, $ionicModal, $timeout, $stateParams,$location,$log,$templateCache,combatesAPI,dadoAPI,charAPI) {
-      $templateCache.removeAll();
- $scope.showPopup = function() {
-   $scope.data = {}
+.module('app.luta', ['angularFileUpload','ngAnimate'])
+.controller('LutaCtrl', 
+  ['$scope',
+  '$window',
+  '$ionicPopup',
+  '$interval', 
+  'FileUploader',
+  '$http',
+  '$ionicModal', 
+  '$timeout', 
+  '$stateParams',
+  '$location',
+  '$log',
+  '$templateCache',
+  'combatesAPI',
+  'dadoAPI',
+  'mapaForcaAPI', 
+  function(
+    $scope,
+    $window,
+    $ionicPopup,
+    $interval, 
+    FileUploader,
+    $http, 
+    $ionicModal, 
+    $timeout, 
+    $stateParams,
+    $location,
+    $log,
+    $templateCache,
+    combatesAPI,
+    dadoAPI,
+    mapaForcaAPI) {
+    
+    $templateCache.removeAll();
+    $scope.showPopup = function() {
+      $scope.data = {}
 
-   // An elaborate, custom popup
-   var myPopup = $ionicPopup.show({
-     template: '<input type="password" ng-model="data.wifi">',
-     title: 'Enter Wi-Fi Password',
-     subTitle: 'Please use normal things',
-     scope: $scope,
-     buttons: [
-       { text: 'Cancel' },
-       {
-         text: '<b>Save</b>',
-         type: 'button-positive',
-         onTap: function(e) {
-           if (!$scope.data.wifi) {
-             //don't allow the user to close unless he enters wifi password
-             e.preventDefault();
-           } else {
-             return $scope.data.wifi;
+      // An elaborate, custom popup
+      var myPopup = $ionicPopup.show({
+        template: '<input type="password" ng-model="data.wifi">',
+        title: 'Enter Wi-Fi Password',
+        subTitle: 'Please use normal things',
+        scope: $scope,
+        buttons: [
+         { text: 'Cancel' },
+         {
+           text: '<b>Save</b>',
+           type: 'button-positive',
+           onTap: function(e) {
+             if (!$scope.data.wifi) {
+               //don't allow the user to close unless he enters wifi password
+               e.preventDefault();
+             } else {
+               return $scope.data.wifi;
+             }
            }
-         }
-       },
-     ]
-   });
-   myPopup.then(function(res) {
-     console.log('Tapped!', res);
-   });
-   $timeout(function() {
-      myPopup.close(); //close the popup after 3 seconds for some reason
-   }, 3000);
-  };
-   // A confirm dialog
-   $scope.showConfirm = function(id,card,mao,mesa,quantidade) {
+         },
+        ]
+        });
+        myPopup.then(function(res) {
+          console.log('Tapped!', res);
+        });
+        $timeout(function() {
+          myPopup.close(); //close the popup after 3 seconds for some reason
+        }, 3000);
+      };
+      // A confirm dialog
+    $scope.showConfirm = function(id,card,mao,mesa,quantidade) {
      var confirmPopup = $ionicPopup.confirm({
-       title: 'Consume Ice Cream',
-       template: '<div class="card" style="width:100px; height:150px">'+card.name+'</div>',
+       title: 'O que deseja fazer?',
+       template: '<div class="card" style="width:150px; height:225px">'+card.name+'</div>',
        okText: 'jogarCard'
      });
      confirmPopup.then(function(res) {
        if(res) {
          $scope.jogarCard(id,card,mao,mesa,quantidade);
+
        } else {
          console.log('You are not sure');
        }
@@ -62,33 +95,31 @@ angular
        // $scope.maoJogador = newList;
        // console.info("nova lista:", $scope.maoJogador)
     });
+
+    // definindo controlador das informações do jogo
+    $scope.controlador={
+      manamax:0,
+      manaatual:0,
+      manamaxI:0,
+      manaatualI:0,
+      turnoN:0,
+      counter:0,
+      counter2:0,
+      counter3:0,
+      counterI:0,
+      counter2I:0,
+      counter3I:0
+    } 
     carregarCards = function () {
       $http.get("cards/cards.json", { headers: { 'Cache-Control' : 'no-cache' } }).success(function (data) {
         $scope.cardsh = data;
         $scope.deckInimigo=[];
         $scope.maoInimigo=[];
         $scope.mesaInimigo=[];
-        $scope.deckJogador=[];
-        $scope.descarteInimigo=[];
-        $scope.maoJogador=[]; 
-        $scope.mesaJogador=[];
-        $scope.descarteJogador=[];
         $scope.message="";
         $scope.minion =[];
-        // definindo controlador das informações do jogo
-        $scope.controlador={
-          manamax:0,
-          manaatual:0,
-          manamaxI:0,
-          manaatualI:0,
-          turnoN:0,
-          counter:0,
-          counter2:0,
-          counter3:0,
-          counterI:0,
-          counter2I:0,
-          counter3I:0
-        } 
+        console.info('cardsh', $scope.cardsh);
+      
         // populando minions
         for(i=0; i<500; i++){
           if(data[i].type=="MINION"){
@@ -97,21 +128,10 @@ angular
             $scope.minion.push(data[i]);
           }
         }
-        console.info("minions: ", $scope.minion);
+
         // populando deck inicial do inimigo
         for(i=0; i<30; i++){
           $scope.deckInimigo.push( $scope.minion[Math.floor(Math.random()*200)]);
-        }
-        // populando deck inicial do jogador
-        for(i=0; i<30; i++){
-          $scope.deckJogador.push($scope.minion[Math.floor(Math.random()*200)]);
-        }
-        // populando mao inicial do jogador
-        for(i=0; i<5; i++){
-          var idCardDeck = $scope.deckJogador[Math.floor(Math.random()*30)];
-          //console.info("id card deck", idCardDeck);
-          $scope.maoJogador.push(idCardDeck);
-          $scope.deckJogador != $scope.deckJogador.splice( idCardDeck,1);             
         }
         // populando mao inicial do inimigo
         for(i=0; i<5; i++){
@@ -125,49 +145,55 @@ angular
     };
     carregarCards();
 
-    carregarCombate = function (namespace){
-      combatesAPI.getCombates().success(function (data) {
-        $scope.combate = data; 
-        var chars = $scope.combate.chars; 
-        var npcs = $scope.combate.npcs;          
-        $scope.per1 = chars[$stateParams.id]; 
-          $scope.per1.active = false;   
-        $scope.per2 = npcs[$stateParams.idinimigo];   
-        iniciativa =function(p1,p2){
-          var p1ini = Math.floor(Math.random(p1.iniciativa)*20);
-          var p2ini = Math.floor(Math.random(p2.iniciativa)*20);
-          if(p1ini  > p2ini){
-          $scope.message ="Iniciativa vencida por <strong>" + p1.name +"</strong> que tem "+p1ini+" enquanto "+p2.name+" tem "+p2ini;
-          return turno(0,p1,p2);
-          }else{
-          $scope.message="Iniciativa vencida por <strong>"+ p2.name +"</strong> que tem "+p2ini+" enquanto "+p1.name+" tem "+p1ini;        
-          return turno(0,p2,p1);       
-      }           
-    } 
+    carregaDeckJogador= function () {
+      $http.get("decks/meudeck.phtml", { headers: { 'Cache-Control' : 'no-cache' } }).success(function (data) {
+        var meuDeck=data;
+        $scope.deckJogador= meuDeck;
+        $scope.maoJogador=[];
+        $scope.mesaJogador=[];
 
-    $scope.ataque =function(i,p1,p2){
-      var pa = p2.healthatual;
-      if(p1.attack>0){  
-          p2.healthatual -=p1.attack;
-      }
-      if(p2.healthatual <= 0){
-        $scope.message = "<p>TURNO "+ i++ +" <br/>"+ 
-        p1.attack+" de dano<br/><strong>"+p1.name+"</strong>em <strong>"+ p2.name +"</strong> que tinha <strong>"+ pa +"</strong><br/><strong>"+ p2.name+"</strong> perdeu pois ficou com <strong>"+ 
-        p2.healthatual +"</strong> pontos de vida <br/>PARABENS <strong>"+ p1.name +"</strong> VOCE VENCEU!</p>";
-      }
-      else{
-        
-        $scope.message = "<p>TURNO "+ i++ +"<br/>"+ p1.attack+" de dano<br/><strong>"+ p1.name +"</strong> em <strong>"+ $scope.per2.name +"</strong> que tinha <strong>"+ pa +"</strong><br/>Agora <strong>"+p2.name+"</strong> tem <strong>"+p2.healthatual+"</strong> pontos de vida restantes</p><br/>";
-      }
-      
-      }         
+        console.info("meudeck", meuDeck);
+ 
+        // populando mao inicial do jogador
+        for(i=0; i<5; i++){
+          var idCardDeck = $scope.deckJogador[Math.floor(Math.random()*(meuDeck.length-1))];
+          $scope.maoJogador.push(idCardDeck);
+          $scope.deckJogador != $scope.deckJogador.splice( idCardDeck,1);             
+        }
       }).error(function (data, status) {
         $scope.message = "Aconteceu um problema: " + data;
       });
     };
+    carregaDeckJogador();
 
+    carregarCombate = function (namespace){
+      combatesAPI.getCombates().success(function (data) {
+        $scope.combate = data; 
+        var mapaForcas = $scope.combate.mapaForcas; 
+        var npcs = $scope.combate.npcs;          
+        $scope.per1 = mapaForcas[$stateParams.id]; 
+          $scope.per1.active = false;   
+        $scope.per2 = npcs[$stateParams.idinimigo];   
+    }).error(function (data, status) {
+        $scope.message = "Aconteceu um problema: " + data;
+    })};
     carregarCombate(namespace);
-     
+
+    $scope.ataque =function(i,p1,p2){
+      var pa = p2.telefoneContato;
+      if(p1.naturezaOperacao>0){  
+        p2.telefoneContato -=p1.naturezaOperacao;
+      }
+      if(p2.telefoneContato <= 0){
+        $scope.message = "<p>TURNO "+ i++ +" <br/>"+ 
+        p1.naturezaOperacao+" de dano<br/><strong>"+p1.name+"</strong>em <strong>"+ p2.name +"</strong> que tinha <strong>"+ pa +"</strong><br/><strong>"+ p2.name+"</strong> perdeu pois ficou com <strong>"+ 
+        p2.telefoneContato +"</strong> pontos de vida <br/>PARABENS <strong>"+ p1.name +"</strong> VOCE VENCEU!</p>";
+      }
+      else{
+        $scope.message = "<p>TURNO "+ i++ +"<br/>"+ p1.naturezaOperacao+" de dano<br/><strong>"+ p1.name +"</strong> em <strong>"+ $scope.per2.name +"</strong> que tinha <strong>"+ pa +"</strong><br/>Agora <strong>"+p2.name+"</strong> tem <strong>"+p2.telefoneContato+"</strong> pontos de vida restantes</p><br/>";
+      }     
+    };
+  
     $scope.contador = function(nomeAtual,vezes,valor) {
       $interval(function() {
         if (nomeAtual < vezes -1 ) {
@@ -186,8 +212,8 @@ angular
           $scope.controlador.counter2 += valor;
           nomeAtual +=valor;  
         }else{
-            $scope.controlador.counter2 =0;
-            nomeAtual =0;
+          $scope.controlador.counter2 =0;
+          nomeAtual =0;
         }
       }, 1000, vezes);
     }
@@ -198,18 +224,19 @@ angular
           $scope.controlador.counter3 += valor;
           nomeAtual +=valor;  
         } else{
-            $scope.controlador.counter3 =0;
-            nomeAtual =0;
+          $scope.controlador.counter3 =0;
+          nomeAtual =0;
         }
       }, 1000, vezes);
     }
+
     $scope.atualizaStatus = function(mao,mesa){
       // permitindo que o jogador jogue as cartas na mesa
       if(mao.length!=0){
         for(i=0; i<=mao.length-1; i++){
-          if(mao[i]!=undefined && mao[i].cost <= $scope.controlador.manaatual){
+          if(mao[i]!=undefined && mao[i].unidadesSolicitantes <= $scope.controlador.manaatual){
             mao[i].active = true;
-          }else if(mao[i]!=undefined && mao[i].cost >= $scope.controlador.manaatual){
+          }else if(mao[i]!=undefined && mao[i].unidadesSolicitantes >= $scope.controlador.manaatual){
             mao[i].active = false;
           }
         }
@@ -224,18 +251,24 @@ angular
       } 
       $scope.maoJogador = mao;
       $scope.mesaJogador = mesa;
-
     };
+    this.MoveCard = function(source, destination, cardId) {
+     if(cardId>0){
+     destination.push(source[source.indexOf(cardId)])
+     source.splice(source.indexOf(cardId), 1)
+     }else{
+         destination.push(source.shift())
+    }}
     $scope.comprarCard = function(deck,mao, quantidade) {
       for(i=0; i<quantidade; i++){
         var idPego = Math.floor(Math.random(1)*(deck.length-1));
         var idCardDeckAtual = $scope.deckJogador[idPego];
         if($scope.maoJogador.length >=10){
-            $scope.descartarCard(idPego,idCardDeckAtual,$scope.descarteJogador, 1);
+          $scope.descartarCard(idPego,idCardDeckAtual,$scope.descarteJogador, 1);
         }
-          else{
-            $scope.maoJogador.push(idCardDeckAtual);
-          }
+        else{
+          $scope.maoJogador.push(idCardDeckAtual);
+        }
         $scope.deckJogador != $scope.deckJogador.splice(idPego,1);          
       }
     }
@@ -250,32 +283,28 @@ angular
       }
     }
 
-    $scope.jogarCard = function(idCard,card, mao, mesa, quantidade) {
-      
-     console.info("ID", idCard);
-      console.info("carta pega", card);
+    $scope.jogarCard = function(idCard,card, mao, mesa, quantidade) {   
       if(card.type != "MINION"){
-          $scope.descartarCard(idCard,card,$scope.descarteJogador, 1);  
-          $scope.controlador.manaatual -= card.cost;   
+        $scope.descartarCard(idCard,card,$scope.descarteJogador, 1);  
+        $scope.controlador.manaatual -= card.unidadesSolicitantes;   
       }
       else{
-          $scope.mesaJogador.push(card);
-          $scope.controlador.manaatual -= card.cost;   
-      }
-      
-      $scope.maoJogador !=$scope.maoJogador.splice(idCard,1);
-    
+        $scope.mesaJogador.push(card);
+        $scope.controlador.manaatual -= card.unidadesSolicitantes;   
+      }     
+      $scope.maoJogador !=$scope.maoJogador.splice(idCard,1);    
       $scope.atualizaStatus($scope.maoJogador,$scope.mesaJogador);
-      console.info("pos jogar:", mao);
     }
-
     $scope.fase = function(funcao,tempo){
-        setTimeout(funcao, tempo);
+      setTimeout(funcao, tempo);
+    }
+    function limpaTempo(){
+      clearTimeout($scope.fase);
+      $interval.cancel($scope.contador2.$interval);
     }
 
     $scope.inicioTurno = function() {
       // aidiciona um ao contador de turno
-
       $scope.controlador.turnoN +=1;
       if($scope.controlador.manamax >= 10){
         $scope.controlador.manamax = 10;
@@ -285,10 +314,9 @@ angular
         $scope.controlador.manaatual = $scope.controlador.manamax;
       }
       $scope.message="Início do turno";
-
       // se o deck do jogador estiver vazio, ele deve receber dano
       if($scope.deckJogador <= 0){
-          $scope.per1.healthatual -=1;
+        $scope.per1.telefoneContato -=1;
       }else{
         // comprar uma carta no inicio do turno
         $scope.comprarCard($scope.deckJogador,$scope.maoJogador, 1);
@@ -300,17 +328,16 @@ angular
 
     $scope.acoesTurno = function() {
       $scope.message="Suas ações";            
-
-        // permitindo que o jogador ataque com o personagem
-        $scope.per1.active = true;
-        // atualiza os status da mao e mesa
-        $scope.atualizaStatus($scope.maoJogador,$scope.mesaJogador);
-     
+      // permitindo que o jogador ataque com o personagem
+      $scope.per1.active = true;
+      // atualiza os status da mao e mesa
+      $scope.atualizaStatus($scope.maoJogador,$scope.mesaJogador);  
       $scope.contador2($scope.controlador.counter2,10,1);
       return $scope.fase($scope.fimTurno, 10000)    
     }
 
     $scope.fimTurno = function() {
+      limpaTempo();
       $scope.per1.active = false;
       if($scope.maoJogador.length!=0){
         for(i=0; i<=$scope.maoJogador.length -1; i++){
@@ -327,18 +354,19 @@ angular
         }
       } 
       $scope.message="Fim do turno";
-      $scope.contador3($scope.controlador.counter3,5,1);
-         
+      $scope.contador3($scope.controlador.counter3,5,1);   
       return $scope.fase($scope.inicioTurnoI, 5000)   
     }
+
+    // INIMIGO
     $scope.contadorI = function(nomeAtual,vezes,valor) {
       $interval(function() {
         if (nomeAtual < vezes -1 ) {
           $scope.controlador.counter += valor;
           nomeAtual +=valor;  
         }else{
-            $scope.controlador.counter =0;
-            nomeAtual =0;
+          $scope.controlador.counter =0;
+          nomeAtual =0;
           }
       }, 1000, vezes);
     }
@@ -349,8 +377,8 @@ angular
           $scope.controlador.counter2 += valor;
           nomeAtual +=valor;  
         }else{
-            $scope.controlador.counter2 =0;
-            nomeAtual =0;
+          $scope.controlador.counter2 =0;
+          nomeAtual =0;
         }
       }, 1000, vezes);
     }
@@ -361,46 +389,46 @@ angular
           $scope.controlador.counter3 += valor;
           nomeAtual +=valor;  
         } else{
-            $scope.controlador.counter3 =0;
-            nomeAtual =0;
+          $scope.controlador.counter3 =0;
+          nomeAtual =0;
         }
       }, 1000, vezes);
     }
+
     $scope.atualizaStatusI = function(maoI,mesaI){
       // permitindo que o inimigo jogue as cartas na mesa
       if(maoI.length!=0){
         for(i=0; i<=maoI.length-1; i++){
-          if(maoI[i]!=undefined && maoI[i].cost <= $scope.controlador.manaatualI){
+          if(maoI[i]!=undefined && maoI[i].unidadesSolicitantes <= $scope.controlador.manaatualI){
             maoI[i].active = true;
-          }else if(maoI[i]!=undefined && maoI[i].cost >= $scope.controlador.manaatualI){
+          }else if(maoI[i]!=undefined && maoI[i].unidadesSolicitantes >= $scope.controlador.manaatualI){
             maoI[i].active = false;
           }
         }
       } 
-      //permitindo que o inimigo ataque com as cartas da mesa
 
+      //permitindo que o inimigo ataque com as cartas da mesa
       if(mesaI.length!=0){
         for(i=0; i<=mesaI.length-1; i++){
           if(mesaI[i]!=undefined){
             mesaI[i].active = true;
           }  
         }
-      } 
-  
+      }   
       $scope.maoInimigo = maoI;
       $scope.mesaInimigo = mesaI;
-
     };
+
     $scope.comprarCardI = function(deck,mao, quantidade) {
       for(i=0; i<quantidade; i++){
         var idPego = Math.floor(Math.random(1)*(deck.length-1));
         var idCardDeckAtual = $scope.deckInimigo[idPego];
         if($scope.maoInimigo.length >=10){
-            $scope.descartarCardI(idPego,idCardDeckAtual,$scope.descarteInimigo, 1);
+          $scope.descartarCardI(idPego,idCardDeckAtual,$scope.descarteInimigo, 1);
         }
-          else{
-            $scope.maoInimigo.push(idCardDeckAtual);
-          }
+        else{
+          $scope.maoInimigo.push(idCardDeckAtual);
+        }
         $scope.deckInimigo != $scope.deckInimigo.splice(idPego,1);          
       }
     }
@@ -419,16 +447,14 @@ angular
       var idPegoI = Math.floor(Math.random()*maoI.length);
       var idCardMaoAtualI = $scope.maoInimigo[idPegoI];
       if(idCardMaoAtualI.type!="MINION"){
-          $scope.descartarCardI(idPegoI,idCardMaoAtualI,$scope.descarteInimigo,1)
+        $scope.descartarCardI(idPegoI,idCardMaoAtualI,$scope.descarteInimigo,1)
       }
-        else{$scope.mesaInimigo.push(idCardMaoAtualI)};
-      $scope.maoInimigo != $scope.maoInimigo.splice(idPegoI,1);
+      else{$scope.mesaInimigo.push(idCardMaoAtualI)};
+        $scope.maoInimigo != $scope.maoInimigo.splice(idPegoI,1);
     }
-
 
     $scope.inicioTurnoI = function() {
       // aidiciona um ao contador de turno
-    console.info("maoi e mesaI",$scope.maoInimigo + $scope.mesaInimigo );
       $scope.controlador.turnoN +=1;
       if($scope.controlador.manamaxI >= 10){
         $scope.controlador.manamaxI = 10;
@@ -438,31 +464,25 @@ angular
         $scope.controlador.manaatualI = $scope.controlador.manamaxI;
       }
       $scope.message="Início do turno";
-
       // se o deck do inimigo estiver vazio, ele deve receber dano
       if($scope.deckInimigo <= 0){
-          $scope.per2.healthatual -=1;
+        $scope.per2.telefoneContato -=1;
       }else{
         // comprar uma carta no inicio do turno
         $scope.comprarCardI($scope.deckInimigo,$scope.maoInimigo, 1);
       }
       $scope.contadorI($scope.controlador.counterI,5,1);
-      //console.info("interval: ",$scope.controlador.counter);
       return $scope.fase($scope.acoesTurnoI, 5000);        
     }
 
     $scope.acoesTurnoI = function() {
       $scope.message="Suas ações";            
-
-        // permitindo que o inimigo ataque com o personagem
-        $scope.per2.active = true;
-        $scope.jogarCardI($scope.maoInimigo,$scope.mesaInimigo,1);
- -      $scope.ataque(1,$scope.per2,$scope.per1);
-
-
-        // atualiza os status da mao e mesa
-        $scope.atualizaStatusI($scope.maoInimigo,$scope.mesaInimigo);
-     
+      // permitindo que o inimigo ataque com o personagem
+      $scope.per2.active = true;
+      $scope.jogarCardI($scope.maoInimigo,$scope.mesaInimigo,1);
+      $scope.ataque(1,$scope.per2,$scope.per1);
+      // atualiza os status da mao e mesa
+      $scope.atualizaStatusI($scope.maoInimigo,$scope.mesaInimigo);
       $scope.contador2I($scope.controlador.counter2I,10,1);
       return $scope.fase($scope.fimTurnoI, 10000)    
     }
@@ -484,8 +504,7 @@ angular
         }
       } 
       $scope.message="Fim do turno";
-      $scope.contador3I($scope.controlador.counter3I,5,1);
-         
+      $scope.contador3I($scope.controlador.counter3I,5,1);         
       return $scope.fase($scope.inicioTurno, 5000)   
     }
 

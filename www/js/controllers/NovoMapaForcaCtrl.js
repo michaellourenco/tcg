@@ -4,10 +4,10 @@
 angular
 
 
-    .module('app.novochar', ['angularFileUpload'])
+    .module('app.novomapaForca', ['angularFileUpload'])
 
 
-    .controller('NovoCharCtrl', ['$scope', 'FileUploader','$http','$ionicModal', '$timeout', '$stateParams','$location', function($scope, FileUploader,$http, $ionicModal, $timeout, $stateParams,$location) {
+    .controller('NovoMapaForcaCtrl', ['$scope', 'FileUploader','$http','$ionicModal', '$timeout', '$stateParams','$location', function($scope, FileUploader,$http, $ionicModal, $timeout, $stateParams,$location) {
    
 
     console.log($stateParams.namespace);
@@ -26,19 +26,29 @@ angular
         });
 
       };
+      carregarCombate(namespace);
+     carregarTarefa = function (){
+        $http.get("tarefas/tarefas.json", { headers: { 'Cache-Control' : 'no-cache' } }).success(function (data) {
+          console.log(data);
+          $scope.tarefas = data;   
+          console.log($scope.tarefas);
+        }).error(function (data, status) {
+          $scope.message = "Aconteceu um problema: " + data;
+        });
 
+      };
+    carregarTarefa();
 
-
-      $scope.novoChar = function (char){
-        $scope.combate.chars.push(char);
+      $scope.novoMapaForca = function (mapaForca){
+        $scope.combate.mapaForcas.push(mapaForca);
         $http.post("editarcombate.php", $scope.combate).success(function (data) {
           /*delete $scope.combate;
-          $scope.charForm.$setPristine();*/
+          $scope.mapaForcaForm.$setPristine();*/
                     $location.path("/app/combate/"+namespace);
         });
       };
 
-      carregarCombate(namespace);
+
       $scope.adicionarCombate = function (combate) {
         console.log("antes:"+combate);
 
